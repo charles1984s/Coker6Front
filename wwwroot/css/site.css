@@ -154,6 +154,7 @@ p {
     .mega_menu_content > .text {
         width: 59%;
         margin-right: 1%;
+        z-index: 2;
     }
 
         .mega_menu_content > .text > .item {
@@ -217,6 +218,10 @@ p {
     #banner > .swiper .swiper-slide {
         position: relative;
     }
+
+        #banner > .swiper .swiper-slide img {
+            max-width: 100%;
+        }
 
         #banner > .swiper .swiper-slide > h3 {
             position: absolute;
@@ -409,6 +414,56 @@ footer {
         #Floating_Objects > div > i, #Floating_Objects > div > p {
             margin: 0
         }
+/* Cookie */
+.cookie {
+    z-index: 3;
+    position: fixed;
+    background-color: #000000aa;
+    color: white;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 15px 30px;
+}
+
+.cookie_text {
+    text-align: justify;
+    padding-right: 15px;
+}
+
+#cookie_button {
+    display: flex;
+    align-items: center;
+}
+
+.btn_cookie_accept {
+    background-color: #B73925;
+    width: 85px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.btn_cookie_reject {
+    background-color: gray;
+    width: 85px;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.cookie_close {
+    display: none;
+    background-color: transparent;
+}
 
 /* Animations */
 @keyframes Bounce_up {
@@ -433,6 +488,13 @@ footer {
 
 
 /*RWD*/
+@media (max-width: 1366px) {
+    #banner > .swiper .swiper-slide > h3 {
+        padding: 1rem 0.7rem;
+        font-size: 2rem;
+    }
+}
+
 @media only screen and (max-width: 1072px) {
     .mega_menu_content > .text {
         width: 69%;
@@ -524,6 +586,12 @@ footer {
 
     #Logo_Bottom::before, #Logo_Bottom::after {
         width: 12.5%;
+    }
+
+    #cookie_button {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 }
 
