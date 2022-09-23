@@ -1,0 +1,288 @@
+﻿body {
+}
+
+/* Banne */
+#banner {
+    padding: 0;
+}
+
+    #banner > .swiper .swiper-slide {
+        position: relative;
+    }
+
+        #banner > .swiper .swiper-slide img {
+            max-width: 100%;
+        }
+
+        #banner > .swiper .swiper-slide > h3 {
+            position: absolute;
+            left: 0%;
+            bottom: 10%;
+            padding: 1.5rem 1rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 3rem;
+        }
+
+    #banner .swiper-pagination-bullet {
+        width: 4rem;
+        height: 0.3rem;
+        border-radius: 4px;
+    }
+
+        #banner .swiper-pagination-bullet.swiper-pagination-bullet-active {
+            background: #B73925;
+        }
+
+/* Featured */
+#Featured {
+    padding: 10px 10vw;
+    margin: 40px 0;
+}
+
+    #Featured > .title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        padding: 10px 10px;
+    }
+
+    #Featured > .content {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        #Featured > .content > div:first-child {
+            width: 39%;
+        }
+
+        #Featured > .content > div:last-child {
+            width: 59%;
+        }
+
+        #Featured > .content > .frame {
+            display: flex;
+            flex-direction: column;
+        }
+
+            #Featured > .content > .frame > .image {
+                display: flex;
+                margin-bottom: 10px;
+            }
+
+                #Featured > .content > .frame > .image img {
+                    width: 100%;
+                }
+
+            #Featured > .content > .frame > .describe {
+                color: black;
+                width: fit-content;
+            }
+
+/* Tiles */
+#Tiles {
+    background-image: url("../../images/tiles_bg.jpg");
+    padding: 50px 10vw;
+    margin: 40px 0;
+    display: flex;
+    flex-direction: row;
+}
+
+    #Tiles > .content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        #Tiles > .content > .frame {
+            width: 49%;
+            display: flex;
+            flex-direction: column;
+        }
+
+            #Tiles > .content > .frame a > img {
+                width: 100%;
+            }
+
+            #Tiles > .content > .frame > .big {
+                margin-bottom: 2%;
+            }
+
+            #Tiles > .content > .frame > .small {
+                display: flex;
+                justify-content: space-between;
+            }
+
+                #Tiles > .content > .frame > .small > a {
+                    width: 49%;
+                }
+
+/* Most Popular */
+#Most_Popular {
+    background-color: #F2F2F2;
+    padding: 10px 10vw;
+    margin: 40px 0;
+}
+
+    #Most_Popular > .title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        padding: 10px 10px;
+    }
+
+
+    #Most_Popular > .content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        #Most_Popular > .content > .frame {
+            width: 49%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+            #Most_Popular > .content > .frame > .image > img {
+                width: 100%;
+                height: fit-content;
+                margin-bottom: 10px;
+            }
+
+            #Most_Popular > .content > .frame > .describe {
+                flex-grow: 1;
+            }
+
+                #Most_Popular > .content > .frame > .describe > a {
+                    height: fit-content;
+                    color: black;
+                }
+
+            #Most_Popular > .content > .frame > .keywords > ul {
+                display: flex;
+                margin: 10px 0;
+            }
+
+                #Most_Popular > .content > .frame > .keywords > ul > li {
+                    margin-right: 10px;
+                }
+
+/* Reserve */
+#Reserve {
+    width: 100%;
+    padding: 10px 10vw;
+    margin: 40px 0;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    #Reserve > .frame {
+        background-image: url("../../images/reserve_bg.jpg");
+        background-size: auto 300px;
+        background-position: center;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        #Reserve > .frame > .content {
+            background-image: url("../../images/reserve_bg_round.png");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 175px;
+            width: 175px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+            #Reserve > .frame > .content > div {
+                display: flex;
+                justify-content: center;
+                align-content: space-around;
+                font-size: 1.25rem;
+                font-weight: bold;
+            }
+
+                #Reserve > .frame > .content > div:first-child {
+                    color: #B38A56;
+                }
+
+                #Reserve > .frame > .content > div:nth-child(2) {
+                    color: #7D6131;
+                }
+
+                #Reserve > .frame > .content > div:last-child {
+                    color: black;
+                }
+
+/*RWD*/
+@media (max-width: 1366px) {
+    #banner > .swiper .swiper-slide > h3 {
+        padding: 1rem 0.7rem;
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (max-width: 1072px) {
+}
+
+@media only screen and (max-width: 992px) {
+}
+
+@media only screen and (max-width: 768px) {
+}
+
+@media only screen and (max-width: 576px) {
+    #Featured > .content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+        #Featured > .content > div:first-child {
+            width: 100%;
+            margin-bottom: 4%;
+        }
+
+        #Featured > .content > div:last-child {
+            width: 100%;
+        }
+
+
+    #Tiles {
+        padding: 25px 25px;
+    }
+
+        #Tiles > .content {
+            flex-direction: column;
+        }
+
+            #Tiles > .content > .frame {
+                width: 100%;
+            }
+
+                #Tiles > .content > .frame:first-child {
+                    margin-bottom: 4%;
+                }
+
+    #Most_Popular {
+        padding: 10px 25px;
+    }
+
+        #Most_Popular > .content {
+            flex-direction: column;
+        }
+
+            #Most_Popular > .content > .frame {
+                width: 100%;
+            }
+}
+
+@media only screen and (max-width: 368px) {
+}
