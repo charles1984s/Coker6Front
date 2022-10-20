@@ -1,10 +1,4 @@
-﻿/* Universal */
-.container_title {
-    margin: 20px 0;
-    font-size: 2rem;
-}
-
-/* Modal */
+﻿/* Modal */
 .modal-dialog {
     max-width: fit-content;
     position: relative;
@@ -16,11 +10,11 @@
     top: 10px;
     right: 10px;
     font-size: xx-large;
-    color: var(--gray-middle);
+    color: var(--gray-icon);
 }
 
 .modal-body > .frame > .card > div > .card-body > .describe {
-    color: var(--gray-middle);
+    color: var(--gray-text);
     font-size: 0.8rem;
 }
 
@@ -39,15 +33,15 @@
         padding: 0.25rem 0.8rem;
         margin-right: 0.5rem;
         font-size: 0.5rem;
-        background-color: var(--gray-light);
-        color: var(--gray-middle);
+        background-color: var(--gray-bg-light);
+        color: var(--gray-text);
         float: left;
         list-style: none;
         white-space: nowrap;
     }
 
 .modal-body > .frame > .card > div > .card-body > .priceframe > .price {
-    color: var(--gray-middle);
+    color: var(--gray-text);
 }
 
 .modal-body > .frame > .card > div > .card-body > .priceframe > .discount {
@@ -57,51 +51,51 @@
 .modal-body > .frame > .options > .radio > .title {
     white-space: nowrap;
     padding-right: 0.5rem;
-    color: var(--gray-middle);
+    color: var(--gray-text);
 }
 
-.btn-radio {
+.btn_radio {
     white-space: nowrap;
     cursor: pointer;
     border: 1px solid var(--gray-middle);
 }
 
-input:checked + .btn-radio {
+input:checked + .btn_radio {
     font-weight: bold;
-    border-color: var(--red-middle);
+    border-color: var(--red-main);
     border-width: medium;
     cursor: default;
 }
 
-input:disabled + .btn-radio {
-    border: var(--gray-light);
-    background-color: var(--gray-light);
-    color: var(--gray-middle);
+input:disabled + .btn_radio {
+    border: var(--gray-text);
+    background-color: var(--gray-text);
+    color: var(--black-text);
     cursor: default;
 }
 
 .modal-body > .frame > .options > .buy_line > .counter > .title {
     white-space: nowrap;
     padding-right: 0.5rem;
-    color: var(--gray-middle);
+    color: var(--gray-text);
 }
 
 [class*=btn_count_] {
     cursor: pointer;
-    color: var(--gray-middle);
-    border: 1px solid var(--gray-middle);
+    color: var(--gray-text);
+    border: 1px solid var(--gray-text);
     width: 2rem;
     height: 2rem;
 }
 
 .input_count {
-    border: 1px solid var(--gray-middle);
+    border: 1px solid var(--gray-text);
     width: 8rem;
     height: 2rem;
 }
 
 .modal-body > .frame > .options > div > .btn_buy {
-    background-color: var(--red-middle);
+    background-color: var(--red-main);
     height: 2rem;
 }
 
@@ -111,165 +105,126 @@ input:disabled + .btn-radio {
     content: "\f0fe  ";
 }
 
-/* swiper_four_grid */
+/* Swiper */
 .swiper_four_grid {
-    padding: 40px 10vw;
-    background-color: #F4F4F4;
-    position: relative;
+    background-color: var(--gray-bg-light);
 }
 
-    .swiper_four_grid > .swiper > .swiper-wrapper > .card {
-        position: relative;
-        border-radius: 25px;
-        overflow: hidden;
+    .swiper_four_grid > .swiper {
+        padding-top: 15px;
     }
 
-        .swiper_four_grid > .swiper > .swiper-wrapper > .card > a {
-            text-align: center;
+        .swiper_four_grid > .swiper > .swiper-wrapper > figure {
+            border-radius: 25px;
         }
 
-            .swiper_four_grid > .swiper > .swiper-wrapper > .card > a > img {
-                width: 70%;
-                padding-top: 10px;
+            .swiper_four_grid > .swiper > .swiper-wrapper > figure > figcaption > .top_line {
+                top: 1rem;
+                right: 1rem;
             }
 
-            .swiper_four_grid > .swiper > .swiper-wrapper > .card > a > img {
-                width: 70%;
-                padding-top: 10px;
-            }
-
-        .swiper_four_grid > .swiper > .swiper-wrapper > .card > .card-body > .card-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-            .swiper_four_grid > .swiper > .swiper-wrapper > .card > .card-body > .card-title > .price {
-                font-size: 1.5rem;
-                font-weight: 900;
-            }
-
-            .swiper_four_grid > .swiper > .swiper-wrapper > .card > .card-body > .card-title > .icon > i {
-                font-size: larger;
-                color: #BFBFBF;
-                cursor: pointer;
-                margin-left: 0.5rem;
-            }
-
-        .swiper_four_grid > .swiper > .swiper-wrapper > .card > .card-body > .name {
-            font-size: 1.1rem;
-            height: calc((1.25rem * 1.5) * 2);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-
-        .swiper_four_grid > .swiper > .swiper-wrapper > .card > .card-footer {
-            border-color: transparent;
-        }
-
-            .swiper_four_grid > .swiper > .swiper-wrapper > .card > .card-footer > ul {
-                width: calc(100% - 30px);
-                height: 2rem;
-                margin: 0;
-                overflow: hidden;
-            }
-
-                .swiper_four_grid > .swiper > .swiper-wrapper > .card > .card-footer > ul > li {
-                    padding: 0.25rem 0.8rem;
-                    margin-right: 0.5rem;
-                    font-size: 0.5rem;
-                    background-color: #F4F4F4;
-                    border-radius: 50px;
-                    color: #707070;
-                    float: left;
-                    list-style: none;
-                    white-space: nowrap;
+                .swiper_four_grid > .swiper > .swiper-wrapper > figure > figcaption > .top_line > button > i {
+                    color: var(--gray-icon);
                 }
 
-            .swiper_four_grid > .swiper > .swiper-wrapper > .card > .card-footer i {
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                color: white;
-                background-color: #E2E2E2;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                cursor: pointer;
+            .swiper_four_grid > .swiper > .swiper-wrapper > figure > figcaption > .card-body > p {
+                overflow: hidden;
+                height: 3rem;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                margin-bottom: 2.5rem;
             }
 
-[class*=btn_swiper_] {
-    position: absolute;
-    top: calc(50% - 25px);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    width: 50px;
-    font-size: x-large;
-    color: white;
-    background-color: #808080aa;
-    border-radius: 50%;
+            .swiper_four_grid > .swiper > .swiper-wrapper > figure > figcaption > .bottom_line {
+                bottom: 1rem;
+                width: 100%;
+                padding: 0 1rem;
+            }
+
+                .swiper_four_grid > .swiper > .swiper-wrapper > figure > figcaption > .bottom_line > .pro_tag {
+                    height: 2rem;
+                }
+
+                    .swiper_four_grid > .swiper > .swiper-wrapper > figure > figcaption > .bottom_line > .pro_tag > li {
+                        font-size: 0.8rem;
+                        line-height: 1.5rem;
+                        background-color: var(--gray-bg-light);
+                        color: var(--gray-text);
+                        white-space: nowrap;
+                    }
+
+                .swiper_four_grid > .swiper > .swiper-wrapper > figure > figcaption > .bottom_line > .btn_cart > span > i:first-child {
+                    color: var(--gray-icon);
+                }
+
+.swiper_button {
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
 
-[class*=btn_swiper_next_] {
-    right: calc(10vw - 25px);
-    left: auto;
-}
+    .swiper_button > button > span > i:first-child {
+        color: var(--black-text-trans);
+    }
 
-[class*=btn_swiper_prev] {
-    right: auto;
-    left: calc(10vw - 25px);
-}
+    .swiper_button > [class*=btn_swiper_next_] {
+        margin-right: -35px;
+    }
+
+    .swiper_button > [class*=btn_swiper_prev_] {
+        margin-left: -35px;
+    }
 
 /* Breadcrumb */
 #Breadcrumb {
-    --bs-breadcrumb-divider: '-';
+    --bs-breadcrumb-divider: '/';
 }
 
-.breadcrumb-item, .breadcrumb-item > a {
-    color: var(--gray-middle);
-}
+    #Breadcrumb > .breadcrumb > .breadcrumb-item.active {
+        color: var(--gray-text);
+    }
+
+    #Breadcrumb > .breadcrumb > .breadcrumb-item, #Breadcrumb > .breadcrumb > .breadcrumb-item > a {
+        color: var(--gray-text);
+    }
 
 /* Filter */
 #Filter {
-    background-color: #E0E3E8;
+    background-color: var(--gray-blue);
 }
 
-    #Filter > div > .options > [class*=price_] {
+    #Filter > div > .range > input {
         width: 6rem;
-        text-align: end;
     }
 
 .btn_confirm {
     white-space: nowrap;
-    background-color: var(--gray-dark);
+    background-color: var(--black-text);
     cursor: pointer;
 }
 
-/* Classification */
-#Classification > .title {
-    background-color: #F4F4F4;
+/* Tick Area */
+.tick_area > .title {
+    background-color: var(--gray-bg-light);
 }
 
-#Classification > ul > li {
-    margin-right: 0.25rem;
+.tick_area > ul > li {
+    cursor: pointer;
 }
 
 /* Ads */
 #Ads {
-    background-color: #E2E2E2;
+    background-color: var(--gray-bg-dark);
 }
 
-    #Ads .content > figure > figcaption > .keywords > li {
+    #Ads > div > .card-group > .card > .card-footer > li {
         font-size: 0.8rem;
     }
 
-        #Ads .content > figure > figcaption > .keywords > li::before {
+        #Ads > div > .card-group > .card > .card-footer > li::before {
             content: '#';
         }
 
@@ -282,11 +237,11 @@ input:disabled + .btn-radio {
 }
 
     #Catalog > .text > .fs-3, #Catalog > .text > .fs-2 {
-        color: #A2784E;
+        color: #9F7744;
     }
 
     #Catalog > .text span > i:first-child {
-        color: #C3A88D;
+        color: #9F774480;
     }
 
 /* Hot_Product_Title */
@@ -316,20 +271,33 @@ input:disabled + .btn-radio {
         align-self: center;
     }
 
-.swiper_ads {
-    padding: 40px 10vw;
-    position: relative;
+#RelatedProductsSwiper {
+    background-color: var(--gray-bg-dark);
 }
 
 
 /*RWD*/
 @media only screen and (max-width: 1072px) {
+    .swiper_button > [class*=btn_swiper_next_] {
+        margin-right: -30px;
+    }
+
+    .swiper_button > [class*=btn_swiper_prev_] {
+        margin-left: -30px;
+    }
 }
 
 @media only screen and (max-width: 992px) {
 }
 
 @media only screen and (max-width: 768px) {
+    .swiper_button > [class*=btn_swiper_next_] {
+        margin-right: 0px;
+    }
+
+    .swiper_button > [class*=btn_swiper_prev_] {
+        margin-left: 0px;
+    }
 
     #Catalog > .frame > .content {
         color: #C3A88D;
@@ -353,7 +321,6 @@ input:disabled + .btn-radio {
         #Badge > .vr {
             height: 35vw;
         }
-
 
             #Badge > .vr:nth-child(3), #Badge > .vr:nth-child(4) {
                 display: none;

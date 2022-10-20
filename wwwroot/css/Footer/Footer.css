@@ -1,12 +1,7 @@
 ﻿
-li {
-    cursor: pointer;
-    list-style: none;
-}
-
 /* Footer */
 footer {
-    background-color: #4A5859;
+    background-color: var(--green-main);
     color: white;
     font-family: Microsoft JhengHei;
     cursor: default;
@@ -27,7 +22,6 @@ footer {
         cursor: pointer;
         transform: rotate(180deg);
         font-size: 18px;
-        color: black;
         transition: all 1s;
     }
 
@@ -117,8 +111,7 @@ footer {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #4A5859;
-    color: #fff;
+    background: var(--green-main);
     z-index: 1;
     margin-top: -45px;
 }
@@ -139,7 +132,7 @@ footer {
 /* Copyright */
 #Copyright {
     font-size: 12px;
-    background-color: #333333;
+    background-color: var(--black-bottom-line);
     justify-content: center;
     padding: 10px 0;
 }
@@ -166,19 +159,6 @@ footer {
         background: #FF8C49;
         border-radius: 50%;
         margin-bottom: 20px;
-    }
-
-/* Go Top Button */
-.btn_gotop {
-    background: black;
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    display: none;
-}
-
-    .btn_gotop > i {
-        margin: 0
     }
 
 /* Animations */

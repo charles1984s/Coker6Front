@@ -1,8 +1,7 @@
 ﻿function PageReady() {
     $(".btn_sort_price").on("click", SortByPrice);
-    $(".btn_typography").on("click", Typography);
 
-    var guess_you_like_swiper = new Swiper(".GuessYouLikeSwiper", {
+    var guess_you_like_swiper = new Swiper("#GuessYouLikeSwiper > .swiper", {
         slidesPerView: 1,
         spaceBetween: 15,
         loop: true,
@@ -23,7 +22,7 @@
         }
     });
 
-    var hot_products_swiper = new Swiper(".HotProductsSwiper", {
+    var hot_products_swiper = new Swiper("#HotProductsSwiper > .swiper", {
         slidesPerView: 1,
         spaceBetween: 15,
         loop: true,
@@ -44,7 +43,7 @@
         }
     });
 
-    var related_products_swiper = new Swiper(".RelatedProductsSwiper", {
+    var related_products_swiper = new Swiper("#RelatedProductsSwiper > .swiper", {
         slidesPerView: 1,
         spaceBetween: 15,
         loop: true,
@@ -65,7 +64,7 @@
         }
     });
 
-    var ads_swiper = new Swiper(".AdsSwiper", {
+    var ads_swiper = new Swiper("#AdsSwiper > .swiper", {
         slidesPerView: 1,
         spaceBetween: 15,
         loop: true,
@@ -105,8 +104,4 @@ function SortByPrice() {
         $sort_icon.toggleClass('fa-caret-up');
         $sort_icon.toggleClass('fa-arrows-up-down');
     }
-}
-
-function Typography() {
-    $(".btn_typography > i").toggleClass('fa-table-list');
 }

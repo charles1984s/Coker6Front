@@ -4,9 +4,13 @@
     --bs-breadcrumb-divider: '/';
 }
 
-.breadcrumb-item, .breadcrumb-item > a {
-    color: var(--gray-middle);
-}
+    #Breadcrumb > .breadcrumb > .breadcrumb-item.active {
+        color: var(--gray-middle);
+    }
+
+    #Breadcrumb > .breadcrumb > .breadcrumb-item, #Breadcrumb > .breadcrumb > .breadcrumb-item > a {
+        color: var(--gray-middle);
+    }
 
 /* ProductSwiper */
 .ProductSwiper > .swiper-wrapper > .swiper-slide {
@@ -36,7 +40,8 @@
         content: '．';
     }
 
-    #Product > .content > .describe > .track > i {
+    #Product > .content > .describe > .track > .btn_favorites > i {
+        color: var(--gray-middle);
         font-size: 3rem;
         cursor: pointer;
     }
@@ -113,20 +118,20 @@
     color: var(--gray-middle);
 }
 
-.btn-radio {
+.btn_radio {
     white-space: nowrap;
     cursor: pointer;
     border: 1px solid var(--gray-middle);
 }
 
-input:checked + .btn-radio {
+input:checked + .btn_radio {
     font-weight: bold;
-    border-color: var(--red-middle);
+    border-color: var(--red-main);
     border-width: medium;
     cursor: default;
 }
 
-input:disabled + .btn-radio {
+input:disabled + .btn_radio {
     border: var(--gray-light);
     background-color: var(--gray-light);
     color: var(--gray-middle);
@@ -148,7 +153,7 @@ input:disabled + .btn-radio {
 }
 
 #Product > .content > .btn_buy {
-    background-color: var(--red-middle);
+    background-color: var(--red-main);
     line-height: 3;
 }
 
@@ -177,13 +182,13 @@ input:disabled + .btn-radio {
 }
 
     .nav-link:focus, .nav-link:hover {
-        color: var(--red-dark);
+        color: var(--red-text);
     }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     font-weight: bold;
-    color: var(--red-dark);
-    background-color: var(--red-light);
+    color: var(--red-text);
+    background-color: var(--red-main-light);
 }
 
 .nav-pills .nav-link {
@@ -248,6 +253,6 @@ input:disabled + .btn-radio {
 
 @media only screen and (max-width: 576px) {
     .ProductSwiper > .swiper-wrapper > .swiper-slide {
-        height: 85vw;
+        height: 80vw;
     }
 }
