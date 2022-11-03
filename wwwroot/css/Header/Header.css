@@ -1,7 +1,8 @@
-﻿/* Header Top*/
+﻿
+/* Header Top*/
 #Header_Top {
     background-color: var(--black-top-line);
-    color: white;
+    color: #f5f5f5;
     font-size: 14px;
     padding: 5px 20px;
     justify-content: space-between;
@@ -24,6 +25,11 @@
         cursor: pointer;
     }
 
+.news_text {
+    color: var(--red-main);
+    width: fit-content;
+}
+
 .news_box {
     list-style: none;
     height: 1.5rem;
@@ -45,11 +51,6 @@
                 overflow: hidden;
             }
 
-                .news_box > ul > li > a:before {
-                    content: 'New ';
-                    color: var(--red-main);
-                }
-
 .searchblock {
     cursor: default;
 }
@@ -59,35 +60,66 @@
         width: 125px;
     }
 
-/* Cart Dropdown*/
-.cart_dropdown {
-    z-index: 1001;
-    min-width: 280px;
+/* Button Car Dropdown */
+#btn_car_dropdown > i.open {
+    color: var(--red-popup);
 }
 
-    .cart_dropdown > ul > li > figure > div > div:first-child {
+#btn_car_dropdown > .badge {
+    border: 0.15rem black solid;
+    background-color: var(--red-popup);
+    top: 0;
+    left: 2rem;
+    transform: scale(0.75);
+    z-index: 1;
+    height: 1.8rem;
+    min-width: 1.8rem;
+    line-height: 1rem;
+}
+
+/* Cart Dropdown*/
+#Car_Dropdown {
+    z-index: 1070;
+    width: 280px;
+    max-width: 100vw;
+    max-height: 90vh;
+}
+
+    #Car_Dropdown > ul > li > figure > a > .pro_image {
         max-width: 80px;
     }
 
-    .cart_dropdown > ul > li > figure > div > figcaption > .card-body > .detailed {
-        color: var(--red-main);
+    #Car_Dropdown > ul > li > figure > a > figcaption > .pro_name {
+        color: var(--black-text);
+        height: 3rem;
     }
 
-        .cart_dropdown > ul > li > figure > div > figcaption > .card-body > .detailed > .amount::before {
+    #Car_Dropdown > ul > li > figure > a > figcaption > .number {
+        color: var(--red-number);
+    }
+
+        #Car_Dropdown > ul > li > figure > a > figcaption > .number > .pro_quantity::before {
             content: '×';
         }
 
-    .cart_dropdown > ul > li > figure > div > .btn_cart_delete {
+    #Car_Dropdown > ul > li > figure > .btn_cart_delete {
+        top: 50%;
+        right: -1.5rem;
+        transform: translate(0, -50%);
         color: var(--gray-icon);
     }
 
-        .cart_dropdown > ul > li > figure > div > .btn_cart_delete:hover {
+        #Car_Dropdown > ul > li > figure > .btn_cart_delete:hover {
             color: var(--red-main);
         }
 
-    .cart_dropdown > .btn_cart_buy {
+    #Car_Dropdown > .btn_car_buy {
         background-color: var(--black-text);
     }
+
+        #Car_Dropdown > .btn_car_buy[disabled] {
+            background-color: var(--gray-bg-dark);
+        }
 
 /* menu_button */
 .menu-button {
@@ -200,7 +232,7 @@
     left: 50%;
     transform: translate(-50%, 0);
     width: 100%;
-    background-color: white;
+    background-color: #e0e0e0;
     color: black;
     padding: 2% 10% 5% 10%;
 }
@@ -242,8 +274,7 @@
     display: block;
 }
 
-    .mega_menu_content > .image > img {
-        cursor: pointer;
+    .mega_menu_content > .image > a > img {
         display: block;
         margin: auto;
         height: 150px;
@@ -251,7 +282,7 @@
         padding: 5px;
     }
 
-    .mega_menu_content > .image > div {
+    .mega_menu_content > .image > a > div {
         margin-top: 20px;
     }
 
@@ -262,7 +293,7 @@
 
 /* Mega Menu Hover*/
 .mega_menu_title > ul > li:hover {
-    background-color: white;
+    background-color: #e0e0e0;
 }
 
     .mega_menu_title > ul > li:hover > a {

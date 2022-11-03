@@ -1,12 +1,16 @@
 ﻿function PageReady() {
-    $(".btn_gonews").on("click", GoNews);
+    ShoppingCarModalInit();
+
+    $(".btn_gonews").on("click", function () {
+        $('html, body').animate({ scrollTop: $("#NewsSwiper").offset().top - ($("header").height() * 2) }, 0);
+    });
 
     var banner_swiper = new Swiper("#BannerSwiper > .swiper", {
         slidesPerView: 1,
         spaceBetween: 15,
         loop: true,
         autoplay: {
-            delay: 2500,
+            delay: 5000,
             disableOnInteraction: false,
         },
         pagination: {
@@ -24,7 +28,7 @@
         spaceBetween: 15,
         loop: true,
         autoplay: {
-            delay: 2500,
+            delay: 5000,
             disableOnInteraction: false,
         },
         pagination: {
@@ -37,8 +41,4 @@
             }
         }
     });
-}
-
-function GoNews() {
-    $('html, body').animate({ scrollTop: $("#News").offset().top }, 0);
 }

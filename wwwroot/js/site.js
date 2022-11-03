@@ -1,4 +1,8 @@
 ﻿function ready() {
+    $.cookie('Member_Name', "會員一", { path: '/' });
+    typeof $.cookie('Purchased_Type_Quantity') == "undefined" && $.cookie('Purchased_Type_Quantity', 0, { path: '/' })
+    typeof $.cookie('Purchased_Item_Quantity') == "undefined" && $.cookie('Purchased_Item_Quantity', 0, { path: '/' })
+
     typeof (PageReady) === "function" && PageReady();
     HeaderInit();
     FooterInit();
@@ -63,27 +67,77 @@ function cookie_reject() {
 function AddFavorites() {
     var $self = $(this).children('i');
     var $self_parent = $self.parents("li").first();
-    var toastLiveExample = document.getElementById('liveToast')
-    var $toastBody = $("#liveToast>.toast-body");
-
-    $self.toggleClass('fa-solid');
-    $toastBody.empty();
-
-    if ($self.hasClass('fav_item')) {
-        $self_parent.remove();
-    }
 
     if ($self.hasClass("fa-solid")) {
-        $toastBody.append('<div>加入收藏成功</div>');
+        Coker.sweet.confirm("確定將商品從收藏中移除？", "該商品將會從收藏中移除，且不可復原。", "確認移除", "取消", function () {
+            $self.toggleClass('fa-solid');
+            if ($self.hasClass('fav_item')) {
+                $self_parent.remove();
+                Coker.sweet.success("成功移除商品", null, true);
+            }
+        });
     } else {
-        $toastBody.append('<div>移除收藏成功</div>');
+        $self.toggleClass('fa-solid');
+        Coker.sweet.success("成功加入收藏", null, true);
     }
+}
 
-    var toast = new bootstrap.Toast(toastLiveExample)
-    $('#Mask').toggleClass('show modal-backdrop');
-    toast.show()
-    setTimeout(function () {
-        toast.hide();
-        $('#Mask').toggleClass('show modal-backdrop');
-    }, 1500);
+var Coker = {
+    timeout: {
+        time: 1500
+    },
+    sweet: {
+        success: function (text, action, autoclose) {
+            var closetime = false;
+            if (autoclose) { closetime = Coker.timeout.time }
+
+            Swal.fire({
+                icon: 'success',
+                html: text,
+                showConfirmButton: !autoclose,
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: '確定',
+                timer: closetime
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    typeof (action) === "function" && action();
+                }
+            })
+        },
+        error: function (text, action, autoclose) {
+            var closetime = false;
+            if (autoclose) { closetime = Coker.timeout.time }
+
+            Swal.fire({
+                icon: 'error',
+                html: text,
+                showConfirmButton: !autoclose,
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: '確定',
+                timer: closetime
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    typeof (action) === "function" && action();
+                }
+            })
+        },
+        confirm: function (title, text, confirmtexet, cancanceltext, action) {
+            Swal.fire({
+                icon: 'info',
+                title: title,
+                html: text,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: confirmtexet,
+                cancelButtonText: cancanceltext
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    typeof (action) === "function" && action();
+                }
+            })
+        }
+    }
 }

@@ -1,0 +1,399 @@
+﻿
+body {
+    background-color: var(--gray-bg-light);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Required Sign */
+.required_front::before {
+    color: var(--red-text);
+    content: '*';
+}
+
+.required::before {
+    color: var(--red-text);
+    content: '*';
+}
+
+.required::after {
+    color: var(--red-text);
+    content: '必填';
+    font-size: 0.5rem;
+}
+
+/* Generic Button Style */
+.btn_gray_dark {
+    background-color: var(--gray-text);
+    padding: 0.5rem;
+    width: 12.5rem;
+}
+
+/* Recipient Modal */
+#RecipientModal > .modal-dialog {
+    width: 820px;
+    max-width: 90vw
+}
+
+    #RecipientModal > .modal-dialog > .modal-content > .modal-header {
+        background-color: var(--gray-bg-light);
+    }
+
+    #RecipientModal > .modal-dialog > .modal-content > .modal-footer > button {
+        background-color: var(--red-main);
+    }
+
+/* History */
+.history > a:first-child > div::before {
+    font-weight: 400;
+    font-family: 'Font Awesome 6 Free';
+    content: "\f004  ";
+}
+
+.history > a > div {
+    width: 10rem;
+    color: var(--black-text);
+}
+
+    .history > a > div > span {
+        color: var(--red-number);
+    }
+
+/* Member Login */
+#memberLogin > div > button {
+    border: 1px solid var(--gray-middle);
+    color: var(--gray-text);
+    white-space: nowrap;
+}
+
+/* Swiper Pagination */
+#BuyStepSwiper > .swiper_pagination {
+    top: 0;
+    bottom: auto;
+    left: 50%;
+    transform: translate(-50%, 0px);
+}
+
+    #BuyStepSwiper > .swiper_pagination > .swiper_pagination_buystep {
+        width: 50vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        #BuyStepSwiper > .swiper_pagination > .swiper_pagination_buystep > .swiper-pagination-bullet {
+            opacity: 1;
+            width: 2rem;
+            height: 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 2rem;
+            color: var(--black-text);
+            background: white;
+            margin: 0;
+        }
+
+        #BuyStepSwiper > .swiper_pagination > .swiper_pagination_buystep > .swiper-pagination-bullet-active {
+            color: white;
+            background: var(--red-main);
+        }
+
+        #BuyStepSwiper > .swiper_pagination > .swiper_pagination_buystep > .swiper-pagination-bullet:last-child {
+            pointer-events: none;
+        }
+
+    #BuyStepSwiper > .swiper_pagination > .centerline {
+        width: 50vw;
+        top: calc(50% + 1rem);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+        #BuyStepSwiper > .swiper_pagination > .centerline > hr {
+            color: var(--black-text);
+        }
+
+    #BuyStepSwiper > .swiper_pagination > .step_name {
+        width: calc(50vw + 2rem);
+        top: calc(50% + 3.5rem);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: default;
+    }
+
+        #BuyStepSwiper > .swiper_pagination > .step_name > div {
+            width: 4rem;
+            font-size: 0.8rem;
+        }
+
+/* Step Swiper */
+#BuyStepSwiper > .swiper > .swiper-wrapper > .card > .card-header, #BuyStepSwiper > .swiper > .swiper-wrapper > .card > .card-body .title {
+    background-color: var(--gray-bg-light);
+}
+
+#BuyStepSwiper > .swiper {
+    border-radius: 15px;
+}
+
+/* Step1 */
+#Step1 > .card-body > .purchase_list > li > div > a > img {
+    width: 150px;
+    max-width: 30vw;
+    height: fit-content;
+}
+
+#Step1 > .card-body > .purchase_list > li > div > a > div > .pro_name {
+    color: var(--black-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#Step1 > .card-body > .purchase_list > li > div > a > div > .pro-detail {
+    color: var(--gray-text);
+}
+
+#Step1 > .card-body > .purchase_list > li > div > div > div > a > .specifications {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+#Step1 > .card-body > .purchase_list > li > .unit {
+    color: var(--black-text);
+}
+
+#Step1 > .card-body > .purchase_list > li > .content > .counter_input {
+    height: fit-content;
+}
+
+    #Step1 > .card-body > .purchase_list > li > .content > .counter_input > button {
+        border: 1px solid var(--gray-middle);
+        color: var(--black-text);
+    }
+
+        #Step1 > .card-body > .purchase_list > li > .content > .counter_input > button > i {
+            width: 1.25rem;
+        }
+
+    #Step1 > .card-body > .purchase_list > li > .content > .counter_input > .input_count {
+        border: 1px solid var(--gray-middle);
+        width: 5rem;
+    }
+
+#Step1 > .card-body > .purchase_list > li > .content > .subtotal {
+    color: var(--red-number);
+}
+
+#Step1 > .card-body > .purchase_list > li > .btn_side_icon {
+    width: fit-content;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+#Step1 > .card-body > .endline > div > div:last-child {
+    width: 10rem;
+}
+
+/* Step2 */
+#Step2 > .card-body > .shipping > li > div > span {
+    font-size: 0.8rem;
+    color: var(--gray-text);
+    white-space: nowrap;
+}
+
+#Step2 > .card-body > .endline > div > div:last-child {
+    width: 10rem;
+}
+
+/* Step3 */
+#Step3 > .card-header > a {
+    font-size: 0.8rem;
+    color: var(--gray-text);
+    border: 1px solid var(--gray-middle);
+}
+
+#Step3 > .card-body > div > .totalprice {
+    color: var(--red-number);
+}
+
+#Step3 > .card-body > .record > button {
+    font-size: 0.8rem;
+    color: var(--gray-text);
+    border: 1px solid var(--gray-middle);
+}
+
+/* Step3 - Payment Method */
+#PaymentMethod {
+    white-space: nowrap;
+}
+
+    #PaymentMethod > button {
+        font-size: 0.8rem;
+        color: var(--red-main);
+    }
+
+        #PaymentMethod > button::after {
+            font-weight: 900;
+            font-family: 'Font Awesome 6 Free';
+            content: "\f054";
+        }
+
+/* Step4 */
+#Step4 > .card-header > .order_number {
+    color: var(--red-number);
+}
+
+    #Step4 > .card-header > .order_number::before {
+        content: '訂單編號';
+        color: var(--black-text);
+    }
+
+#Pruchase_Content > div > .product > a > img {
+    width: 100px;
+    max-width: 30vw;
+    height: fit-content;
+}
+
+#Pruchase_Content > div > .product > a > div > .pro_name {
+    color: var(--black-text);
+}
+
+#Pruchase_Content > div > .product > a > div > .pro-detail {
+    color: var(--gray-text);
+}
+
+    #Pruchase_Content > div > .product > a > div > .pro-detail > .specifications {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+
+#Pruchase_Content > div > div > .pro_unit::before {
+    content: '單價：$'
+}
+
+#Pruchase_Content > div > div > .pro_total_amount {
+    color: var(--red-number);
+}
+
+#Pruchase_Content > .endline > div > .price {
+    color: var(--red-number);
+}
+
+#Pruchase_Content > div > .btn_view_list {
+    color: var(--gray-text);
+    background-color: var(--gray-bg-light);
+}
+
+#PaymentData > .pay_byATM > div > div > div > .paid_amount {
+    color: var(--red-number);
+}
+
+    #PaymentData > .pay_byATM > div > div > div > .paid_amount::before {
+        content: 'NT$';
+    }
+
+#PaymentData > .pay_byATM > div > div > .paid_date > span {
+    color: var(--red-number);
+}
+
+
+#PaymentData > .btn_back_home > a > div {
+    width: fit-content;
+    background-color: var(--yellow);
+}
+
+/* Popover */
+body > .popover.bs-popover-auto.fade {
+    background-color: var(--green-main-trans);
+    border: none;
+    border-radius: 5px;
+}
+
+    body > .popover.bs-popover-auto.fade > .popover-arrow {
+        display: none;
+    }
+
+    body > .popover.bs-popover-auto.fade > .popover-body {
+        color: white;
+        padding: 0.25rem 0.5rem;
+    }
+
+/* Swiper Button */
+#BuyStepSwiper > .swiper > .swiper-wrapper > .card > .card-body > .swiper_button {
+    z-index: 1;
+    bottom: 5rem;
+}
+
+    #BuyStepSwiper > .swiper > .swiper-wrapper > .card > .card-body > .swiper_button > [class*=btn_swiper_] {
+        background-color: var(--gray-text);
+        padding: 0.5rem;
+        width: 12.5rem;
+    }
+
+#Step3 > .card-body > .swiper_button > .btn_gray_underline {
+    font-size: 1rem;
+    color: var(--gray-text);
+    width: fit-content;
+}
+
+#Step3 > .card-body > .swiper_button > div > button {
+    background-color: var(--red-main);
+}
+
+
+/*RWD*/
+@media (max-width: 1366px) {
+}
+
+@media only screen and (max-width: 1072px) {
+}
+
+@media only screen and (max-width: 992px) {
+    #Step1 > .card-body > .purchase_list > li > .btn_side_icon {
+        top: 0;
+        transform: translate(0, 0);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+}
+
+@media only screen and (max-width: 576px) {
+    #BuyStepSwiper > .swiper_pagination > .swiper_pagination_buystep, #BuyStepSwiper > .swiper_pagination > .centerline {
+        width: 90vw;
+    }
+
+    #BuyStepSwiper > .swiper_pagination > .step_name {
+        width: calc(90vw + 2rem);
+    }
+
+    #BuyStepSwiper > .swiper > .swiper-wrapper > .card > .card-body > .swiper_button > [class*=btn_swiper_] {
+        width: 8rem;
+    }
+
+    #BuyStepSwiper > .swiper > .swiper-wrapper > .step1 > .card-body > .purchase_list > li > div > div > .pro-detail {
+        height: 5rem;
+    }
+
+    #Step3 > .card-body > .record > button {
+        width: 5rem;
+    }
+}

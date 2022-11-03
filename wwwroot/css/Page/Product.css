@@ -1,109 +1,38 @@
-﻿/* Modal */
-.modal-dialog {
-    max-width: fit-content;
-    position: relative;
-}
-
-.modal-body > .btn_close {
+﻿
+/* Button Share */
+.btn_share > a {
     position: absolute;
-    z-index: 1;
-    top: 10px;
-    right: 10px;
-    font-size: xx-large;
-    color: var(--gray-icon);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0) !important;
+    transition: all 1s;
 }
 
-.modal-body > .frame > .card > div > .card-body > .describe {
-    color: var(--gray-text);
-    font-size: 0.8rem;
+.btn_share.show > a {
+    top: calc(-100% - 0.5rem);
+    transform: translateY(0%) scale(1) !important;
+    transition: all 1s;
 }
 
-    .modal-body > .frame > .card > div > .card-body > .describe > li::before {
-        content: '．';
+    .btn_share.show > a:nth-child(2) {
+        transform: translateX(-450%) !important;
     }
 
-.modal-body > .frame > .card > div > .card-body > .tag {
-    width: calc(100% - 30px);
-    height: 1.625rem;
-    margin: 0;
-    overflow: hidden;
-}
-
-    .modal-body > .frame > .card > div > .card-body > .tag > li {
-        padding: 0.25rem 0.8rem;
-        margin-right: 0.5rem;
-        font-size: 0.5rem;
-        background-color: var(--gray-bg-light);
-        color: var(--gray-text);
-        float: left;
-        list-style: none;
-        white-space: nowrap;
+    .btn_share.show > a:nth-child(3) {
+        transform: translateX(-350%) !important;
     }
 
-.modal-body > .frame > .card > div > .card-body > .priceframe > .price {
-    color: var(--gray-text);
-}
+    .btn_share.show > a:nth-child(4) {
+        transform: translateX(-250%) !important;
+    }
 
-.modal-body > .frame > .card > div > .card-body > .priceframe > .discount {
-    white-space: nowrap;
-}
+    .btn_share.show > a:nth-child(5) {
+        transform: translateX(-150%) !important;
+    }
 
-.modal-body > .frame > .options > .radio > .title {
-    white-space: nowrap;
-    padding-right: 0.5rem;
-    color: var(--gray-text);
-}
-
-.btn_radio {
-    white-space: nowrap;
-    cursor: pointer;
-    border: 1px solid var(--gray-middle);
-}
-
-input:checked + .btn_radio {
-    font-weight: bold;
-    border-color: var(--red-main);
-    border-width: medium;
-    cursor: default;
-}
-
-input:disabled + .btn_radio {
-    border: var(--gray-text);
-    background-color: var(--gray-text);
-    color: var(--black-text);
-    cursor: default;
-}
-
-.modal-body > .frame > .options > .buy_line > .counter > .title {
-    white-space: nowrap;
-    padding-right: 0.5rem;
-    color: var(--gray-text);
-}
-
-[class*=btn_count_] {
-    cursor: pointer;
-    color: var(--gray-text);
-    border: 1px solid var(--gray-text);
-    width: 2rem;
-    height: 2rem;
-}
-
-.input_count {
-    border: 1px solid var(--gray-text);
-    width: 8rem;
-    height: 2rem;
-}
-
-.modal-body > .frame > .options > div > .btn_buy {
-    background-color: var(--red-main);
-    height: 2rem;
-}
-
-.icon_plus::before {
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 400;
-    content: "\f0fe  ";
-}
+    .btn_share.show > a:nth-child(6) {
+        transform: translateX(-50%) !important;
+    }
 
 /* Swiper */
 .swiper_four_grid {
@@ -176,19 +105,6 @@ input:disabled + .btn_radio {
 
     .swiper_button > [class*=btn_swiper_prev_] {
         margin-left: -35px;
-    }
-
-/* Breadcrumb */
-#Breadcrumb {
-    --bs-breadcrumb-divider: '/';
-}
-
-    #Breadcrumb > .breadcrumb > .breadcrumb-item.active {
-        color: var(--gray-text);
-    }
-
-    #Breadcrumb > .breadcrumb > .breadcrumb-item, #Breadcrumb > .breadcrumb > .breadcrumb-item > a {
-        color: var(--gray-text);
     }
 
 /* Filter */
@@ -328,9 +244,6 @@ input:disabled + .btn_radio {
 }
 
 @media only screen and (max-width: 576px) {
-    .modal-body > .frame > .options > div > .btn_buy {
-        height: 2.5rem;
-    }
 }
 
 @media only screen and (max-width: 390px) {

@@ -1,4 +1,6 @@
 ﻿function PageReady() {
+    ShoppingCarModalInit();
+
     $(".btn_sort_price").on("click", SortByPrice);
     $(".btn_typography").on("click", Typography);
 
@@ -22,6 +24,12 @@
             }
         }
     });
+
+    $('.btn_share').cShare({
+        description: 'jQuery plugin - C Share buttons',
+        showButtons: ['fb', 'line', 'plurk', 'twitter', 'email']
+    });
+    $(".btn_share").hover(ProShare);
 }
 
 function SortByPrice() {
@@ -57,4 +65,9 @@ function Typography() {
     $bottom_line.children('.pro_tag').toggleClass('col col-md');
     $bottom_line.children('.priceframe ').toggleClass('col-auto col-md-auto');
 
+}
+
+function ProShare() {
+    var $self = $(this);
+    $self.toggleClass('show');
 }

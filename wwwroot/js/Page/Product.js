@@ -1,4 +1,6 @@
 ﻿function PageReady() {
+    ShoppingCarModalInit();
+
     $(".btn_sort_price").on("click", SortByPrice);
 
     var guess_you_like_swiper = new Swiper("#GuessYouLikeSwiper > .swiper", {
@@ -74,20 +76,11 @@
         },
     });
 
-    $(document).on('click', '.btn_count_plus', function () {
-        $('.input_count').val(parseInt($('.input_count').val()) + 1);
+    $('.btn_share').cShare({
+        description: 'jQuery plugin - C Share buttons',
+        showButtons: ['fb', 'line', 'plurk', 'twitter', 'email']
     });
-    $(document).on('click', '.btn_count_minus', function () {
-        $('.input_count').val(parseInt($('.input_count').val()) - 1);
-        if ($('.input_count').val() == 0) {
-            $('.input_count').val(1);
-        }
-    });
-
-    var $radio_btn = $('#Product > .content > .options > .radio > .control')
-    if ($radio_btn.children().length <= 2) {
-        $radio_btn.children('label').toggleClass('pe-none');
-    }
+    $(".btn_share").hover(ProShare);
 }
 
 function SortByPrice() {
@@ -104,4 +97,9 @@ function SortByPrice() {
         $sort_icon.toggleClass('fa-caret-up');
         $sort_icon.toggleClass('fa-arrows-up-down');
     }
+}
+
+function ProShare() {
+    var $self = $(this);
+    $self.toggleClass('show');
 }
