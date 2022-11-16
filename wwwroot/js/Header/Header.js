@@ -4,11 +4,9 @@
     const Cart_Dropdown = document.getElementById('Cart_Dropdown_Parent')
     Cart_Dropdown.addEventListener('shown.bs.dropdown', event => {
         $("#btn_car_dropdown > i").addClass("open");
-        $("html").addClass("locked");
     })
     Cart_Dropdown.addEventListener('hidden.bs.dropdown', event => {
         $("#btn_car_dropdown > i").removeClass("open");
-        $("html").removeClass("locked");
     })
 
     $(".btn_cart_delete").on("click", CartDelete);
@@ -22,7 +20,7 @@
         $("#menuButton").removeClass("collapsed");
     });
 
-    $('.news_box').verticalLoop({
+    $('#News_Marquee > .news_box').verticalLoop({
         delay: 3000,
         order: 'asc'
     });
@@ -36,7 +34,6 @@ function CartDelete() {
         $.cookie('Purchased_Type_Quantity', 0, { path: '/' });
         $.cookie('Purchased_Item_Quantity', 0, { path: '/' });
         CarDropdownReset();
-        $("html").removeClass("locked");
         Coker.sweet.success("成功移除商品", null, true);
     });
 }
@@ -64,12 +61,13 @@ function CarDropdownReset() {
         $("#Car_Dropdown_Null").addClass("d-none");
         $(".btn_car_buy").removeAttr("disabled");
     } else {
+        $("#Car_Dropdown > ul > li").remove();
         $("#Car_Badge").text("");
         $("#Car_Dropdown_Null").removeClass("d-none");
         $(".btn_car_buy").attr("disabled", "");
     }
 }
 
-function CarItemAdd() {
+function CarItemChange() {
     $("#Car_Dropdown > ul li > figure > a > figcaption > .number > .pro_quantity").text($.cookie('Purchased_Item_Quantity'));
 }

@@ -31,14 +31,14 @@
     color: var(--gray-text);
 }
 
+.blue_text {
+    color: var(--blue-text);
+}
+
 /* Default */
 html {
     font-size: 87.5%;
 }
-
-    html.locked {
-        overflow: hidden;
-    }
 
 html, body {
     height: 100%;
