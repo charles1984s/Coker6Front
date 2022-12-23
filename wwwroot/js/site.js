@@ -1,11 +1,27 @@
-﻿function ready() {
+﻿
+function ready() {
+    Coker.Token = {
+        GetToken: function () {
+            return $.ajax({
+                url: "/api/Token/CreateToken",
+                type: "POST",
+            });
+        },
+        CheckToken: function (id) {
+            return $.ajax({
+                url: "/api/Token/CheckToken/",
+                type: "GET",
+                data: { id: id }
+            });
+        }
+    };
+
     $.cookie('Member_Name', "會員一", { path: '/' });
-    typeof $.cookie('Purchased_Type_Quantity') == "undefined" && $.cookie('Purchased_Type_Quantity', 0, { path: '/' })
-    typeof $.cookie('Purchased_Item_Quantity') == "undefined" && $.cookie('Purchased_Item_Quantity', 0, { path: '/' })
 
     typeof (PageReady) === "function" && PageReady();
     HeaderInit();
     FooterInit();
+    SideFloatingInit();
 
     var mega_menu_height = $("header").css("height");
     $("body").css("padding-top", mega_menu_height);
@@ -17,7 +33,49 @@
 
     if ($.cookie('cookie') == null || $.cookie('cookie') == 'reject') {
         $("#Cookie").toggleClass("show");
+    } else {
+        CheckToken();
     }
+
+    SiteElementInit();
+
+    $('.btn_refresh').on('click', function (event) {
+        event.preventDefault();
+        NewCaptcha($LoginImgCaptcha, $InputLoginVCode);
+        NewCaptcha($RegisterImgCaptcha, $InputRegisterVCode);
+    });
+
+    var LoginModal = document.getElementById('LoginModal')
+    LoginModal.addEventListener('show.bs.modal', function (event) {
+        NewCaptcha($LoginImgCaptcha, $InputLoginVCode);
+    })
+    LoginModal.addEventListener('hidden.bs.modal', function (event) {
+        FormClear(LoginForms, $InputLoginVCode)
+    })
+
+    var RegisterModal = document.getElementById('RegisterModal')
+    RegisterModal.addEventListener('show.bs.modal', function (event) {
+        NewCaptcha($RegisterImgCaptcha, $InputRegisterVCode);
+    })
+    RegisterModal.addEventListener('hidden.bs.modal', function (event) {
+        FormClear(RegisterForms, $InputRegisterVCode)
+    })
+
+    $(".btn_login").on("click", function () {
+        login_check = SiteFormCheck(LoginForms, $InputLoginVCode)
+        login_vcode_check = CaptchaVerify($LoginImgCaptcha, $InputLoginVCode)
+    })
+
+    $(".btn_register").on("click", function () {
+        var passcheck = PassCheck()
+        var formcheck = SiteFormCheck(RegisterForms, $InputRegisterVCode)
+        $NewPass.keyup(PassCheck);
+        $CheckPass.keyup(PassCheck);
+        if (passcheck && formcheck) {
+            CaptchaVerify($RegisterImgCaptcha, $InputRegisterVCode)
+        }
+    })
+
     $(".btn_cookie_accept").on("click", cookie_accept);
     $(".btn_cookie_reject").on("click", cookie_reject);
 
@@ -25,25 +83,26 @@
         $("footer").toggleClass("footer_pack_up");
     });
 
-    $("#Floating_Objects").on("click", function () {
-        $('html,body').stop().animate({
-            scrollTop: 0
-        }, 0)
-    });
-
-    $("#btn_chat").on("click", function () {
-        $("#Chatbot_Frame").toggleClass("show");
-    });
-
     $(".btn_favorites").on("click", AddFavorites);
 
     window.onscroll = function () {
         scrollFunction();
     };
+}
 
-    $("#btn_gotop").on("click", function () {
-        $('html, body').animate({ scrollTop: 0 }, 0);
-    });
+function SiteElementInit() {
+    $InputLoginVCode = $("#InputLoginVCode");
+    $LoginImgCaptcha = $('#LoginImgCaptcha');
+    LoginForms = $('#LoginForm');
+
+    $InputRegisterVCode = $("#InputRegisterVCode");
+    $RegisterImgCaptcha = $('#RegisterImgCaptcha');
+    RegisterForms = $('#RegisterForm');
+
+    $NewPass = $("#InputRegisterNewPass");
+    $NewPassFeedBack = $("#NewPassFeedBack");
+    $CheckPass = $("#InputRegisterCheckPass");
+    $CheckPassFeedBack = $("#CheckPassFeedBack");
 }
 
 function scrollFunction() {
@@ -55,13 +114,28 @@ function scrollFunction() {
 }
 
 function cookie_accept() {
-    $.cookie('cookie', 'accept', { expires: 7 });
+    $.cookie('cookie', 'accept', { expires: 7, path: '/' });
     $("#Cookie").toggleClass("show");
+    CreateToken();
 }
 
 function cookie_reject() {
     $.cookie('cookie', 'reject');
     $("#Cookie").toggleClass("show");
+}
+
+function CreateToken() {
+    Coker.Token.GetToken().done(function (result) {
+        $.cookie("Token", result.token, { expires: 30, path: "/" })
+    })
+}
+
+function CheckToken() {
+    Coker.Token.CheckToken($.cookie("Token")).done(function (result) {
+        if (!result.success) {
+            CheckToken();
+        }
+    })
 }
 
 function AddFavorites() {
@@ -70,16 +144,97 @@ function AddFavorites() {
 
     if ($self.hasClass("fa-solid")) {
         Coker.sweet.confirm("確定將商品從收藏中移除？", "該商品將會從收藏中移除，且不可復原。", "確認移除", "取消", function () {
-            $self.toggleClass('fa-solid');
+            $self.removeClass('fa-solid');
             if ($self.hasClass('fav_item')) {
                 $self_parent.remove();
                 Coker.sweet.success("成功移除商品", null, true);
             }
         });
     } else {
-        $self.toggleClass('fa-solid');
+        $self.addClass('fa-solid');
         Coker.sweet.success("成功加入收藏", null, true);
     }
+}
+
+function SiteFormCheck(Forms, $input) {
+    $input.addClass('is-invalid');
+    var Check = false;
+    Array.from(Forms).forEach(form => {
+        if (form.checkValidity()) {
+            Check = true;
+        }
+        form.classList.add('was-validated');
+    })
+    return Check;
+}
+
+function CaptchaVerify($self, $input) {
+    var code = $input.val();
+    if (!code == "") {
+        $.ajax('/api/Captcha/Validate?id=' + id + '&code=' + code, {
+            dataType: "JSON",
+            success: function (result) {
+                if (result.success) {
+                    $input.removeClass('is-invalid');
+                    $input.addClass('is-valid');
+                } else {
+                    $input.addClass('is-invalid');
+                    $input.siblings("div").addClass("me-4 pe-2");
+                    console.log($input.siblings("div"))
+                    NewCaptcha($self, $input)
+                    $input.val("");
+                }
+            }
+        })
+    } else {
+        $input.addClass('is-invalid');
+        $input.siblings("div").addClass("me-4 pe-2");
+        console.log($input.siblings("div"))
+        NewCaptcha($self, $input)
+        $input.val("");
+    }
+    return false;
+}
+
+function NewCaptcha($self, $input) {
+    id = Math.floor(Math.random() * 10000);
+    $self.attr('src', '/api/Captcha/index?id=' + id);
+    $input.val("");
+}
+
+function FormClear(form, $input) {
+    form.removeClass('was-validated')
+    $input.siblings("div").removeClass("me-4 pe-2")
+    $input.removeClass('is-invalid');
+    $input.val("");
+}
+
+function PassCheck() {
+    var hasNum = /\d+/, hasLetter = /[a-zA-Z]+/, hasSpesym = /[^\a-\z\A-\Z0-9]/g;
+    $NewPass.addClass("is-invalid");
+    $CheckPass.addClass("is-invalid");
+    if ($NewPass.val().length >= 6) {
+        if (hasNum.test($NewPass.val()) && hasLetter.test($NewPass.val()) && !(hasSpesym.test($NewPass.val()))) {
+            $NewPass.removeClass("is-invalid");
+            $NewPass.addClass("is-valid");
+            $NewPassFeedBack.text("　");
+            if ($CheckPass.val() == $NewPass.val()) {
+                $CheckPass.removeClass("is-invalid");
+                $CheckPass.addClass("is-valid");
+                $CheckPassFeedBack.text("　");
+                return true;
+            } else {
+                $CheckPassFeedBack.text("密碼不相符");
+            }
+        } else {
+            $NewPassFeedBack.text("密碼格式有誤");
+            $CheckPassFeedBack.text("密碼格式有誤");
+        }
+    } else {
+        $NewPassFeedBack.text("請輸入6個以上的字元");
+        $CheckPassFeedBack.text("密碼格式有誤");
+    }
+    return false;
 }
 
 var Coker = {
