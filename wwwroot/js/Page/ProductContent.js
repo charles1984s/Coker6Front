@@ -1,8 +1,9 @@
 ﻿var $input_quantity
-var Pid, hass1 = false, hass2 = false, s1, s2
+var Pid, s1, s2
 var s1_list = [], s2_list = [], spectype_list, spec_list, price_list = []
 
 function PageReady() {
+
     ElementInit();
     window.CI360.init();
 
@@ -110,7 +111,6 @@ function ElementInit() {
 
 function PageDefaultSet() {
     Product.GetOne.Prod(Pid).done(function (result) {
-        console.log(result)
         $pro_name.text(result.title);
         $pro_introduce.append("<li>" + result.introduction.replaceAll("\n", "</li><li>") + "</li>")
         $pro_specification.append("<li>" + result.description.replaceAll("\n", "</li><li>") + "</li>")
@@ -123,6 +123,28 @@ function PageDefaultSet() {
         }
     });
 
+    Product.GetOne.TechCert(Pid).done(function (result) {
+        var techcert_list = []
+        result.forEach(function (item) {
+            techcert_list.push(item.id);
+        })
+
+        $(".btn_certification").each(function () {
+            var $self = $(this)
+            if (techcert_list.indexOf($self.data("certification")) < 0) {
+                $self.parents("li").first().remove();
+            }
+        })
+
+        $(".badge_directions").each(function () {
+            var $self = $(this)
+            if (techcert_list.indexOf($self.data("certification")) < 0) {
+                $self.siblings("hr").first().remove();
+                $self.remove();
+            }
+        })
+    })
+
     Product.GetOne.Stock(Pid).done(function (result) {
         if (result.length > 1) {
 
@@ -130,9 +152,7 @@ function PageDefaultSet() {
 
             var item1 = $($("#Template_Spec_Radio").html()).clone(), item2 = $($("#Template_Spec_Radio").html()).clone();
             var item1_control = item1.find(".spec_control"),
-                /*item1_title = item1.find(".spec_title"),*/
                 item2_control = item2.find(".spec_control");
-            /*item2_title = item2.find(".spec_title");*/
 
             item1.data("stype", 1)
             item2.data("stype", 2)
@@ -144,13 +164,9 @@ function PageDefaultSet() {
                 obj = {}
 
                 if (spec.fK_S1id > 0) {
-                    if (!hass1) {
-                        /*item1_title.text(spec.s1_Title);*/
-                        hass1 = true;
-                    }
                     if (s1_list.indexOf(spec.fK_S1id) < 0) {
-                        item1_control.append('<input id="s1_' + spec.fK_S1id + '" type="radio" class="btn-check" name="S1_Radio" autocomplete="off" value="' + spec.fK_S1id + '">');
-                        item1_control.append('<label class="btn_radio me-2 my-1 px-3 py-1 align-self-center" for="s1_' + spec.fK_S1id + '">' + spec.s1_Name + '</label>');
+                        item1_control.prepend('<label class="btn_radio me-2 my-1 px-3 py-1 align-self-center" for="s1_' + spec.fK_S1id + '">' + spec.s1_Name + '</label>');
+                        item1_control.prepend('<input id="s1_' + spec.fK_S1id + '" type="radio" class="btn-check" name="S1_Radio" autocomplete="off" value="' + spec.fK_S1id + '">');
                         s1_list.push(spec.fK_S1id);
                     }
                 } else {
@@ -160,13 +176,9 @@ function PageDefaultSet() {
                 }
 
                 if (spec.fK_S2id > 0) {
-                    if (!hass2) {
-                        /* item2_title.text(spec.s2_Title);*/
-                        hass2 = true;
-                    }
                     if (s2_list.indexOf(spec.fK_S2id) < 0) {
-                        item2_control.append('<input id="s2_' + spec.fK_S2id + '" type="radio" class="btn-check" name="S2_Radio" autocomplete="off" value="' + spec.fK_S2id + '">');
-                        item2_control.append('<label class="btn_radio me-2 my-1 px-3 py-1 align-self-center" for="s2_' + spec.fK_S2id + '">' + spec.s2_Name + '</label>');
+                        item2_control.prepend('<label class="btn_radio me-2 my-1 px-3 py-1 align-self-center" for="s2_' + spec.fK_S2id + '">' + spec.s2_Name + '</label>');
+                        item2_control.prepend('<input id="s2_' + spec.fK_S2id + '" type="radio" class="btn-check" name="S2_Radio" autocomplete="off" value="' + spec.fK_S2id + '">');
                         s2_list.push(spec.fK_S2id);
                     }
                 } else {
@@ -194,6 +206,26 @@ function PageDefaultSet() {
             $pro_discount.text(result[0].price.toLocaleString('en-US'));
         }
     })
+
+    var $product_swiper = $(".ProductSwiper > .swiper-wrapper"), $preview_swiper = $(".PreviewSwiper > .swiper-wrapper")
+    if (Pid == 1) {
+        var demo_slide = $($("#TemplateDemoSlide").html()).clone();
+        var demo_pre_slide = $($("#TemplateDemoPreviewSlide").html()).clone();
+        $product_swiper.append(demo_slide);
+        $preview_swiper.append(demo_pre_slide);
+    } else {
+        var slide = $($("#TemplateImageSlide").html()).clone();
+        var slide_image = slide.find(".pro_display");
+        slide.data("pid", Pid);
+        slide_image.attr("src", "/images/product/pro_0" + Pid + ".png")
+        $product_swiper.append(slide);
+
+        var pre_slide = $($("#TemplatePreviewSlide").html()).clone();
+        var pre_slide_image = pre_slide.find("img");
+        pre_slide.data("pid", Pid);
+        pre_slide_image.attr("src", "/images/product/pro_0" + Pid + ".png")
+        $preview_swiper.append(pre_slide);
+    }
 }
 
 function SpecRadio() {
@@ -214,6 +246,8 @@ function SpecRadio() {
         case 1:
             s1 = $self.val()
             var temp_list = []
+            //console.log(price_list)
+            //console.log(s1)
             price_list.forEach(function (item) {
                 if (item.s1id == s1) {
                     temp_list.push(item.s2id)
@@ -261,7 +295,6 @@ function SpecRadio() {
 }
 
 function AddToCart() {
-
     if ($.cookie('cookie') == null || $.cookie('cookie') == 'reject') {
         Coker.sweet.error("錯誤", "若要進行商品選購，請先同意隱私權政策", null, false);
     } else {
@@ -279,12 +312,10 @@ function AddToCart() {
                 Ser_No: 500,
             }).done(function (result) {
                 if (result.success) {
-                    console.log(result)
                     Coker.sweet.success("商品已成功加入購物車", null, true);
                     var type = (result.message).substr(0, 1);
                     var id = (result.message).substr(1);
                     Product.GetOne.Cart(id).done(function (result) {
-                        console.log(result)
                         if (type == 'N') {
                             CartDropAdd(result);
                         } else {
