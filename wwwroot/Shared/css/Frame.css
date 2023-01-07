@@ -2,6 +2,8 @@
     list-style: none;
 }
 
+iframe{width:100%;}
+
 .masonry > .grid > .grid-item {
     float: left;
     width: calc(100%/3);
