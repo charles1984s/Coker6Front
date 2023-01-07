@@ -22,7 +22,7 @@ function ready() {
         let ele = document.createElement('span');
         ele.innerHTML = s;
         $conten.html(ele.textContent || ele.innerText).removeClass("d-none");
-        if ($(".one_swiper", ".two_swiper", ".four_swiper").length > 0) SwiperInit({ autoplay:true});
+        if ($(".one_swiper,.two_swiper,.four_swiper").length > 0) SwiperInit({ autoplay:true});
         if ($(".masonry").length > 0) FrameInit();
         if ($(".frame").length > 0) ViewTypeChangeInit();
     }
