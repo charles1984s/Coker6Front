@@ -1,6 +1,23 @@
-﻿function ready() {
+﻿var OrgName = "Page", LayoutType = 0, SiteId = 0;
+
+function ready() {
+
     const $conten = $("Content");
     const $PostCSS = $("#PostCSS");
+
+    $("link").each(function () {
+        var $self = $(this);
+        if ($self.data("orgname") != undefined) {
+            OrgName = $self.data("orgname");
+        }
+        if ($self.data("layouttype") != undefined) {
+            LayoutType = $self.data("layouttype");
+        }
+        if ($self.data("siteid") != undefined) {
+            SiteId = $self.data("siteid");
+        }
+    });
+
     Coker.Token = {
         GetToken: function () {
             return $.ajax({
@@ -23,9 +40,10 @@
         $conten.html(ele.textContent || ele.innerText);
         $conten.find("[draggable]").removeAttr("draggable");
         $conten.removeClass("d-none");
-        if ($(".one_swiper,.two_swiper,.four_swiper").length > 0) SwiperInit({ autoplay:true});
+        if ($(".one_swiper,.two_swiper,.four_swiper").length > 0) SwiperInit({ autoplay: true });
         if ($(".masonry").length > 0) FrameInit();
         if ($(".frame").length > 0) ViewTypeChangeInit();
+        if ($(".sitemap_hierarchical_frame").length > 0) SitemapInit();
     }
     if ($PostCSS.length > 0) {
         const $mainCss = $("#frameCss")
@@ -42,14 +60,6 @@
     HeaderInit();
     FooterInit();
     SideFloatingInit();
-
-    var mega_menu_height = $("header").css("height");
-    $("body").css("padding-top", mega_menu_height);
-
-    $(window).resize(function () {
-        var mega_menu_height = $("header").css("height");
-        $("body").css("padding-top", mega_menu_height);
-    });
 
     if ($.cookie('cookie') == null || $.cookie('cookie') == 'reject') {
         $("#Cookie").toggleClass("show");

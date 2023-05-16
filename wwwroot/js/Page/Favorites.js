@@ -35,7 +35,6 @@
     $(".btn_share").hover(ProShare);
 
     $(".btn_cart").on("click", function () {
-        //$frame = $(this).parents(".frame").first();
         $("#ShoppingCarModal > .Modal").data("pid", 1);
         ModalDefaultSet();
     });
@@ -93,14 +92,4 @@ function Typography() {
 function ProShare() {
     var $self = $(this);
     $self.toggleClass('show');
-}
-
-function ClickLog(Pid) {
-    if ($.cookie("Token") != null) {
-        Product.Log.Click({
-            FK_Pid: Pid,
-            FK_Tid: $.cookie("Token"),
-            Action: 2,
-        });
-    }
 }
