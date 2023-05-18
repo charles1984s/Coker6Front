@@ -118,13 +118,15 @@ function PageDefaultSet() {
         $pro_specification.children("li").each(function () {
             spec_height += $(this).height();
         })
-        if (spec_height > ($pro_specification.height() + 1)) {
+        if (spec_height > $pro_specification.height()) {
             $btn_detailed.removeClass("d-none")
         }
 
         if (Pid == 1) {
             var item = $($("#TemplateDemoDescription").html()).clone();
             $("#ProductDescription").append(item);
+            var icon = $($("#TemplateIcon").html()).clone();
+            $("#Product > .content > .certification > ul").append(icon);
         } else {
             $("#ProductDescription").append("<li>■ " + result.introduction.replaceAll("\n", "</li><li>■ ") + "</li>");
         }
@@ -141,12 +143,11 @@ function PageDefaultSet() {
             var techcert_list = []
             result.forEach(function (item) {
                 techcert_list.push(item.id);
-            })
-
-            $(".btn_certification").each(function () {
-                var $btn_self = $(this)
-                if (techcert_list.indexOf($btn_self.data("certification")) < 0) {
-                    $btn_self.parents("li").first().remove();
+                if (item.img.length > 0) {
+                    item.img.forEach(function (img) {
+                        console.log($("#Product > .content > .certification > ul"));
+                        $("#Product > .content > .certification > ul").append(`<li><button class="btn_certification bg-transparent border-0" data-certification="1"><img src="${img}" alt="" /></button></li>`);
+                    })
                 }
             })
 
@@ -246,13 +247,13 @@ function PageDefaultSet() {
         var slide = $($("#TemplateImageSlide").html()).clone();
         var slide_image = slide.find(".pro_display");
         slide.data("pid", Pid);
-        slide_image.attr("src", "/images/product/pro_0" + Pid + ".png")
+        slide_image.attr("src", "/upload/product/pro_0" + Pid + ".png")
         $product_swiper.append(slide);
 
         var pre_slide = $($("#TemplatePreviewSlide").html()).clone();
         var pre_slide_image = pre_slide.find("img");
         pre_slide.data("pid", Pid);
-        pre_slide_image.attr("src", "/images/product/pro_0" + Pid + ".png")
+        pre_slide_image.attr("src", "/upload/product/pro_0" + Pid + ".png")
         $preview_swiper.append(pre_slide);
     }
 }
@@ -275,8 +276,6 @@ function SpecRadio() {
         case 1:
             s1 = $self.val()
             var temp_list = []
-            //console.log(price_list)
-            //console.log(s1)
             price_list.forEach(function (item) {
                 if (item.s1id == s1) {
                     temp_list.push(item.s2id)
@@ -360,7 +359,6 @@ function AddToCart() {
         } else {
             Coker.sweet.error("錯誤", "請確實選擇規格", null, false);
         }
-
     }
 }
 
