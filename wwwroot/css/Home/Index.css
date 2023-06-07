@@ -1,19 +1,9 @@
-﻿.top_title_2 {
+﻿.top_title {
     background-color: #000B;
 }
 
-    .top_title_2 > .title {
+    .top_title > .title {
         text-align: start;
-    }
-
-    .top_title_2 li a {
-        color: orange;
-    }
-
-    .top_title_2 li:not(:first-child)::before {
-        content: '>';
-        padding-right: 0.25rem;
-        color: orange;
     }
 
 /* Enter Ad Modal */
@@ -337,11 +327,11 @@
         font-size: 1.5rem;
     }
 
-    .top_title_2 {
+    .top_title {
         background-color: #000;
     }
 
-        .top_title_2 > .title {
+        .top_title > .title {
             text-align: center;
         }
 }
