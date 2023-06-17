@@ -4,7 +4,6 @@
  }
  ***************/
 function SwiperInit(obj) {
-    console.log("SwiperInit")
     var config = {
         slidesPerView: 1,
         spaceBetween: 15,
@@ -132,15 +131,4 @@ function SwiperInit(obj) {
             $self.data("isInit", true)
         }
     });
-}
-
-function SwiperAddslide(Swiper) {
-    console.log("SwiperAddslide")
-    var $Swiper = $(Swiper)
-    var new_slide = $($Swiper.find(".template_slide").html()).clone();
-    //$Swiper.find(".swiper-wrapper").append(new_slide);
-
-    var swiper = document.querySelector('.swiper').swiper;
-    swiper.appendSlide(new_slide);
-    //swiper.update();
 }
