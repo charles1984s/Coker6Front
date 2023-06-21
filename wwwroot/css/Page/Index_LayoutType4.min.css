@@ -1,1 +1,1 @@
-body{background-color:#b6d3e1}body>content>div{background-color:#fff}
+body{background-color:#b6d3e1}body>content>div{background-color:#fff}body>.top_title>.title{text-align:start}body>.top_title li a{color:#666}body>.top_title li:not(:first-child)::before{content:'>';padding-right:.25rem;color:#666}@media only screen and (max-width:768px){body>.top_title>.title{text-align:center}}
