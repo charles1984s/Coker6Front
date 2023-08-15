@@ -4,17 +4,24 @@
         if (!!!$self.data("isInit")) {
             const $btn_grid = $self.find(".btn_grid");
             const $btn_list = $self.find(".btn_list");
+            const $btn_text = $self.find(".btn_text");
             const $content = $self.find(".content").first();
 
             $btn_grid.on("click", function () {
                 if (!$btn_grid.data("activate")) {
-                    typeChange($btn_grid, $btn_list, $content, "Grid");
+                    typeChange($btn_grid, $btn_list, $btn_text, $content, "Grid");
                 }
             })
 
             $btn_list.on("click", function () {
                 if (!$btn_list.data("activate")) {
-                    typeChange($btn_list, $btn_grid, $content, "List");
+                    typeChange($btn_list, $btn_grid,  $btn_text , $content, "List");
+                }
+            })
+
+            $btn_text.on("click", function () {
+                if (!$btn_text.data("activate")) {
+                    typeChange($btn_text ,$btn_list, $btn_grid, $content, "Text");
                 }
             })
         }
@@ -22,39 +29,158 @@
     })
 }
 
-function typeChange($self, $brother, $content, type) {
+function typeChange($self, $brother ,$brother2, $content, type) {
     $self.data("activate", 1);
     $self.removeClass("text-black-50");
     $brother.data("activate", 0);
     $brother.addClass("text-black-50");
+    $brother2.data("activate", 0);
+    $brother2.addClass("text-black-50");
     switch (type) {
         case "List":
             $content.each(function () {
                 var $self = $(this)
-                $self.removeClass("row row-cols-2 row-cols-sm-4 row-cols-lg-6");
+                /*$self.removeClass("row row-cols-2 row-cols-sm-4 row-cols-lg-6");*/
+                $self.removeClass("row row-cols-sm-4");
                 $self.find("figure").removeClass("flex-column");
                 $self.find(".image_frame").removeClass("w-100");
+                $self.find(".image_frame").removeClass("d-none");
                 $self.find(".image").addClass("px-0");
+                $self.find(".image").removeClass("d-none");
+                $self.find(".max-h").addClass("max-hei");
                 $self.find("figcaption").addClass("flex-grow-1 p-3 py-0 py-md-3");
                 $self.find(".title").removeClass("text-center");
-                $self.find(".title").addClass("h-100");
+                $self.find(".title").removeClass("h-100");
                 $self.find(".description").removeClass("d-none");
+                $self.find(".more").removeClass("d-none");
+                $self.find(".date").removeClass("d-none");
+                $self.find(".box-shadow").removeClass("h_100");
+                $self.find(".box-shadow").addClass("text-border");
+                $self.find(".box-shadow").addClass("type3").removeClass("type2 type1");
+                $self.find(".box-shadow").addClass("p-1").removeClass("p-3");
+                $self.find(".card-border").removeClass("h_100");    
+                $self.find(".card-border").addClass("text-border");
+                $self.find(".card-border").addClass("type3").removeClass("type2 type1");
+                $self.find(".card-border").addClass("card-border-rd");
+                $self.find(".more-btn").addClass("d-none");
+                $self.find(".title").removeClass("pr3");
+                $self.find(".related-tag").removeClass("d-none");
+                $self.find(".card-border").removeClass("pr3").addClass("p-3");
+                $self.find(".imgh").addClass("img-h");
+                $self.find(".mergetag").addClass("merge");
+                $self.find(".check_btn").removeClass("w-100").addClass("check_btn-type3");
+                $self.find(".search-more").removeClass("d-none"); 
+                /*if ($self.find(".search-category")) {
+                  
+                    $self.find(".card-border-rd").removeClass("text-border");
+                    $self.find(".card-border-rd").addClass("type3").removeClass("type2 type1");
+                    $self.find(".card-border-rd").addClass("p-3").removeClass("p-1");
+                    $self.find(".card-border-rd").addClass("h_100");
+                } else {
+               
+                    $self.find(".box-shadow").removeClass("text-border");
+                    $self.find(".box-shadow").addClass("type3").removeClass("type2 type1");
+                    $self.find(".box-shadow").addClass("p-3").removeClass("p-1");
+                    $self.find(".box-shadow").addClass("h_100");
+                };*/
+               
             })
             break;
         case "Grid":
             $content.each(function () {
                 var $self = $(this)
-                $self.addClass("row row-cols-2 row-cols-sm-4 row-cols-lg-6");
+                /* $self.addClass("row row-cols-2 row-cols-sm-4 row-cols-lg-6");*/
+                $self.addClass("row row-cols-sm-4");
                 $self.find("figure").addClass("flex-column");
                 $self.find(".image_frame").addClass("w-100");
+                $self.find(".image_frame").removeClass("d-none");
                 $self.find(".image").removeClass("px-0");
+                $self.find(".image").removeClass("d-none");
                 $self.find("figcaption").removeClass("flex-grow-1 p-3 py-0 py-md-3");
-                $self.find(".title").addClass("text-center");
-                $self.find(".title").removeClass("h-100");
-                $self.find(".description").addClass("d-none");
+                $self.find(".title").removeClass("text-center");
+                $self.find(".title").removeClass("h-100 p-2");
+                $self.find(".description").removeClass("d-none");
+                $self.find(".more").addClass("d-none");
+                $self.find(".date").removeClass("d-none");
+                $self.find(".more-btn").addClass("d-none");
+                $self.find(".box-shadow").removeClass("h_100");
+                $self.find(".box-shadow").addClass("text-border");
+                $self.find(".box-shadow").addClass("type2").removeClass("type1 type3");
+                $self.find(".box-shadow").addClass("p-1").removeClass("p-3");
+                $self.find(".card-border").addClass("type2").removeClass("type1 type3");
+                $self.find(".card-border").addClass("text-border");
+                $self.find(".card-border").removeClass("h_100");
+                $self.find(".card-border").addClass("card-border-rd");
+                $self.find(".card-border").removeClass("pr3").addClass("p-3");
+                $self.find(".related-tag").removeClass("d-none");
+                $self.find(".imgh").removeClass("img-h");
+                $self.find(".mergetag").removeClass("merge");
+                $self.find(".check_btn").addClass("w-100").removeClass("check_btn-type3");
+                $self.find(".search-more").removeClass("d-none"); 
+                $self.find(".title").removeClass("p-2 pr3");
+                /*if ($self.find(".search-category")) {
+                    $self.find(".description").removeClass("d-none");
+                    $self.find(".card-border-rd").removeClass("text-border");
+                    $self.find(".card-border-rd").addClass("type2").removeClass("type1 type3");
+                    $self.find(".card-border-rd").addClass("p-3").removeClass("p-1");
+                    $self.find(".card-border-rd").addClass("h_100");
+                } else {
+                    $self.find(".description").addClass("d-none");
+                    $self.find(".box-shadow").removeClass("text-border");
+                    $self.find(".box-shadow").addClass("type2").removeClass("type1 type3");
+                    $self.find(".box-shadow").addClass("p-3").removeClass("p-1");
+                    $self.find(".box-shadow").addClass("h_100");
+                };*/
             });
             break;
         case "Text":
+            $content.each(function () {
+                var $self = $(this)
+                $self.addClass("row row-cols-sm-4");
+                $self.find("figure").addClass("flex-column");
+                $self.find(".image_frame").removeClass("w-100 ");
+                $self.find(".image_frame").addClass("d-none");
+                $self.find(".image").removeClass("px-0");
+                $self.find(".image").addClass("d-none");
+                $self.find(".max-h").removeClass("max-hei");
+                $self.find("figcaption").removeClass("flex-grow-1 p-3 py-0 py-md-3");
+                $self.find(".title").removeClass("text-center");
+                $self.find(".title").addClass("h-100");
+                $self.find(".description").addClass("d-none");
+                $self.find(".date").addClass("d-none");
+                $self.find(".more").addClass("d-none");
+                $self.find(".more-btn").removeClass("d-none");
+                $self.find(".title").addClass("pr3").removeClass("p-2");
+                $self.find(".box-shadow").removeClass("h_100");
+                $self.find(".box-shadow").addClass("text-border");
+                $self.find(".box-shadow").addClass("type1").removeClass("type2 type3");
+                $self.find(".box-shadow").addClass("p-1").removeClass("p-3");
+                $self.find(".related-tag").addClass("d-none");
+                $self.find(".card-border").removeClass("h_100");
+                $self.find(".card-border").addClass("text-border");
+                $self.find(".card-border").addClass("type1").removeClass("type2 type3");
+                $self.find(".card-border").removeClass("card-border-rd");
+                $self.find(".card-border").removeClass("p-3").addClass("pr3");
+                $self.find(".imgh").removeClass("img-h");
+                $self.find(".mergetag").removeClass("merge ");
+                $self.find(".check_btn").addClass("w-100").removeClass("check_btn-type3");
+                $self.find(".search-more").addClass("d-none"); 
+                /*if ($self.find(".search-category")) {
+                    console.log($self.find(".search-category"));
+                    $self.find(".card-border-rd").removeClass("h_100");
+                    $self.find(".card-border-rd").addClass("text-border");
+                    $self.find(".card-border-rd").addClass("type1").removeClass("type2 type3");
+                    $self.find(".card-border-rd").addClass("p-1").removeClass("p-3");
+                } else if ($self.find(".original-category")) {
+                    console.log("in");
+                    $self.find(".box-shadow").removeClass("h_100");
+                    $self.find(".box-shadow").addClass("text-border");
+                    $self.find(".box-shadow").addClass("type1").removeClass("type2 type3");
+                    $self.find(".box-shadow").addClass("p-1").removeClass("p-3");
+                };*/
+               
+                
+            });
             break;
     }
 }

@@ -68,16 +68,9 @@ iframe {
     width: auto;
 }
 
-/* frame_type_1 */
-.frame_type_1 .title_block {
-    text-align-last: justify;
-    min-width: 8.25rem;
-    background-color: #eaeaea;
-}
 
-    .frame_type_1 .title_block + a:hover {
-        font-size: larger;
-    }
+
+
 
 @media only screen and (max-width: 992px) {
     .container.retracted {
@@ -92,6 +85,22 @@ iframe {
     }
     .custom_scale {
         font-size: 1rem;
+    }
+    .outpage_link a {
+        height: 36px;
+        padding: 3px;
+    }
+
+    .type_change_frame > .catalog .max-hei {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .type_change_frame > .catalog .type3 {
+        height: 300px;
+    }
+    .type_change_frame > .catalog .content-h{
+        height:100px;
     }
 }
 
