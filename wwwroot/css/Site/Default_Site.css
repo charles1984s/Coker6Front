@@ -16,10 +16,6 @@ ul {
     padding: 0;
 }
 
-li {
-    list-style: none;
-}
-
 p {
     margin: 0;
 }
@@ -28,4 +24,4 @@ p {
     content: '$';
 }
 
-a img{max-width:100%}
+img{max-width:100%}

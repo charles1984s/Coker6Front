@@ -1,12 +1,5 @@
-﻿li {
-    list-style: none;
-}
-
-iframe {
+﻿iframe {
     width: 100%;
-}
-img {
-    max-width: 100%;
 }
 
 .masonry > .grid > .grid-item {
