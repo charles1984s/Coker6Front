@@ -23,5 +23,3 @@ p {
 .price::before {
     content: '$';
 }
-
-img{max-width:100%}
