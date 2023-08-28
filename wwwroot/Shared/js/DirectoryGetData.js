@@ -101,6 +101,7 @@ function hashChangeDirectory(e) {
 
 function DirectoryDataGet($item, dirid, page, shownum) {
     const dirLength = $(".catalog_frame,.menu_directory").length;
+    page = parseInt(page);
     Directory.getDirectoryData({ Ids: [dirid], SiteId: typeof (SiteId) == "undefined" ? 0 : SiteId, Page: page, ShowNum: shownum }).done(function (result) {
         let loadPageRange = 2;
         $item.find(".page-item").each(function () {
