@@ -28,7 +28,7 @@ function initElemntAndLoadDir($dir,page) {
     const hashPage = !!page? page.toString() : location.hash.replace("#", "");
 
     if (typeof ($self.data("page")) == "undefined" || $self.data("page") != hashPage) {
-        if (isNaN(hashPage)) page = "1";
+        if (isNaN(hashPage) || hashPage=="") page = "1";
         else page = hashPage;
         $self.find(".catalog>.template").remove();
         DirectoryDataGet($self, dirid, page, shownum);
