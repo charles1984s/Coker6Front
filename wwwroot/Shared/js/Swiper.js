@@ -33,7 +33,7 @@ function SwiperInit(obj) {
             var Id = "#" + $self.attr("id") + " > .swiper"
             var selfConfig = Object.assign({}, config,{
                 pagination: {
-                    el: Id + " > .swiper_pagination > *",
+                    el: "#" + $self.attr("id") + " .swiper_pagination > *",
                     clickable: true,
                 },
                 navigation: {
@@ -60,7 +60,7 @@ function SwiperInit(obj) {
             var Id = "#" + $self.attr("id") + " > .swiper"
             var selfConfig = Object.assign({},config, {
                 pagination: {
-                    el: Id + " > .swiper_pagination > *",
+                    el: "#" + $self.attr("id") + " .swiper_pagination > *",
                     clickable: true,
                     renderBullet: function (index, className) {
                         if ($self.has(".swiper_pagination_water").length) {
@@ -71,8 +71,8 @@ function SwiperInit(obj) {
                     },
                 },
                 navigation: {
-                    nextEl: Id + " > .swiper_button_next > button",
-                    prevEl: Id + " > .swiper_button_prev > button",
+                    nextEl: "#" + $self.attr("id") + " .swiper_button_next > button",
+                    prevEl: "#" + $self.attr("id") + " .swiper_button_prev > button",
                 }, breakpoints: {
                     400: {
                         slidesPerView: 1,
@@ -100,12 +100,12 @@ function SwiperInit(obj) {
             var Id = "#" + $self.attr("id") + " > .swiper";
             var selfConfig = Object.assign({}, config, {
                 pagination: {
-                    el: Id + " > .swiper_pagination > *",
+                    el: "#" + $self.attr("id") + " .swiper_pagination > *",
                     clickable: true,
                 },
                 navigation: {
-                    nextEl: Id + " > .swiper_button_next > button",
-                    prevEl: Id + " > .swiper_button_prev > button",
+                    nextEl: "#" + $self.attr("id") + " .swiper_button_next > button",
+                    prevEl: "#" + $self.attr("id") + " .swiper_button_prev > button",
                 }, breakpoints: {
                     375: {
                         slidesPerView: 1,
@@ -138,8 +138,8 @@ function SwiperInit(obj) {
             var Id = "#" + $self.attr("id") + " > .swiper";
             var selfConfig = Object.assign({}, config, {
                 navigation: {
-                    nextEl: Id + " > .swiper_button_next > button",
-                    prevEl: Id + " > .swiper_button_prev > button",
+                    nextEl: "#" + $self.attr("id") + " .swiper_button_next > button",
+                    prevEl: "#" + $self.attr("id") + " .swiper_button_prev > button",
                 },breakpoints: {
                     375: {
                         slidesPerView: 2,
