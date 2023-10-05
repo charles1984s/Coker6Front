@@ -37,8 +37,8 @@ function SwiperInit(obj) {
                     clickable: true,
                 },
                 navigation: {
-                    nextEl: Id + " > .swiper_button_next > button",
-                    prevEl: Id + " > .swiper_button_prev > button",
+                    nextEl: "#" + $self.attr("id") + " .swiper_button_next > button",
+                    prevEl: "#" + $self.attr("id") + " .swiper_button_prev > button",
                 }
             }, obj.autoplay ? {
                 autoplay: {
