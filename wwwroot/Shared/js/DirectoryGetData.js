@@ -186,14 +186,15 @@ function DirectoryDataGet($item, option) {
 }
 
 function DirectoryDataInsert($item, result) {
-    result.forEach(function (data) {
+    result!=null && result.forEach(function (data) {
+        console.log("in");
         var content = $($item.find(".templatecontent").html()).clone();
         var path = (window.location.pathname.indexOf(data.orgName) > 0 ? window.location.pathname : '/' + data.orgName + window.location.pathname) + data.link;
         path = path.replace("//", "/");
         content.find("a").attr("href", path);
         content.find("a").attr("title", `連結至: ${data.title}`);
         var imglink = data.mainImage;
-        if ((typeof (IsFaPage) != "undefined" && typeof (OrgName) != "undefined" && IsFaPage != "True") || OrgName != data.orgName) {
+        if ((typeof (IsFaPage) != "undefined" && typeof (OrgName) != "undefined" && IsFaPage != "True") || (typeof (OrgName) != "undefined" && OrgName != data.orgName)) {
             imglink = imglink.replace("upload", `upload/${data.orgName}`);
         }
         content.find("img").attr("src", imglink);

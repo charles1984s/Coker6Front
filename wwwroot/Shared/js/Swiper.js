@@ -11,11 +11,11 @@ function SwiperInit(obj) {
     $.fn.extend({
         swiperBindEven: function (swiper) {
             const stop = function () {
-                console.log("stop");
+                //console.log("stop");
                 swiper.autoplay.stop()
             }
             const start = function () {
-                console.log("start");
+                //console.log("start");
                 swiper.autoplay.start()
             }
             $(this).find(".swiper").prepend($(this).find(".swiper_button_prev"));
@@ -50,6 +50,7 @@ function SwiperInit(obj) {
             var swiper = new Swiper(Id, selfConfig);
             $self.data("isInit", true)
             $self.swiperBindEven(swiper);
+            $self.prepend($("#" + $self.attr("id") + " .swiper_button_prev"));
         }
     });
 
@@ -91,6 +92,7 @@ function SwiperInit(obj) {
             var swiper = new Swiper(Id, selfConfig);
             $self.data("isInit", true)
             $self.swiperBindEven(swiper);
+            $self.prepend($("#" + $self.attr("id") + " .swiper_button_prev"));
         }
     });
 
@@ -127,16 +129,19 @@ function SwiperInit(obj) {
             var swiper = new Swiper(Id, selfConfig);
             $self.data("isInit", true)
             $self.swiperBindEven(swiper);
+            $self.prepend($("#" + $self.attr("id") + " .swiper_button_prev"));
         }
     });
 
 
     $(".six_swiper").prop("draggable", true).each(function () {
         var $self = $(this);
-
         if (!!!$self.data("isInit")) {
             var Id = "#" + $self.attr("id") + " > .swiper";
             var selfConfig = Object.assign({}, config, {
+                pagination: {
+                    el:null
+                },
                 navigation: {
                     nextEl: "#" + $self.attr("id") + " .swiper_button_next > button",
                     prevEl: "#" + $self.attr("id") + " .swiper_button_prev > button",
@@ -164,6 +169,7 @@ function SwiperInit(obj) {
             var swiper = new Swiper(Id, selfConfig);
             $self.data("isInit", true)
             $self.swiperBindEven(swiper);
+            $self.prepend($("#" + $self.attr("id") + " .swiper_button_prev"));
         }
     });
 }

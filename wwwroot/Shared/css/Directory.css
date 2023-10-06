@@ -520,9 +520,7 @@
     background-color: #999999;
     height: 628px;
 }
-.e-info .resource .mb6 {
-    margin-top: -8%;
-}
+
 .e-info .resource .catalog {
     margin-top: 8%;
 }
@@ -565,7 +563,6 @@
     background-color: #999999;
     position: relative;
     width: 100%;
-    height: 880px;
 }
 
     .e-info .resource .resource-column {
