@@ -31,7 +31,7 @@ function SwiperInit(obj) {
 
         if (!!!$self.data("isInit")) {
             var Id = "#" + $self.attr("id") + " > .swiper"
-            var selfConfig = Object.assign({}, config,{
+            var selfConfig = Object.assign({}, config, {
                 pagination: {
                     el: "#" + $self.attr("id") + " .swiper_pagination > *",
                     clickable: true,
@@ -59,7 +59,7 @@ function SwiperInit(obj) {
 
         if (!!!$self.data("isInit")) {
             var Id = "#" + $self.attr("id") + " > .swiper"
-            var selfConfig = Object.assign({},config, {
+            var selfConfig = Object.assign({}, config, {
                 pagination: {
                     el: "#" + $self.attr("id") + " .swiper_pagination > *",
                     clickable: true,
@@ -89,6 +89,7 @@ function SwiperInit(obj) {
                 },
                 loop: true
             } : {});
+            console.log($self,selfConfig);
             var swiper = new Swiper(Id, selfConfig);
             $self.data("isInit", true)
             $self.swiperBindEven(swiper);
@@ -98,6 +99,7 @@ function SwiperInit(obj) {
 
     $(".four_swiper").prop("draggable", true).each(function () {
         var $self = $(this);
+        obj.autoplay = false;
         if (!!!$self.data("isInit")) {
             var Id = "#" + $self.attr("id") + " > .swiper";
             var selfConfig = Object.assign({}, config, {
