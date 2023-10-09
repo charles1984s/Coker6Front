@@ -30,27 +30,37 @@ function SwiperInit(obj) {
         var $self = $(this);
 
         if (!!!$self.data("isInit")) {
+            const canNext = $(Id).find(".swiper-slide").length > 2;
             var Id = "#" + $self.attr("id") + " > .swiper"
+            obj.autoplay = obj.autoplay ? canNext : false;
             var selfConfig = Object.assign({}, config, {
                 pagination: {
                     el: "#" + $self.attr("id") + " .swiper_pagination > *",
                     clickable: true,
-                },
-                navigation: {
-                    nextEl: "#" + $self.attr("id") + " .swiper_button_next > button",
-                    prevEl: "#" + $self.attr("id") + " .swiper_button_prev > button",
                 }
             }, obj.autoplay ? {
                 autoplay: {
                     delay: 5000,
                     disableOnInteraction: false,
                 },
-                loop: true
+                loop: isLoop
+            } : {},
+            canNext ? {
+                navigation: {
+                    nextEl: "#" + $self.attr("id") + " .swiper_button_next > button",
+                    prevEl: "#" + $self.attr("id") + " .swiper_button_prev > button",
+                }
             } : {});
+            if (!canNext) {
+                $(`#${$self.attr("id")}`).find(".swiper_button_next,.swiper_button_prev").remove();
+            }
             var swiper = new Swiper(Id, selfConfig);
             $self.data("isInit", true)
-            $self.swiperBindEven(swiper);
-            $self.prepend($("#" + $self.attr("id") + " .swiper_button_prev"));
+            if (swiper.slides.length - 2 <= 1) {
+                //console.log(swiper);
+            } else {
+                $self.swiperBindEven(swiper);
+            }
         }
     });
 
@@ -89,7 +99,7 @@ function SwiperInit(obj) {
                 },
                 loop: true
             } : {});
-            console.log($self,selfConfig);
+            console.log($self, selfConfig);
             var swiper = new Swiper(Id, selfConfig);
             $self.data("isInit", true)
             $self.swiperBindEven(swiper);
@@ -142,12 +152,12 @@ function SwiperInit(obj) {
             var Id = "#" + $self.attr("id") + " > .swiper";
             var selfConfig = Object.assign({}, config, {
                 pagination: {
-                    el:null
+                    el: null
                 },
                 navigation: {
                     nextEl: "#" + $self.attr("id") + " .swiper_button_next > button",
                     prevEl: "#" + $self.attr("id") + " .swiper_button_prev > button",
-                },breakpoints: {
+                }, breakpoints: {
                     375: {
                         slidesPerView: 2,
                     },

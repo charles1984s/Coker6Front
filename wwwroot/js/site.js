@@ -2,7 +2,8 @@
 
 function ready() {
 
-    const $conten = $("Content");
+    const $conten = $("#main");
+    const $parentConten = $("#ParentNode");
     const $PostCSS = $("#PostCSS");
 
     $("link").each(function () {
@@ -51,6 +52,15 @@ function ready() {
         let s = Coker.stringManager.ReplaceAndSinge($conten.text());
         let ele = document.createElement('span');
         ele.innerHTML = s;
+        if ($parentConten.length > 0 && $parentConten.text().indexOf("subpage_content") >= 0) {
+            let p = Coker.stringManager.ReplaceAndSinge($parentConten.text());
+            let $pe = $('<div>');
+            $pe[0].innerHTML = p;
+            $pe.html($pe.text());
+            $pe.find("[data-dirid]").remove();
+            $pe.find(".subpage_content").replaceWith(ele.textContent || ele.innerText);
+            ele.textContent = $pe.html();
+        }
         $conten.html(ele.textContent || ele.innerText);
         $conten.find("[draggable]").removeAttr("draggable");
         $conten.removeClass("d-none");
@@ -77,8 +87,8 @@ function ready() {
     $.cookie('Member_Name', "會員一", { path: '/' });
 
     typeof (PageReady) === "function" && PageReady();
-    typeof (HeaderInit) === "function" &&HeaderInit();
-    typeof (FooterInit) === "function" &&FooterInit();
+    typeof (HeaderInit) === "function" && HeaderInit();
+    typeof (FooterInit) === "function" && FooterInit();
     SideFloatingInit();
 
     if ($.cookie('cookie') == null || $.cookie('cookie') == 'reject') $("#Cookie").toggleClass("show");
