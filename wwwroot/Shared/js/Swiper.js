@@ -43,7 +43,7 @@ function SwiperInit(obj) {
                     delay: 5000,
                     disableOnInteraction: false,
                 },
-                loop: isLoop
+                loop: true
             } : {},
             canNext ? {
                 navigation: {
