@@ -185,8 +185,10 @@ function DirectoryDataGet($item, option) {
 }
 
 function DirectoryDataInsert($item, result) {
-    result!=null && result.forEach(function (data) {
-        var content = $($item.find(".templatecontent").html()).clone();
+    const temp = $item.find(".templatecontent").html();
+    console.log($item.find(".templatecontent"));
+    result != null && result.forEach(function (data) {
+        var content = $(temp).clone();
         var path = (window.location.pathname.indexOf(data.orgName) > 0 ? window.location.pathname : '/' + data.orgName + window.location.pathname) + data.link;
         path = path.replace("//", "/");
         content.find("a").attr("href", path);

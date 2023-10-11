@@ -5,7 +5,6 @@ function ready() {
     const $conten = $("#main");
     const $parentConten = $("#ParentNode");
     const $PostCSS = $("#PostCSS");
-
     $("link").each(function () {
         var $self = $(this);
         if ($self.data("orgname") != undefined) {
@@ -21,33 +20,6 @@ function ready() {
             IsFaPage = $self.data("isfapage");
         }
     });
-    $(".nav-link").on("focus", function () {
-        $(this).trigger("mouseover");
-    });
-    $(".dropdown-toggle").on("focus", function () {
-        new bootstrap.Dropdown($(this)[0], {}).show();
-    });
-    $(".accesskey[href]").on("click", function (e) {
-        const $self = $(this);
-        $($self.attr("href")).goTo();
-        return false;
-    });
-
-    Coker.Token = {
-        GetToken: function () {
-            return $.ajax({
-                url: "/api/Token/CreateToken",
-                type: "POST",
-            });
-        },
-        CheckToken: function (id) {
-            return $.ajax({
-                url: "/api/Token/CheckToken/",
-                type: "GET",
-                data: { id: id }
-            });
-        }
-    };
     if ($conten.length > 0) {
         let s = Coker.stringManager.ReplaceAndSinge($conten.text());
         let ele = document.createElement('span');
@@ -83,6 +55,58 @@ function ready() {
         $mainCss.text(ele.textContent || ele.innerText);
         $PostCSS.remove();
     }
+    $(".nav-link").on("focus", function () {
+        $(this).trigger("mouseover");
+    });
+    $(".dropdown-toggle").on("focus", function () {
+        new bootstrap.Dropdown($(this)[0], {}).show();
+    });
+    $(".accesskey[href]").on("click", function (e) {
+        const $self = $(this);
+        $($self.attr("href")).goTo();
+        return false;
+    });
+    $("#videoModal").on("hidden.bs.modal", function () {
+        $(this).find("iframe").remove();
+    });
+    $(`[data-bs-target="#videoModal"]`).on("click", function () {
+        const self = this;
+        const $body = $("#videoModal .modal-body");
+        const rx = /^.*(?:(?:youtu.be\/|v\/|vi\/|u\/w\/|embed\/)|(?:(?:watch)??v(?:i)?=|&v(?:i)?=))([^#&?]*).*/;
+        let key = "";
+        let url = $(self).attr("data-model-target");
+        var r = url.match(rx);
+        $body.find(".fa-duotone").removeClass("d-none");
+        $body.find(".fa-3x").addClass("d-none");
+        if (r != null && r.length > 0) key = r[1];
+        if (key != "") {
+            if ($body.find("iframe").length == 0) {
+                const iframe = $(`<iframe allowfullscreen="allowfullscreen" rel="0" src="https://www.youtube.com/embed/${key}?autohide=1" class="h-100"></iframe>`);
+                iframe.appendTo($body);
+            }
+            $body.find(".fa-duotone").addClass("d-none");
+            $body.find(".fa-3x").addClass("d-none");
+        } else {
+            $body.find(".fa-duotone").addClass("d-none");
+            $body.find(".fa-3x").addClass("d-none");
+        }
+    });
+
+    Coker.Token = {
+        GetToken: function () {
+            return $.ajax({
+                url: "/api/Token/CreateToken",
+                type: "POST",
+            });
+        },
+        CheckToken: function (id) {
+            return $.ajax({
+                url: "/api/Token/CheckToken/",
+                type: "GET",
+                data: { id: id }
+            });
+        }
+    };
 
     $.cookie('Member_Name', "會員一", { path: '/' });
 
