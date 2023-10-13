@@ -46,6 +46,8 @@ function ready() {
         if ($(".link_with_icon").length > 0) LinkWithIconInit();
         if ($(".anchor_directory").length > 0 || $(".anchor_title").length > 0) AnchorPointInit();
         if ($(".shareBlock").length > 0) ShareBlockInit();
+        console.log($("#lanBar"));
+        if ($("body").width() < 992) $("#lanBar").before($("#layout4 #NavbarContent"));
     }
     if ($PostCSS.length > 0) {
         const $mainCss = $("#frameCss")
