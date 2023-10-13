@@ -28,8 +28,8 @@ function SwiperInit(obj) {
         var $self = $(this);
 
         if (!!!$self.data("isInit")) {
-            const canNext = $(Id).find(".swiper-slide").length > 2;
             var Id = "#" + $self.attr("id") + " > .swiper";
+            const canNext = $(Id).find(".swiper-slide").length > 2;
             var autoplay = obj.autoplay ? canNext : false;
             var selfConfig = Object.assign({}, config, {
                 pagination: {
