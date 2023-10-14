@@ -37,7 +37,7 @@ function ready() {
         $conten.find("[draggable]").removeAttr("draggable");
         $conten.removeClass("d-none");
         $(".editTime,.popular").appendTo($conten);
-        if ($(".one_swiper,.two_swiper,.four_swiper,.six_swiper").length > 0) SwiperInit({ autoplay: true });
+        if ($(".one_swiper,.two_swiper,.four_swiper,.six_swiper,.picture-category").length > 0) SwiperInit({ autoplay: true });
         if ($(".masonry").length > 0) FrameInit();
         if ($(".type_change_frame").length > 0) ViewTypeChangeInit();
         if ($(".hover_mask").length > 0) HoverEffectInit();
