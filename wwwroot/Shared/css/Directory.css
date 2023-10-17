@@ -57,7 +57,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    max-height: calc(1rem * 3.6);
+    height: calc(1rem * 3.6);
     position: relative;
 }
 .type_change_frame .type2-title {
