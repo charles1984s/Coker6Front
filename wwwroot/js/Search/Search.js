@@ -14,7 +14,6 @@
         $search.data("endDate", $(this).val());
     });
     $(".search-category .search-input").on("change", function () {
-        console.log("in");
         $search.data("search-text", $(this).val());
         window.location.href = `/${OrgName}/Search/Get/${$search.data("dirid")}/${$search.data("search-text")}`;
     });

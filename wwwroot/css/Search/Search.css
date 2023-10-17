@@ -191,6 +191,9 @@ body {
     .search-category .catalog.type2 .image_frame > .img-fluid {
         max-height: 100%;
     }
+.search-category .switch_control {
+    padding-right:3rem;
+}
 
 header #Search {
     display: none !important;
@@ -205,9 +208,30 @@ header #Search {
     max-width: 25%;
     min-height: 220px;
 }
+.type3 figcaption {
+    max-width: 70%;
+}
 
-@media (max-width:480px) {
+@media (max-width:576px) {
     .search-input-block {
         width: 75%
+    }
+    .search-category .catalog.type2 .image_frame {
+        height:150px;
+    }
+    .search-category .switch_control {
+        padding-right: 1rem;
+    }
+    .search-category .container {
+        padding: 0;
+    }
+    .catalog_frame .template {
+        padding: 0.5rem 0.5rem 0 0.5rem !important;
+    }
+        .catalog_frame .template:last-child {
+            padding-bottom: 0.5rem !important;
+        }
+    .type_change_frame .type1-title {
+        height: calc(1rem * 3.6);
     }
 }
