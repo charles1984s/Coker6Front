@@ -149,13 +149,14 @@ function ready() {
     })
 
     var RegisterModal = document.getElementById('RegisterModal')
-    RegisterModal.addEventListener('show.bs.modal', function (event) {
-        NewCaptcha($RegisterImgCaptcha, $InputRegisterVCode);
-    })
-    RegisterModal.addEventListener('hidden.bs.modal', function (event) {
-        FormClear(RegisterForms, $InputRegisterVCode)
-    })
-
+    if (RegisterModal != null) {
+        RegisterModal.addEventListener('show.bs.modal', function (event) {
+            NewCaptcha($RegisterImgCaptcha, $InputRegisterVCode);
+        })
+        RegisterModal.addEventListener('hidden.bs.modal', function (event) {
+            FormClear(RegisterForms, $InputRegisterVCode)
+        })
+    }
     $(".btn_login").on("click", function () {
         if (SiteFormCheck(LoginForms, $InputLoginVCode)) {
             CaptchaVerify($LoginImgCaptcha, $InputLoginVCode, LoginAction)

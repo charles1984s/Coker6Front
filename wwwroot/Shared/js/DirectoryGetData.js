@@ -227,11 +227,16 @@ function DirectoryDataInsert($item, result) {
             target = "_self";
         }
         path = path.replace("//", "/");
-        content.find("a").attr({
+        const linkData = {
             "href": path,
-            "title": `連結至: ${data.title}${(target =="_blank"?"(另開視窗)":"")}`,
+            "title": `連結至: ${data.title}${(target == "_blank" ? "(另開視窗)" : "")}`,
             "target": target
-        });
+        }
+        if (content[0].tagName == "A") {
+            content.attr(linkData);
+        } else {
+            content.find("a").attr(linkData);
+        }
         var imglink = data.mainImage ||"/images/noImg.jpg";
         if ((typeof (IsFaPage) != "undefined" && typeof (OrgName) != "undefined" && IsFaPage != "True") || (typeof (OrgName) != "undefined" && OrgName != data.orgName)) {
             imglink = imglink.replace("upload", `upload/${data.orgName}`);
