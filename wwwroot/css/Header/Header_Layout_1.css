@@ -150,6 +150,15 @@
     height: 1.5rem;
 }
 
+.navbar-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+    .navbar-nav ul > li {
+        padding:0.5rem;
+    }
+
 /*RWD*/
 @media (min-width: 992px) {
     #Mega_Menu .mega_menu_canvas, .mega_menu_canvas .dropdown {
