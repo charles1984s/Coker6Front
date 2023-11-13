@@ -55,6 +55,7 @@ function ready() {
     if ($(".link_with_icon").length > 0) LinkWithIconInit();
     if ($(".anchor_directory").length > 0 || $(".anchor_title").length > 0) AnchorPointInit();
     if ($(".shareBlock").length > 0) ShareBlockInit();
+    if ($(".ContactForm").length > 0) setContact();
     if ($("body").width() < 992) $("#lanBar").before($("#layout4 #NavbarContent"));
     _c.Search.Init("#Search");
     $(".nav-link").on("focus", function () {
