@@ -18,7 +18,7 @@ body {
     font-size: 0.5rem;
 }
 
-#ContactForm > .title > .call {
+.ContactForm > .title > .call {
     padding: 1rem 0.75rem;
 }
 
@@ -49,3 +49,25 @@ body {
         font-family: 'Font Awesome 6 Free';
         content: "\f0e0";
     }
+
+.ContactForm .d-flex > .form-floating {
+    flex: 1 1;
+    margin: 0.5rem;
+}
+
+    .d-flex > .form-floating:last-child {
+        margin-right: 0;
+    }
+
+    .d-flex > .form-floating:first-child {
+        margin-left: 0;
+    }
+.ContactForm .form-floating > input.form-control {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+}
+.ContactForm .form-floating > .form-control:focus {
+    border-color: burlywood;
+}
