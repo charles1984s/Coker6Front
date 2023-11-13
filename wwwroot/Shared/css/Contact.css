@@ -50,24 +50,37 @@ body {
         content: "\f0e0";
     }
 
-.ContactForm .d-flex > .form-floating {
-    flex: 1 1;
-    margin: 0.5rem;
+.ContactForm {
+    font-size: 0.9rem;
 }
 
-    .d-flex > .form-floating:last-child {
-        margin-right: 0;
+    .ContactForm .d-flex > .form-floating {
+        flex: 1 1;
+        margin: 0.5rem;
     }
 
-    .d-flex > .form-floating:first-child {
-        margin-left: 0;
+    .ContactForm .form-floating label {
+        padding: 0.75rem;
     }
+
+.d-flex > .form-floating:last-child {
+    margin-right: 0;
+}
+
+.d-flex > .form-floating:first-child {
+    margin-left: 0;
+}
+
 .ContactForm .form-floating > input.form-control {
     border-radius: 0;
     border-left: 0;
     border-right: 0;
     border-top: 0;
+    padding: 0.75rem;
+    height: calc(2.5rem + 2px);
 }
+
 .ContactForm .form-floating > .form-control:focus {
     border-color: burlywood;
+    box-shadow: none;
 }
