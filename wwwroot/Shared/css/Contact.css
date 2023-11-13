@@ -85,3 +85,7 @@ body {
     border-color: burlywood;
     box-shadow: none;
 }
+.ContactForm .title {
+    padding: 0 0.75rem;
+}
+
