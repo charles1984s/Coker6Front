@@ -1,9 +1,4 @@
-﻿
-body {
-    background-color: var(--gray-bg-light);
-}
-
-.bigtitle {
+﻿.bigtitle {
     color: var(--red-text);
 }
 
