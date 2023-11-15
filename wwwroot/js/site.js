@@ -57,6 +57,18 @@ function ready() {
     if ($(".shareBlock").length > 0) ShareBlockInit();
     if ($(".ContactForm").length > 0) setContact();
     if ($("body").width() < 992) $("#lanBar").before($("#layout4 #NavbarContent"));
+    if ($(".container .qa").length > 0) {
+        $(".container").each((i, e) => {
+            var $c = $(e);
+            if (typeof ($c.attr("id")) == "undefined" && $c.find("qa").length>0) {
+                $c.setRandenId();
+            }
+            $c.find(".qa .collapse").each((j, c) => {
+                $(c).attr("data-bs-parent", `#${$c.attr("id")}`);
+                if (j != 0 || $c.find(".qa .collapse").length == 1) $(c).collapse("hide");
+            });
+        });
+    }
     if (location.hash != "" && $(location.hash).length > 0) $(location.hash).goTo();
     _c.Search.Init("#Search");
     $(".nav-link").on("focus", function () {
@@ -471,6 +483,15 @@ var Coker = {
 $.fn.extend({
     goTo: function () {
         $('html, body').animate({ scrollTop: $(this).offset().top }, 0);
+    },
+    setRandenId: function(i) {
+        const $self = $(this);
+        let className = typeof ($self.attr('class')) != "undefined" && $self.attr('class') != "" ? $self.attr('class').split(/\s+/)[0]+"Id" : "";
+        let order = !!i ? i : 0;
+        if (className == "") className = "RandenId";
+        let id = className + (order == 0 ? "" : order);
+        if ($(`#${id}`).length == 0) $self.attr("id", id);
+        else $self.setRandenId(order+1);
     }
 });
 let _c = Coker;
