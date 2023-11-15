@@ -57,6 +57,7 @@ function ready() {
     if ($(".shareBlock").length > 0) ShareBlockInit();
     if ($(".ContactForm").length > 0) setContact();
     if ($("body").width() < 992) $("#lanBar").before($("#layout4 #NavbarContent"));
+    if (location.hash != "" && $(location.hash).length > 0) $(location.hash).goTo();
     _c.Search.Init("#Search");
     $(".nav-link").on("focus", function () {
         $(this).trigger("mouseover");
