@@ -237,8 +237,8 @@ function DirectoryDataInsert($item, result) {
         } else {
             content.find("a").attr(linkData);
         }
-        var imglink = data.mainImage ||"/images/noImg.jpg";
-        if ((typeof (IsFaPage) != "undefined" && typeof (OrgName) != "undefined" && IsFaPage != "True") || (typeof (OrgName) != "undefined" && OrgName != data.orgName)) {
+        var imglink = data.mainImage || "/images/noImg.jpg";
+        if (data.orgName!=null && ((typeof (IsFaPage) != "undefined" && typeof (OrgName) != "undefined" && IsFaPage != "True") || (typeof (OrgName) != "undefined" && OrgName != data.orgName))) {
             imglink = imglink.replace("upload", `upload/${data.orgName}`);
         }
         content.find("img").attr("src", imglink);
