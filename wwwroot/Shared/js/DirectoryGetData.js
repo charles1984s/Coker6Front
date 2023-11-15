@@ -207,10 +207,10 @@ function DirectoryDataInsert($item, result) {
         if (isSearch) {
             switch (data.type) {
                 case 3:
-                    path = `/${data.orgName}/${data.link}/${$item.data("search-text")}`;
+                    path = `${data.orgName == null ? "" : `/${data.orgName}`}/${data.link}/${$item.data("search-text")}`;
                     break;
                 default:
-                    path = `/${data.orgName}/search/${data.link}/${$item.data("search-text")}`;
+                    path = `${data.orgName == null ? "" : `/${data.orgName}`}/search/${data.link}/${$item.data("search-text")}`;
                     break;
             }
            
@@ -223,7 +223,7 @@ function DirectoryDataInsert($item, result) {
                 data.mainImage = "https://img.youtube.com/vi/" + key + "/mqdefault.jpg";
             }
         } else {
-            path = (window.location.pathname.indexOf(data.orgName) > 0 ? window.location.pathname : '/' + data.orgName + window.location.pathname) + data.link;
+            path = (window.location.pathname.indexOf(data.orgName) > 0 ? window.location.pathname : `${data.orgName == null ? "" : `/${data.orgName}`}${window.location.pathname}`) + data.link;
             target = "_self";
         }
         path = path.replace("//", "/");
