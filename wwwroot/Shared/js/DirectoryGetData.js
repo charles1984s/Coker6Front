@@ -246,9 +246,9 @@ function DirectoryDataInsert($item, result) {
         content.find(".title").text(data.title);
         content.find(".description").text(data.description);
         $item.find(".catalog").append(content);
-        if (content.find(".location").length > 0 && (data.location == null || data.location == "")) content.find(".location").remove();
+        if (content.find(".location").length > 0 && (data.location == null || data.location == "")) content.find(".location").parents(".py-2").remove();
         else content.find(".location").text(data.location);
-        if (content.find(".address").length > 0 && (data.location == null || data.location == "")) content.find(".location").remove();
+        if (content.find(".address").length > 0 && (data.location == null || data.location == "")) content.find(".location").parents(".py-2").remove();
         else content.find(".address").text(data.address);
         if (data.startTime != null && data.startTime != "") {
             var startTime = new Date(data.startTime);
