@@ -21,7 +21,7 @@ function ready() {
         }
     });
     if ($conten.length > 0) {
-        let s = Coker.stringManager.ReplaceAndSinge($conten.text());
+        let s = $conten.text().indexOf("&amp;") >= 0 ? Coker.stringManager.ReplaceAndSinge($conten.text()) : co.stringManager.htmlEncode($conten.html());
         let ele = document.createElement('span');
         ele.innerHTML = s;
         if ($parentConten.length > 0 && $parentConten.text().indexOf("subpage_content") >= 0) {
@@ -29,7 +29,7 @@ function ready() {
             let $pe = $('<div>');
             $pe[0].innerHTML = p;
             $pe.html($pe.text());
-            $pe.find("[data-dirid]").remove();
+            $pe.find(".catalog_frame").remove();
             $pe.find(".subpage_content").replaceWith(ele.textContent || ele.innerText);
             ele.textContent = $pe.html();
         }
@@ -254,7 +254,8 @@ function CreateToken() {
 function CheckToken() {
     Coker.Token.CheckToken($.cookie("Token")).done(function (result) {
         if (!result.success) {
-            CheckToken();
+            $.cookie("Token", null, { path: '/' });
+            CreateToken();
         }
     })
 }
@@ -458,6 +459,11 @@ var Coker = {
                 if (s.indexOf("&amp;") > 0) return _c.stringManager.ReplaceAndSinge(s);
                 else return s
             }
+        },
+        htmlEncode: function (text) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(text));
+            return div.innerHTML;
         }
     }, Search: {
         Init: function (id) {

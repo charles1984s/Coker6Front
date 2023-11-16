@@ -245,7 +245,15 @@ function DirectoryDataInsert($item, result) {
         content.find("img").attr("alt", `${data.title}的主要圖片`);
         content.find(".title").text(data.title);
         content.find(".description").text(data.description);
+        content.find(".location").text(data.location);
+        content.find(".address").text(data.address);
         $item.find(".catalog").append(content);
+        if (data.startTime != null && data.startTime != "") {
+            var startTime = new Date(data.startTime);
+            console.log(data.startTime);
+            console.log(startTime);
+            content.find(".startTime").text(`${startTime.getFullYear()}/${startTime.getMonth() + 1}/${startTime.getDate()}`);
+        }
         if (data.nodeDate != null && data.nodeDate != "") {
             var noteDate = new Date(data.nodeDate);
             content.find(".date").text(`${noteDate.getFullYear()}/${noteDate.getMonth() + 1}/${noteDate.getDate()}`);
@@ -256,7 +264,6 @@ function DirectoryDataInsert($item, result) {
             } else {
                 content.find(".date-day").text(`${noteDate.getDate()}`);
             }
- 
         }
     });
 
