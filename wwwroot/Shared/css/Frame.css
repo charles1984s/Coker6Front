@@ -95,10 +95,19 @@ table {
         flex-direction: row;
     }
 
-    table td {
-        width: 33%;
-        min-height: 30px;
-    }
+        table tr > td {
+            flex: 1 1 33%;
+            min-height: 30px;
+            border: #000 solid 1px;
+            border-bottom-width: 0;
+            border-right-width: 0
+        }
+            table tr > td:last-child {
+                border-right-width: 1px;
+            }
+            table tr:last-child > td {
+                border-bottom-width: 1px;
+            }
 
 
         table td div {
