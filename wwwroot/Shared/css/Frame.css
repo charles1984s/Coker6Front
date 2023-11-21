@@ -80,6 +80,31 @@ iframe {
     width: auto;
 }
 
+/*Table*/
+table {
+    width: 100% !important;
+    height: unset !important;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+    table tr {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+    }
+
+    table td {
+        width: 33%;
+        min-height: 30px;
+    }
+
+
+        table td div {
+            min-height: unset !important;
+        }
+
 /*no script*/
 #noscript {
     padding: 1rem;
