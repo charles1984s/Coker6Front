@@ -96,7 +96,7 @@ table:not(.table) {
     }
 
         table:not(.table) tr > td, table:not(.table) tr > th {
-            flex: 1 1 33%;
+            flex: 1 1 100%;
             min-height: 30px;
             border: #000 solid 1px;
             border-bottom-width: 0;
