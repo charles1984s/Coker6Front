@@ -184,11 +184,6 @@ table:not(.table) {
         font-size: 1rem;
     }
 
-    .outpage_link a {
-        height: 36px;
-        padding: 3px;
-    }
-
     .type_change_frame > .catalog .max-hei {
         flex-direction: column;
         justify-content: center;
