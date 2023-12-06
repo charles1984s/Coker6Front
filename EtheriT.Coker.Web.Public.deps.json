@@ -13,8 +13,7 @@
           "EtheriT.Coker.EntityFrameworkCore": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "6.0.10",
           "Microsoft.Extensions.Caching.Memory": "6.0.1",
-          "Newtonsoft.Json": "13.0.1",
-          "SimpleCaptcha": "1.0.0"
+          "Newtonsoft.Json": "13.0.1"
         },
         "runtime": {
           "EtheriT.Coker.Web.Public.dll": {}
@@ -1795,7 +1794,8 @@
           "EtheriT.Coker.EntityFrameworkCore": "1.0.0",
           "MailKit": "4.2.0",
           "MiniExcel": "1.30.3",
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.1",
+          "SimpleCaptcha": "1.0.0"
         },
         "runtime": {
           "EtheriT.Coker.Application.dll": {}
