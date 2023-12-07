@@ -17,29 +17,44 @@
             $('#ContactForm .btn_refresh').trigger("click");
             $forms.getFormJson();
             form.addEventListener('submit', event => {
+                form.classList.add('was-validated')
                 if (!form.checkValidity()) {
                     event.preventDefault()
                     event.stopPropagation()
-                    NewCaptcha($imgCaptcha, $captcha_input);
+                    NewCaptcha($imgCaptcha, $captcha_input, "ContactUs");
                     Coker.sweet.error("錯誤", "須確實填寫表單資料才可送出", null, true);
                 } else {
                     event.preventDefault();
+                    const sender = $forms.find(`[name="sender"]>option:selected`);
+                    if (sender.length == 0) {
+                        co.sweet.error("資料錯誤", "請選擇寄件人");
+                        return;
+                    }
                     $.ajax({
                         url: "/api/Contact/submit",
                         type: "POST",
                         contentType: 'application/json; charset=utf-8',
-                        data: JSON.stringify({ forms: $forms.getFormJson() }),
+                        data: JSON.stringify({
+                            sender: {
+                                Email: sender.val(),
+                                Name: sender.text()
+                            },
+                            forms: $forms.getFormJson()
+                        }),
                         dataType: "json",
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader("requestverificationtoken",
                                 $('input:hidden[name="AntiforgeryFieldname"]').val());
                         }
                     }).done(function (result) {
-                        if (result.success) Coker.sweet.success("成功送出表單！", null, true);
-                        else Coker.sweet.error("發送失敗",result.error, null, true);
+                        if (result.success) {
+                            Coker.sweet.success("成功送出表單！", null, true);
+                            $forms.removeClass('was-validated');
+                            $forms.get(0).reset();
+                        } else Coker.sweet.error("發送失敗", result.error, null, true);
+                        NewCaptcha($imgCaptcha, $captcha_input, "ContactUs");
                     });
                 }
-                form.classList.add('was-validated')
             }, false)
 
             document.addEventListener("keyup", function (event) {
