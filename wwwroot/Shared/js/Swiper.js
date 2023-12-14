@@ -181,7 +181,17 @@ function SwiperInit(obj) {
             $self.prepend($("#" + $self.attr("id") + " .swiper_button_prev"));
         }
     });
-
+    var mySwiper = new Swiper('.scroll-bar', {
+        direction: 'horizontal',
+        slidesPerView: 'auto',
+        scrollbar: {
+            el: '.swiper-scrollbar',
+            draggable: true,
+        },
+    });
+    setTimeout(function () {
+        mySwiper.update();
+    }, 100);
 
     if ($(".picture-category").length > 0 && $("#SwiperModal").length > 0) {
         const pictureSwiperThumbs = new Swiper("#pictureSwiperThumbs", {
