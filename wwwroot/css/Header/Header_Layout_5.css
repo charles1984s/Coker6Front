@@ -107,7 +107,7 @@
         width: 1.75rem;
         height: 0.2rem;
         margin: 0.35rem auto;
-        background-color: black;
+        background-color: #333;
         border-radius: 10px;
         -webkit-transition: 0.3s;
         transition: 0.3s;
@@ -138,6 +138,8 @@
 
     #Offcanvas_Mega_Menu > ul > .title > .content li {
         margin-left: 1rem;
+        padding: 0;
+        margin:0;
     }
 
     #Offcanvas_Mega_Menu > ul > .title {
