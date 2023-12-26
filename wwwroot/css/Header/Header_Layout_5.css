@@ -138,8 +138,6 @@
 
     #Offcanvas_Mega_Menu > ul > .title > .content li {
         margin-left: 1rem;
-        padding: 0;
-        margin:0;
     }
 
     #Offcanvas_Mega_Menu > ul > .title {
@@ -156,6 +154,11 @@
     @media (max-width: 440px) {
         .subtitle > .subtitle_title {
             font-weight: 400;
+        }
+        #Offcanvas_Mega_Menu > ul > .title > .content li {
+            margin-left: 1rem;
+            padding: 0;
+            margin: 0;
         }
         .font{
             font-size:24px;
