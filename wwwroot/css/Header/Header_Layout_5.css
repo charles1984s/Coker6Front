@@ -4,14 +4,20 @@
 }
 #Search {
     top: 50%;
-    right:-200px;
+    right: -200px;
     transform: translateY(-50%);
 }
+    #Search a {
+        color: #64806c;
+    }
+    #Search a:hover {
+        color: #333333;
+    }
 #SearchInput {
     border: solid 1px rgba(100,128,108,.9);
     border-radius: 20px;
     width: 200px;
-    height: 40px;
+    height: 32px;
 }
 .input-pd {
     padding:0 1rem 0 2rem;
@@ -27,7 +33,7 @@
     padding: 0;
 }
 #Mega_Menu .w50{
-    height:60px;
+    height:80px;
 }
 #Offcanvas_Mega_Menu {
     background: rgba(100,128,108,.95);
@@ -40,9 +46,10 @@
     background: rgba(100,128,108,.9);
 }
 
-#Offcanvas_Mega_Menu > ul > .title > .content {
-    padding: 0;
-}
+    #Offcanvas_Mega_Menu > ul > .title > .content {
+        background-color: rgba(100,128,108,.95);
+        padding: 1rem 0;
+    }
     #Offcanvas_Mega_Menu > ul > .title > .content li {
         padding: 10px 20px;
     }
@@ -57,7 +64,7 @@
 }
 .logo-img {
     width: 100% !important;
-    height: 50px !important;
+    height: 70px !important;
 }
 
 .fa-earth-americas {
@@ -66,7 +73,6 @@
 }
 .switch-button {
     width: 60px;
-    color: #333333;
 }
 .offcanvas-body {
     width:60%;
