@@ -24,6 +24,15 @@ a{
     text-decoration:none;
     color:#fff;
 }
+@media (min-width: 1500px) {
+    #Footer_Menu {
+        font-size:1rem;
+    }
+    .paging_frame{ width:auto;}
+    .abreast > ul > li {
+        width: 160px;
+    }
+}
 @media (min-width: 992px)  {
     .navbar-expand-lg .offcanvas{
         width:100%!important;
