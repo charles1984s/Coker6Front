@@ -23,20 +23,17 @@ function MenuItemResize() {
 
 function toggleFooterMenu() {
     var footerMenu = document.getElementById('Footer_Menu');
-    var collapseButtonIcon = document.querySelector('#Collapse_Button > i');
-
     if (window.innerWidth < 1000) {
-     
-        footerMenu.style.height = '400px';
+        if (footerMenu.style.height === '0px' || footerMenu.style.height === '') {
+            footerMenu.style.height = '400px';
+        } else {
+            footerMenu.style.height = '0px';
+        }
     } else {
         if (footerMenu.style.height === '0px' || footerMenu.style.height === '') {
             footerMenu.style.height = '230px';
-            collapseButtonIcon.style.transform = 'rotate(0deg)';
-            collapseButtonIcon.style.fontSize = '1.125rem';
-            collapseButtonIcon.style.transition = 'all 1s';
         } else {
             footerMenu.style.height = '0px';
-            collapseButtonIcon.style.transform = 'rotate(180deg)';
         }
     }
 }

@@ -26,11 +26,14 @@ a{
 }
 @media (min-width: 1500px) {
     #Footer_Menu {
-        font-size:1rem;
+        font-size:0.95rem;
     }
     .paging_frame{ width:auto;}
+    .abreast > ul {
+        height:165px;
+    }
     .abreast > ul > li {
-        width: 160px;
+        width: 180px;
     }
 }
 @media (min-width: 992px)  {
@@ -80,6 +83,18 @@ a{
 
         #Logo_Bottom::before, #Logo_Bottom::after {
             width: 12.5%;
+        }
+        footer {
+            padding-bottom: 1rem;
+        }
+        footer p {
+            margin-bottom: 0.25rem;
+        }
+        .paging_frame{
+            padding:1rem;
+        }
+        .abreast > ul > li {
+            width: calc(50vw - 1rem);
         }
     }
 
