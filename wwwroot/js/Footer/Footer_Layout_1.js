@@ -41,11 +41,12 @@ function toggleFooterMenu() {
 function toggleIconSearchVisibility() {
     var iconSearch = document.getElementById('icon-search');
     var screenWidth = window.innerWidth;
-
-    if (screenWidth < 1000) {
-        iconSearch.style.display = 'block';
-    } else {
-        iconSearch.style.display = 'none';
+    if (!!iconSearch) {
+        if (screenWidth < 1000) {
+            iconSearch.style.display = 'block';
+        } else {
+            iconSearch.style.display = 'none';
+        }
     }
 }
 toggleIconSearchVisibility();
