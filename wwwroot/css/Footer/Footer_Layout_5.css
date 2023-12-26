@@ -14,8 +14,11 @@
 #Footer_Menu {
     background: #647f6c;
 }
+#Collapse_Button {
+    color: #647f6c;
+}
 .footer_pack_up {
-   /* width:70%;*/
+    /* width:70%;*/
 }
 a{
     text-decoration:none;
