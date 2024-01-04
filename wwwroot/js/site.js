@@ -29,7 +29,7 @@ function ready() {
             let $pe = $('<div>');
             $pe[0].innerHTML = p;
             $pe.html($pe.text());
-            $pe.find(".catalog_frame").remove();
+            $pe.find(".catalog_frame,.noInherit").remove();
             $pe.find(".subpage_content").replaceWith(ele.textContent || ele.innerText);
             ele.textContent = $pe.html();
         }
