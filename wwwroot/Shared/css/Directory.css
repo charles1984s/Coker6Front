@@ -820,6 +820,7 @@
 }
     .eplus .news .row {
         display: flex;
+        align-items: center;
     }
     .eplus .news li {
         list-style-type: square;
