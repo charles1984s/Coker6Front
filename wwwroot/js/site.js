@@ -46,6 +46,7 @@ function ready() {
         $PostCSS.remove();
     }
     $(".editTime,.popular").appendTo($conten);
+    $(".backstageType").remove();
     if ($(".one_swiper,.two_swiper,.four_swiper,.six_swiper,.picture-category").length > 0) SwiperInit({ autoplay: true });
     if ($(".masonry").length > 0) FrameInit();
     if ($(".type_change_frame").length > 0) ViewTypeChangeInit();
