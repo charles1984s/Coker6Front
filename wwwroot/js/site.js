@@ -70,6 +70,7 @@ function ready() {
             });
         });
     }
+    $(".BGCanvas").BGCanvas();
     if (location.hash != "" && $(location.hash).length > 0) $(location.hash).goTo(45);
     _c.Search.Init("#Search");
     $(".nav-link").on("focus", function () {
