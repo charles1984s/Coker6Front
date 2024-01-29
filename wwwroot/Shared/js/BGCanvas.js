@@ -1,5 +1,12 @@
 ﻿"use strict";
 const setBGCanvas = function () {
+    const offset = {
+        "1500": [1,1.1,1.8],
+        "1200": [0.8, 1.1, 2.2],
+        "768": [0.9, 1.1, 2],
+        "else": [0.9, 1.1, 1.5]
+    };
+    let setting = null;
     $.fn.extend({
         BGCanvas: function () {
             if (!isNaN($(this).data("type"))) {
@@ -28,8 +35,12 @@ const setBGCanvas = function () {
                 var cnv = $c.get(0);
                 var ctx = cnv.getContext("2d");
                 function init() {
-                    W = $self.width() * 0.9;
-                    H = $self.height() * 0.8;
+                    if (window.innerWidth > 1500) setting = offset["1500"];
+                    else if (window.innerWidth > 1200) setting = offset["1200"];
+                    else if (window.innerWidth > 768) setting = offset["768"];
+                    else setting = offset["else"];
+                    W = $self.width() * setting[0];
+                    H = $self.height() * setting[0];
                     cnv.width = W;
                     cnv.height = H;
                     L = (W < H ? W : H) / 2;
@@ -43,15 +54,15 @@ const setBGCanvas = function () {
                 window.onresize = init;
 
                 function Point() {
-                    this.ang = 1.5 * PI * random();
+                    this.ang = 2 * PI * random();
                     this.dang = (-0.5 + random()) / 30;
-                    this.r = 2.2 * L / 1.8;
+                    this.r = 2 * L / setting[2];
                     this.x = W / 2 + this.r * cos(this.ang);
-                    this.y = H / 2 + 1.25 * this.r * sin(this.ang);
+                    this.y = H / 2 + setting[1] * this.r * sin(this.ang);
                     this.update = function () {
                         this.ang += this.dang;
                         this.x = W / 2 + this.r * cos(this.ang);
-                        this.y = H / 2 + 1.1 * this.r * sin(this.ang);
+                        this.y = H / 2 + setting[1] * this.r * sin(this.ang);
                     }
                 }
 
@@ -92,5 +103,6 @@ const setBGCanvas = function () {
             return $self;
         }
     });
-    $(".BGCanvas").BGCanvas();
+    const userAgent = navigator.userAgent;
+    if (/Windows|Mac OS X/i.test(userAgent)) $(".BGCanvas").BGCanvas();
 }
