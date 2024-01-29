@@ -57,6 +57,7 @@ function ready() {
     if ($(".anchor_directory").length > 0 || $(".anchor_title").length > 0) AnchorPointInit();
     if ($(".shareBlock").length > 0) ShareBlockInit();
     if ($(".ContactForm").length > 0) setContact();
+    if ($(".BGCanvas").length > 0) setBGCanvas();
     if ($("body").width() < 992) $("#lanBar").before($("#layout4 #NavbarContent"));
     if ($(".container .qa").length > 0) {
         $(".container").each((i, e) => {
@@ -70,7 +71,6 @@ function ready() {
             });
         });
     }
-    $(".BGCanvas").BGCanvas();
     if (location.hash != "" && $(location.hash).length > 0) $(location.hash).goTo(45);
     _c.Search.Init("#Search");
     $(".nav-link").on("focus", function () {

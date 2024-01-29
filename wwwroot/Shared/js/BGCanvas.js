@@ -1,6 +1,5 @@
 ﻿"use strict";
 const setBGCanvas = function () {
-    if (!!!$) setTimeout(setBGCanvas, 100);
     $.fn.extend({
         BGCanvas: function () {
             if (!isNaN($(this).data("type"))) {
@@ -22,15 +21,15 @@ const setBGCanvas = function () {
                 }
             }
             if ($self.length == 0) return $self;
-            var W, H, L, n = 15, c = 45, dc = 0.25;
+            var W, H, L, n = 18, c = 45, dc = 0.25;
             const { sin, cos, PI, sqrt, random, floor, ceil, round, abs } = Math;
 
             function initSet() {
                 var cnv = $c.get(0);
                 var ctx = cnv.getContext("2d");
                 function init() {
-                    W = $self.width();
-                    H = $self.height();
+                    W = $self.width() * 0.9;
+                    H = $self.height() * 0.8;
                     cnv.width = W;
                     cnv.height = H;
                     L = (W < H ? W : H) / 2;
@@ -45,7 +44,7 @@ const setBGCanvas = function () {
 
                 function Point() {
                     this.ang = 1.5 * PI * random();
-                    this.dang = (-0.5 + random()) / 22;
+                    this.dang = (-0.5 + random()) / 30;
                     this.r = 2.2 * L / 1.8;
                     this.x = W / 2 + this.r * cos(this.ang);
                     this.y = H / 2 + 1.25 * this.r * sin(this.ang);
@@ -93,5 +92,5 @@ const setBGCanvas = function () {
             return $self;
         }
     });
+    $(".BGCanvas").BGCanvas();
 }
-setTimeout(setBGCanvas, 100);
