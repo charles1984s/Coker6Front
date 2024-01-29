@@ -103,6 +103,5 @@ const setBGCanvas = function () {
             return $self;
         }
     });
-    const userAgent = navigator.userAgent;
-    if (/Windows|Mac OS X/i.test(userAgent)) $(".BGCanvas").BGCanvas();
+    if (!co.isMobileDevice()) $(".BGCanvas").BGCanvas();
 }
