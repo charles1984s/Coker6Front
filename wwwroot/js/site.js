@@ -564,7 +564,6 @@ $.fn.extend({
                     break
             }
         });
-        console.log(formDataObject);
         return formDataObject;
     }
 });

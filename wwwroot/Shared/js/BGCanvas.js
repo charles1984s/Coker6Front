@@ -9,14 +9,23 @@ const setBGCanvas = function () {
     let setting = null;
     $.fn.extend({
         BGCanvas: function () {
-            if (!isNaN($(this).data("type"))) {
-                switch (parseInt($(this).data("type"))) {
-                    case 1:
-                        $(this).BGCanvasType1();
-                        break;
+            const $self = $(this);
+            const run = function () {
+                if (!isNaN($self.data("type"))) {
+                    switch (parseInt($self.data("type"))) {
+                        case 1:
+                            $self.BGCanvasType1();
+                            break;
+                    }
                 }
             }
-            return $(this);
+            if ($self.height() == 0) {
+                $self.find("img").on("load", function () {
+                    console.log("in");
+                    run();
+                });
+            } else run();
+            return $self;
         },
         BGCanvasType1: function () {
             let $self = $(this);
@@ -41,6 +50,7 @@ const setBGCanvas = function () {
                     else setting = offset["else"];
                     W = $self.width() * setting[0];
                     H = $self.height() * setting[0];
+                    console.log($self.height());
                     cnv.width = W;
                     cnv.height = H;
                     L = (W < H ? W : H) / 2;
@@ -48,14 +58,11 @@ const setBGCanvas = function () {
                     ctx.fillRect(0, 0, W, H);
                 }
                 init();
-                $self.find("img").on("load", function () {
-                    init();
-                });
                 window.onresize = init;
 
                 function Point() {
                     this.ang = 2 * PI * random();
-                    this.dang = (-0.5 + random()) / 30;
+                    this.dang = (-0.5 + random()) / 10;
                     this.r = 2 * L / setting[2];
                     this.x = W / 2 + this.r * cos(this.ang);
                     this.y = H / 2 + setting[1] * this.r * sin(this.ang);
