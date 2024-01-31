@@ -20,6 +20,16 @@ function ready() {
             IsFaPage = $self.data("isfapage");
         }
     });
+    $(".menu-item").on("mouseover", function () {
+        const item = $(this).find("img");
+        if (!!$(item).data("mouseover"))
+            $(item).attr("src", $(item).data("mouseover"));
+    });
+    $(".menu-item").on("mouseout", function () {
+        const item = $(this).find("img");
+        if (!!$(item).data("mouseout"))
+            $(item).attr("src", $(item).data("mouseout"));
+    });
     if ($conten.length > 0) {
         let s = $conten.text().indexOf("&amp;") >= 0 ? Coker.stringManager.ReplaceAndSinge($conten.text()) : co.stringManager.htmlEncode($conten.html());
         let ele = document.createElement('span');
