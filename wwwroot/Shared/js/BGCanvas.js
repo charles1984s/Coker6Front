@@ -21,7 +21,6 @@ const setBGCanvas = function () {
             }
             if ($self.height() == 0) {
                 $self.find("img").on("load", function () {
-                    console.log("in");
                     run();
                 });
             } else run();
@@ -50,7 +49,6 @@ const setBGCanvas = function () {
                     else setting = offset["else"];
                     W = $self.width() * setting[0];
                     H = $self.height() * setting[0];
-                    console.log($self.height());
                     cnv.width = W;
                     cnv.height = H;
                     L = (W < H ? W : H) / 2;
@@ -62,7 +60,7 @@ const setBGCanvas = function () {
 
                 function Point() {
                     this.ang = 2 * PI * random();
-                    this.dang = (-0.5 + random()) / 10;
+                    this.dang = (-0.5 + random()) / 40;
                     this.r = 2 * L / setting[2];
                     this.x = W / 2 + this.r * cos(this.ang);
                     this.y = H / 2 + setting[1] * this.r * sin(this.ang);
