@@ -108,5 +108,6 @@ const setBGCanvas = function () {
             return $self;
         }
     });
-    if (!co.isMobileDevice()) $(".BGCanvas").BGCanvas();
+    //if (!co.isMobileDevice()) $(".BGCanvas").BGCanvas();
+    $(".BGCanvas").BGCanvas();
 }
