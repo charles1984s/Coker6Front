@@ -4,7 +4,7 @@ const setBGCanvas = function () {
         "1500": [1,1.1,1.8],
         "1200": [0.8, 1.1, 2.2],
         "768": [0.9, 1.1, 2],
-        "else": [0.9, 1.1, 1.5]
+        "else": [1, 1.1, 1.5]
     };
     let setting = null;
     $.fn.extend({
@@ -49,6 +49,7 @@ const setBGCanvas = function () {
                     else setting = offset["else"];
                     W = $self.width() * setting[0];
                     H = $self.height() * setting[0];
+                    console.log(setting);
                     cnv.width = W;
                     cnv.height = H;
                     L = (W < H ? W : H) / 2;
