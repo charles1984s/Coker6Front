@@ -1,1 +1,1 @@
-.BGCanvas{position:relative}.BGCanvas>*{z-index:1}.BGCanvas>canvas{position:absolute;z-index:0;opacity:.5;border-radius:60%}@media (max-width:560px){.BGCanvas>canvas{opacity:.2}}
+.BGCanvas{position:relative}.BGCanvas>*{z-index:1}.BGCanvas>canvas{position:absolute;z-index:0;opacity:.5;border-radius:60%}@media (max-width:560px){.BGCanvas>canvas{opacity:.2;border-radius:unset}}

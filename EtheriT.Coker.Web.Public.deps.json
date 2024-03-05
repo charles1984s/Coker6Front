@@ -50,7 +50,7 @@
           }
         }
       },
-      "DevExtreme.AspNet.Core/21.2.13": {
+      "DevExtreme.AspNet.Core/21.2.14": {
         "dependencies": {
           "DevExtreme.AspNet.Data": "2.8.6",
           "Microsoft.AspNetCore.Mvc": "2.0.0",
@@ -58,8 +58,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/DevExtreme.AspNet.Core.dll": {
-            "assemblyVersion": "21.2.13.0",
-            "fileVersion": "21.2.13.0"
+            "assemblyVersion": "21.2.14.0",
+            "fileVersion": "21.2.14.0"
           }
         }
       },
@@ -1788,7 +1788,7 @@
       "EtheriT.Coker.Application/1.0.0": {
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.0",
-          "DevExtreme.AspNet.Core": "21.2.13",
+          "DevExtreme.AspNet.Core": "21.2.14",
           "DevExtreme.AspNet.Data": "2.8.6",
           "EtheriT.Coker.Application.Shared": "1.0.0",
           "EtheriT.Coker.EntityFrameworkCore": "1.0.0",
@@ -1803,7 +1803,7 @@
       },
       "EtheriT.Coker.Application.Shared/1.0.0": {
         "dependencies": {
-          "DevExtreme.AspNet.Core": "21.2.13",
+          "DevExtreme.AspNet.Core": "21.2.14",
           "DevExtreme.AspNet.Data": "2.8.6",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.10"
         },
@@ -1855,12 +1855,12 @@
       "path": "bouncycastle.cryptography/2.2.1",
       "hashPath": "bouncycastle.cryptography.2.2.1.nupkg.sha512"
     },
-    "DevExtreme.AspNet.Core/21.2.13": {
+    "DevExtreme.AspNet.Core/21.2.14": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Q/gzbuvHfH24HEXz9xYv5fYRE5ydX1QRyYA9s7a1kvZQ7EcYDqkhq0iWidblTkxOQ9QdWnb69k5BcCDfNN8eQg==",
-      "path": "devextreme.aspnet.core/21.2.13",
-      "hashPath": "devextreme.aspnet.core.21.2.13.nupkg.sha512"
+      "sha512": "sha512-DQJUx+HktNVLVwf7twGPk8BTmNMrbsF4CvV42XgfdcH148OuPjlKhRaPd2zmN9pOOSQZa4YJrGastPxFOLD8og==",
+      "path": "devextreme.aspnet.core/21.2.14",
+      "hashPath": "devextreme.aspnet.core.21.2.14.nupkg.sha512"
     },
     "DevExtreme.AspNet.Data/2.8.6": {
       "type": "package",
