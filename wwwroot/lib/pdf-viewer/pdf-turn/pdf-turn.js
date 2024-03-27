@@ -50,8 +50,6 @@ var bookFlip = {
 				this.toStart = false;
 				console.log("switch mode");
 				PDFViewerApplication.pdfViewer.scrollMode = 3;
-				PDFViewerApplication.pdfViewer.soreadMode = 2;
-				//$("#spreadEven").trigger("click");
 				PDFViewerApplication.pdfViewer.currentScaleValue = "page-fit";
 			}
 		});
@@ -81,7 +79,7 @@ var bookFlip = {
 		$('#' + selected).addClass('toggled');	
 		
 		this._evSpread = PDFViewerApplication.eventBus._listeners.switchspreadmode;
-		PDFViewerApplication.eventBus._listeners.switchspreadmode = null;
+		// PDFViewerApplication.eventBus._listeners.switchspreadmode = null;
 		
 		viewer.scrollPageIntoView = (data) => {return this.link(data)};
 		viewer._getVisiblePages = () => {return this.load()};

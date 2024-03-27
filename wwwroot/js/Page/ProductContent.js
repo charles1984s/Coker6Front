@@ -127,6 +127,7 @@ function PageDefaultSet(result) {
             $('html, body').animate({ scrollTop: $(`.badge_${$self_btn.data("tcid")}`).offset().top - $("header > nav").height() * 2 }, 0);
         })
     }
+    if (result.techCertDatas.length == 0) $("#btn_tab > .technical,.pro_tc").remove();
 
     var roleid = 1;
     if (result.stocks.length > 1) {
@@ -246,6 +247,7 @@ function PageDefaultSet(result) {
             pre_slide_image.imgCheck();
             $preview_swiper.append(pre_slide);
         });
+        if (result.img_Small.length == 1) $(".PreviewSwiper").addClass("d-none");
     }
 
     preview_swiper = new Swiper(".PreviewSwiper", {
@@ -300,13 +302,18 @@ function PageDefaultSet(result) {
         $(".pro_tag").addClass("d-none");
     }
 
-    if (result.files.length > 0) {
+    if (result.files !=null && result.files.length > 0) {
         result.files.forEach(function (file) {
             var link = IsFaPage == true ? file.link : file.link.replace("upload", `upload/${OrgName}`);
-            $("#FileDownload").append(`<div class="file px-4 py-1 border border-dark">
-			                                                            <a href="${link}" download="${file.name}" titile="${file.name}"><div>${file.name}</div></a>
-			                                                       </div>`)
+            $("#FileDownload>.File_list").append(`
+            <div class="file px-4 py-1 border-bottom">
+                <a href="${link}" download="${file.name}" titile="${file.name}" class="link_with_icon d-flex text-decoration-none edit_lock">
+                    <div draggable="true" class="icon pe-2"></div>
+                    <div draggable="true" class="name text-black">${file.name}
+                </div></a>
+            </div>`)
         });
+        LinkWithIconInit();
     }
 }
 
