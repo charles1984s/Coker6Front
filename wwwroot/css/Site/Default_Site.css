@@ -28,3 +28,13 @@ p {
     padding:0;
     margin:0;
 }
+
+.verticalAlign {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+    .verticalAlign:before {
+        content:"";
+        height:100%;
+    }

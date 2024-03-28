@@ -1,1 +1,1 @@
-body,html{height:100%;position:relative}a{text-decoration:none;color:#000}p{margin:0}.price::before{content:'$'}.navbar .dropdown-menu[data-bs-popper]{top:92%;border-radius:0}.navbar-collapse ul{list-style:none;padding:0;margin:0}
+body,html{height:100%;position:relative}a{text-decoration:none;color:#000}p{margin:0}.price::before{content:'$'}.navbar .dropdown-menu[data-bs-popper]{top:92%;border-radius:0}.navbar-collapse ul{list-style:none;padding:0;margin:0}.verticalAlign{display:flex;align-items:center;flex-wrap:nowrap}.verticalAlign:before{content:"";height:100%}
