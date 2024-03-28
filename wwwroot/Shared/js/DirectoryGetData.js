@@ -235,6 +235,9 @@ function DirectoryDataInsert($item, result) {
             path = (window.location.pathname.indexOf(data.orgName) > 0 ? window.location.pathname : `${data.orgName == null ? "" : `/${data.orgName}`}${window.location.pathname}`) + data.link;
             target = "_self";
         }
+        if (data.type == 1 && data.status != 0) {
+            content.find("a").append(`<span class="status status${data.status}">${data.statusName}</span>`);
+        }
         path = path.replace("//", "/");
         const linkData = {
             "href": path,

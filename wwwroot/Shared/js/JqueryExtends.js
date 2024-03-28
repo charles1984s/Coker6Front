@@ -1,5 +1,6 @@
 ﻿var FileApi = {
     insertNotFondFile: function (data) {
+        data.from = location.href;
         return $.ajax({
             url: "/api/File/insertNotFondFile",
             type: "POST",
