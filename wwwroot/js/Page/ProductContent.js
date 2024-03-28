@@ -305,7 +305,7 @@ function PageDefaultSet(result) {
             <div class="file border-bottom">
                 <a href="${link}" download="${file.name}" titile="${file.name}" class="link_with_icon d-flex text-decoration-none edit_lock">
                     <div draggable="true" class="icon pe-2"></div>
-                    <div draggable="true" class="name text-black">${file.name}
+                    <div draggable="true" class="name">${file.name}
                 </div></a>
             </div>`)
         });

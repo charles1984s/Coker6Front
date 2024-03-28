@@ -6,10 +6,10 @@ html, body {
 }
 
 /* Universal */
-a {
-    text-decoration: none;
-    color: black;
-}
+a {text-decoration: none; color:inherit;}
+    a:hover {
+        color: inherit;
+    }
 
 p {
     margin: 0;
