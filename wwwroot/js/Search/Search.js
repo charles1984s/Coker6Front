@@ -45,6 +45,6 @@
     $(".searchbtn").on("click", function () {
         window.location.href = `/${OrgName}/Search/Get/${$search.data("dirid") }/${$search.data("search-text")}`;
     });
-    if ($(".search-category .active").data("id") != "3") $("#filterBlock").addClass("d-none");
+    if ($(".search-category .active").data("id") != "3" || $(".searchText").text().trim()=="") $("#filterBlock").addClass("d-none");
     else $("#filterBlock").removeClass("d-none");
 }
