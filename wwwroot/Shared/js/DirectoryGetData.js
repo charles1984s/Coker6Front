@@ -35,7 +35,8 @@ function initElemntAndLoadDir($dir,page) {
             Page: page,
             ShowNum: shownum,
             MaxLen: typeof (maxlen) == "undefined" ? 0 : maxlen,
-            Filters: $self.data("filtered")
+            Filters: $self.data("filtered"),
+            directoryType: $self.data("directoryTypeChecked")
         }
         $self.find(".catalog>.template").remove();
         DirectoryDataGet($self, option);
@@ -212,7 +213,7 @@ function DirectoryDataGet($item, option) {
 
         $item.data("init", "true");
         DirectoryDataInsert($item, result.releInfos);
-        $item.data({ filter: result.filter }).trigger("load");
+        $item.data({ filter: result.filter, directoryType: result.directoryType }).trigger("load");
     })
 }
 
