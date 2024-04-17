@@ -55,6 +55,7 @@
             $(element.tags).each((ii, tag) => {
                 const $tag = $(tagTemp);
                 const tagId = `filterTag${element.type}-${tag.fK_TId}`;
+                if (tag.count <= 0) return;
                 const $tagInput = $tag.children(".form-check-input").data({ type: element.type, gid: element.id, id: tag.fK_TId }).attr("id", tagId).on("change", function () {
                     const $self = $(this);
                     clearTimeout(timer);
@@ -89,7 +90,7 @@
                 }
             }
             $item.find(".typeName").text(element.name);
-            $traget.append($item);
+            if ($tagTarget.children("li").length>0) $traget.append($item);
         });
         clearTimeout(timer);
     })
