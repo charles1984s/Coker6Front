@@ -60,11 +60,17 @@ function DirectoryGetDataInit() {
     $(".menu_directory").each(function () {
         var $self = $(this);
         var dirid = $self.attr("data-dirid") > 0 ? $self.attr("data-dirid") : 0;
+        var showUnvisible = typeof ($self.attr("data-show-unvisible")) != "undefined" ? $self.attr("data-show-unvisible").toLowerCase() == "true" : false;
+
         if (typeof ($self.data("prevdirid")) == "undefined" || dirid != $self.data("prevdirid")) {
             $self.data("prevdirid", dirid);
             $self.find(".title").text("");
             $self.find(".accordion").empty();
-            Directory.getDirectoryMenuData({ Id: dirid, WebsiteId: typeof (SiteId) != "undefined" ? SiteId : 0 }).done(function (result) {
+            Directory.getDirectoryMenuData({
+                Id: dirid,
+                WebsiteId: typeof (SiteId) != "undefined" ? SiteId : 0,
+                showUnvisible: showUnvisible
+            }).done(function (result) {
                 if (typeof (result) != "undefined") {
                     $self.find(".title").text(result.title)
                     const groupId = `#${$self.find(".accordion").attr("id")}`;
@@ -95,7 +101,17 @@ function DirectoryGetDataInit() {
                             })
                             $self.find(".accordion").append(item);
                         } else {
-                            var html = $(`<div class="accordion-item border-0 border-bottom px-1"><a href="${SecIItem.routerName}" title="連結至：${SecIItem.title}" class="list-group-item border-0 py-3 custom_h5 text-black">${SecIItem.title}</a></div>`);
+                            const link = (SecIItem.routerName != null && SecIItem.routerName != "") ? SecIItem.routerName : SecIItem.linkUrl
+                            var html = $(`<div class="accordion-item border-0 border-bottom px-1"><a href="${link}" title="連結至：${SecIItem.title}" class="list-group-item border-0 py-3 custom_h5 text-black"><span>${SecIItem.title}<span></a></div>`);
+                            if (SecIItem.imgUrl != null && SecIItem.imgUrl != "") {
+                                const $img = $(`<img alt=" " />`);
+                                if (SecIItem.overImgUrl == null || (typeof (PageKey) != "undefined" && link.toLowerCase().indexOf(PageKey.toLowerCase()) >= 0)) {
+                                    $img.attr("src", SecIItem.imgUrl);
+                                } else {
+                                    $img.attr("src", SecIItem.overImgUrl);
+                                }
+                                $(html).find("a").addClass("imgMenu").append($img);
+                            }
                             if (typeof (PageKey) != "undefined" && PageKey.toLowerCase() == SecIItem.routerName.toLowerCase()) {
                                 $(html).find("a").addClass("active");
                             }
@@ -128,10 +144,14 @@ function DirectoryDataGet($item, option) {
     let page = parseInt(option.Page);
     if ($item.data("type") == "search") {
         $.extend(true, option, {
-            Type:"search",
+            Type: "search",
             SearchText: $item.data("search-text").toString(),
             StartDate: $item.data("startDate"),
             EndDate: $item.data("endDate"),
+        })
+    } else if ($item.data("type") != "undefined") {
+        $.extend(true, option, {
+            Type: $item.data("type")
         })
     }
     Directory.getDirectoryData(option).done(function (result) {

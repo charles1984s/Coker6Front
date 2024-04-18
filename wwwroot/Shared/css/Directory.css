@@ -260,6 +260,38 @@
     display: block;
 }
 
+.menuHeadTool {
+    display: flex;
+    justify-content: center;
+}
+.imgMenu {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+    .imgMenu > span {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background: rgba(55,36,21,0.9);
+        color: #fff;
+        transition: top 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .imgMenu > img {
+        max-height: 3rem;
+    }
+
+.imgMenu:hover > span {
+    top: 0;
+}
+
 @media only screen and (max-width: 768px) {
     .type_change_frame > .catalog .title {
         line-height: 1.5rem;
