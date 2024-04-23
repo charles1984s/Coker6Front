@@ -238,9 +238,4 @@ table:not(.table) {
     .masonry > .grid > .grid-item {
         width: 100%;
     }
-    .banner img {
-        position:relative;
-        width:140%;
-        left:-20%;
-    }
 }
