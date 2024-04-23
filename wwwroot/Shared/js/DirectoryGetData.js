@@ -118,6 +118,7 @@ function DirectoryGetDataInit() {
                             $self.find(".accordion").append(html);
                         }
                     })
+                    $(".selectList").length > 0 && $(window).trigger("resize.selectList");
                 }
             });
         }
