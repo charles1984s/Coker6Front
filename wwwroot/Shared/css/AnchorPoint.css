@@ -33,5 +33,7 @@
             position: absolute;
             pointer-events: none;
             font-size: 1rem;
+            background-color: #FFF;
+            color: #000;
         }
 }

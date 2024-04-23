@@ -24,7 +24,7 @@
                 const $list = $self.find("a");
                 const $select = $("<select>");
                 $self.find("select").remove();
-                $select.append($("<option>").val("").text("請選擇愈前往的標籤"))
+                $select.append($("<option>").val("").text("請選擇將前往的標籤"))
                 $list.each((j, a) => {
                     $select.append(
                         $("<option>").data("trigger", a).val(a.href).text($(a).text())
