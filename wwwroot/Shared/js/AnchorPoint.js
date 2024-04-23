@@ -44,7 +44,6 @@
                 $self.children().first().addClass("d-none");
                 $self.children("select").removeClass("d-none");
             }
-            console.log($self,$(window).width());
         });
     });
     $(window).trigger("resize.selectList");
