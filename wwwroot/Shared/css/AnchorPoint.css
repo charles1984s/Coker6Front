@@ -13,3 +13,26 @@
     text-align: center;
     margin: auto;
 }
+
+    .selectList select, .selectList option {
+        -webkit-appearance: none;
+    }
+
+@media(max-width:576px) {
+    .selectList {
+        position: relative;
+        display: inline-block;
+    }
+
+        .selectList:after {
+            content: '\0025BC';
+            font: normal normal normal 12px/1 FontAwesome;
+            color: white;
+            right: 14px;
+            top: 4px;
+            height: 26px;
+            padding: 15px 0px 0px 8px;
+            position: absolute;
+            pointer-events: none;
+        }
+}

@@ -17,6 +17,9 @@ img {
     width: 100%;
     min-height: 10em;
 }
+    .banner-img-crop.times-16 {
+        min-height: 16em;
+    }
     .banner-img-crop.times-2 {
         min-height: 21em;
     }
@@ -237,5 +240,8 @@ table:not(.table) {
 @media only screen and (max-width: 576px) {
     .masonry > .grid > .grid-item {
         width: 100%;
+    }
+    .bottom_3-2 {
+        transform: translateY(-96%);
     }
 }
