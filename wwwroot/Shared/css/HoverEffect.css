@@ -9,7 +9,7 @@
     }
 
     .hover_inside_scale:hover > img, .hover_inside_scale:hover > .hoverbody {
-        transform: scale(1.15);
+        transform: scale(1.025);
         filter: saturate(150%);
         transition: 0.75s all;
     }
