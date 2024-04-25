@@ -17,6 +17,9 @@ img {
     width: 100%;
     min-height: 10em;
 }
+    .banner-img-crop.times-12 {
+        min-height: 12em;
+    }
     .banner-img-crop.times-16 {
         min-height: 16em;
     }
