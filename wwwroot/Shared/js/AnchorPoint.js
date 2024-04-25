@@ -4,7 +4,7 @@
         $directory.children("ul").empty();
         $(".anchor_title").each(function () {
             var $self = $(this);
-            var text = $self.text().indexOf('\n') > -1 ? $self.text().substring(0, $self.text().indexOf('\n')) : $self.text();
+            var text = $self.text().indexOf('\n') > -1 ? $self.text().replace(/\n/g,"") : $self.text();
             $directory.children("ul").append(`<li class="fs-5"><a class="text-black text-decoration-none" href="#${$self.attr("id")}"><div class="p-2 px-4">${text}</div></a></li>`);
             $self.on('DOMNodeInserted', function () {
                 AnchorPointInit()

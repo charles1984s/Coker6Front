@@ -46,6 +46,18 @@ iframe {
     top: calc(100%/3*2);
     transform: translateY(-50%);
 }
+.imageTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+    .imageTitle > img {
+        max-width: 8rem;
+    }
 
 /* Container */
 .container.retracted {

@@ -110,7 +110,7 @@ function DirectoryGetDataInit() {
                                 } else {
                                     $img.attr("src", SecIItem.overImgUrl);
                                 }
-                                $(html).find("a").addClass("imgMenu").append($img);
+                                $(html).find("a").removeClass("py-3").addClass("p-0 imgMenu").append($img);
                             }
                             if (typeof (PageKey) != "undefined" && PageKey.toLowerCase() == SecIItem.routerName.toLowerCase()) {
                                 $(html).find("a").addClass("active");
@@ -247,17 +247,20 @@ function DirectoryDataInsert($item, result) {
     else $item.find(".catalog").removeClass("empty");
     result != null && result.forEach(function (data) {
         var content = $(temp).clone();
-        let path,target;
-        if (isSearch) {
+        let path, target;
+        if (isSearch || window.location.pathname.toLowerCase().indexOf("search") > 0) {
             switch (data.type) {
                 case 3:
-                    path = `${data.orgName == null ? "" : `/${data.orgName}`}/${data.link}/${$item.data("search-text")}`;
+                    path = `${data.orgName == null ? "" : `/${data.orgName}`}/${data.link}`;
                     break;
                 default:
-                    path = `${data.orgName == null ? "" : `/${data.orgName}`}/search/${data.link}/${$item.data("search-text")}`;
+                    path = `${data.orgName == null ? "" : `/${data.orgName}`}/search/${data.link}`;
                     break;
             }
-           
+            if (typeof ($item.data("search-text")) != "undefined" && $item.data("search-text") != "") {
+                path = `${path}/${$item.data("search-text")}`;
+            }
+
             target = "_blank";
             if (data.mainImage.indexOf("youtu") > 0) {
                 var key = "";
