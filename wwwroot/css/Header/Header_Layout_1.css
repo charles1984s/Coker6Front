@@ -83,10 +83,11 @@
     height: 60px;
     padding: 10px 0;
 }
-    #Mega_Menu > .logo > a {
-        display: flex;
-        align-items: center;
-    }
+#Mega_Menu > .logo > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 #Mega_Menu > .btn_menu {
     margin-top: 0.25rem;
     transition: 0.3s;

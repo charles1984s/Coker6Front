@@ -92,13 +92,13 @@
             $item.find(".typeName").text(element.name);
             if ($tagTarget.children("li").length>0) $traget.append($item);
         });
+        if ($(".search-category .active").data("id") != "3" || $(".searchText").text().trim() == "") $("#filterBlock").addClass("d-none");
+        else $("#filterBlock").removeClass("d-none");
         clearTimeout(timer);
     })
     $(".searchbtn").on("click", function () {
         window.location.href = `/${OrgName}/Search/Get/${$search.data("dirid") }/${$search.data("search-text")}`;
     });
-    if ($(".search-category .active").data("id") != "3" || $(".searchText").text().trim()=="") $("#filterBlock").addClass("d-none");
-    else $("#filterBlock").removeClass("d-none");
 }
 function filteredPush(data,item) {
     filteredInsertOrDeleted(data, item, true);
