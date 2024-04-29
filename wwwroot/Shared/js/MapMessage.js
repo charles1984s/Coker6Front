@@ -2,14 +2,16 @@
 	$.loadCss("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 	if (typeof (window.counterUp) == "undefined") $.LoadJs("/lib/counterup2/index.js").done(setCounter);
 	else setCounter();
-	$(".MapMessage map>area").on("click", function (e) {
-		const $target = $(`${$(this).attr("href")}`);
+	const show = function (e) {
+		const $target = $(`${$(this).attr("href") || `#${$(this).data("area")}`}`);
 		$(".MapMessage .active").removeClass("active");
 		$(".MapMessage .counter.is-visible").removeClass("is-visible");
 		$target.addClass("active");
 		$(`.MapMessage .mapData [data-Area="${$target.attr("id")}"]`).addClass("active");
 		return false;
-	});
+	}
+	$(".MapMessage map>area").on("click", show);
+	$(".MapMessage map>area,.mapData li").on("mouseover", show);
 }
 function setCounter() {
 	const counterUp = window.counterUp.default
