@@ -4,10 +4,18 @@
 	else setCounter();
 	const show = function (e) {
 		const $target = $(`${$(this).attr("href") || `#${$(this).data("area")}`}`);
+		const top = window.scrollY;
 		$(".MapMessage .active").removeClass("active");
-		$(".MapMessage .counter.is-visible").removeClass("is-visible");
 		$target.addClass("active");
 		$(`.MapMessage .mapData [data-Area="${$target.attr("id")}"]`).addClass("active");
+		const counterUp = window.counterUp.default;
+
+		$(".MapMessage .counter").each((i, el) => {
+			counterUp(el, {
+				duration: 500,
+				delay: 16,
+			})
+		});
 		return false;
 	}
 	$(".MapMessage map>area").on("click", show);

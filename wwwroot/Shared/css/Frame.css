@@ -80,6 +80,19 @@ iframe {
     background-color: #f2f2f2;
 }
 
+/* 3:4:3比例*/
+.frame352 {
+    display:flex;
+}
+    .frame352 > div:first-child {
+        width: 30%;
+    }
+    .frame352 > div:last-child {
+        width: 20%;
+    }
+    .frame352 > div {
+        width: 50%;
+    }
 /* Text */
 .textlabel {
     padding: 1rem 0 1rem 2rem;
