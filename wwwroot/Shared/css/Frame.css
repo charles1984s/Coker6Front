@@ -23,6 +23,9 @@ img {
     .banner-img-crop.times-16 {
         min-height: 16em;
     }
+    .banner-img-crop.times-32 {
+        min-height: 32em;
+    }
     .banner-img-crop.times-2 {
         min-height: 21em;
     }
@@ -300,5 +303,8 @@ table:not(.table) {
 
     .frame352 > div {
         width: 100%;
+    }
+    .banner-img-crop.times-32 {
+        min-height:25.6em;
     }
 }
