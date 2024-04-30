@@ -235,6 +235,17 @@ table:not(.table) {
         padding-left: 0;
         padding-right: 0;
     }
+    .frame352 > div:first-child {
+        width: 30%;
+    }
+
+    .frame352 > div:last-child {
+        width: 20%;
+    }
+
+    .frame352 > div {
+        width: 50%;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -263,6 +274,17 @@ table:not(.table) {
     .two_three_block > .three {
         width: 100%;
     }
+    .frame352 > div:first-child {
+        width: 35%;
+    }
+
+    .frame352 > div:last-child {
+        width: 100%;
+    }
+
+    .frame352 > div {
+        width: 65%;
+    }
 }
 
 @media only screen and (max-width: 576px) {
@@ -271,5 +293,12 @@ table:not(.table) {
     }
     .bottom_3-2 {
         transform: translateY(-96%);
+    }
+    .frame352 > div:first-child {
+        width: 100%;
+    }
+
+    .frame352 > div {
+        width: 100%;
     }
 }
