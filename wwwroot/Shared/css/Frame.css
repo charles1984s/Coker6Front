@@ -8,8 +8,19 @@
 img {
     max-width: 100%;
 }
+.object-fit-cover {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.object-fit-contain {
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+}
+
 .banner {
-    position:relative;
+    position: relative;
 }
 
 .banner-img-crop {
