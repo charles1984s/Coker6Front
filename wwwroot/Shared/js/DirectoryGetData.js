@@ -303,7 +303,7 @@ function DirectoryDataInsert($item, result) {
         if (data.startTime != null && data.startTime != "") {
             var startTime = new Date(data.startTime);
             content.find(".startTime").text(`${startTime.getFullYear()}/${startTime.getMonth() + 1}/${startTime.getDate()}`);
-        }
+        } else content.find(".startTime").parent().remove();
         if (data.nodeDate != null && data.nodeDate != "") {
             var noteDate = new Date(data.nodeDate);
             content.find(".date").text(`${noteDate.getFullYear()}/${noteDate.getMonth() + 1}/${noteDate.getDate()}`);
@@ -320,7 +320,7 @@ function DirectoryDataInsert($item, result) {
                 content.find(".date-month-number").text(`${noteDate.getMonth() + 1}`);
             }
             content.find(".date-year").text(`${noteDate.getFullYear()}`);
-        }
+        } else content.find(".date,.date-month,date-monthyear,date-day").parent().remove();
         if (data.price != null) {
             const get_high_price = (price) => {
                 if (price.includes("~")) {

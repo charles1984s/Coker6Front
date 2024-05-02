@@ -130,7 +130,7 @@ function SwiperInit(obj) {
                     576: {
                         slidesPerView: 3,
                     },
-                    769: {
+                    992: {
                         slidesPerView: 4,
                     }
                 }
