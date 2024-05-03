@@ -206,13 +206,13 @@
     flex-wrap: wrap;
     max-width: 100%;
     margin: auto;
-    width: calc((175px + 32px)* 5);
+    width: calc((192px + 32px)* 5);
 }
 
     .metaMenu .collapse_menus > .container > ul > li {
         margin-left: 0.5rem;
         margin-right: 1.5rem;
-        min-width: 175px;
+        width: 175px;
     }
 
     .metaMenu .collapse_menus > .container > ul ul {
@@ -266,6 +266,9 @@
 @media only screen and (max-width: 1200px) {
     #Offcanvas_Mega_Menu > ul > .title {
         width: 120px;
+    }
+    .metaMenu .collapse_menus > .container > ul > li {
+        width:155px;
     }
 }
 
