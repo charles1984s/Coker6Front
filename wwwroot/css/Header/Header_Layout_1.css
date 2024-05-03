@@ -172,7 +172,7 @@
     width: fit-content;
     font-weight: bold;
     opacity:0.8;
-    margin-bottom:0.5rem;
+    margin: 0 auto 0.5rem;
 }
     .subtitle > .subtitle_title:hover {
         opacity: 1;
@@ -184,6 +184,10 @@
 
 .subtitle .subtitle_title > img {
     height: 1.5rem;
+}
+
+.subtitle.hasChild > .subtitle_title {
+    margin: 0 0 0.5rem;
 }
 
 .navbar-nav ul {
@@ -212,7 +216,7 @@
     .metaMenu .collapse_menus > .container > ul > li {
         margin-left: 0.5rem;
         margin-right: 1.5rem;
-        width: 175px;
+        width: 191px;
     }
 
     .metaMenu .collapse_menus > .container > ul ul {
