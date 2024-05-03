@@ -211,6 +211,8 @@
     max-width: 100%;
     margin: auto;
     width: calc((192px + 32px)* 5);
+    min-height: 77px;
+    align-items: center;
 }
 
     .metaMenu .collapse_menus > .container > ul > li {
@@ -348,6 +350,9 @@
         color: #222 !important;
     }
 
+    .metaMenu .collapse_menus > .container > ul {
+        align-items: flex-start;
+    }
     .mega_menu_canvas {
         margin: 0;
         width: calc(100% - 2rem);
