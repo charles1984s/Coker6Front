@@ -201,26 +201,27 @@
     left: 50%;
 }
 
-.metaMenu .collapse_menus > ul {
+.metaMenu .collapse_menus > .container > ul {
     display: flex;
     flex-wrap: wrap;
-    max-width:100%;
+    max-width: 100%;
     margin: auto;
+    width: calc((175px + 32px)* 5);
 }
 
-    .metaMenu .collapse_menus > ul > li {
+    .metaMenu .collapse_menus > .container > ul > li {
         margin-left: 0.5rem;
         margin-right: 1.5rem;
         min-width: 175px;
     }
 
-    .metaMenu .collapse_menus > ul ul {
+    .metaMenu .collapse_menus > .container > ul ul {
         flex-wrap: wrap;
         flex-direction: column;
         height: 180px;
     }
 
-        .metaMenu .collapse_menus > ul ul > li {
+        .metaMenu .collapse_menus > .container > ul ul > li {
             width: 175px;
             font-size:0.9rem;
         }
@@ -233,11 +234,11 @@
         padding: 0.5rem 0;
     }
 
-        .listMenu .collapse_menus > ul {
+        .listMenu .collapse_menus > .container > ul {
             flex-direction: column;
         }
 
-            .listMenu .collapse_menus > ul > li {
+            .listMenu .collapse_menus > .container > ul > li {
                 padding: 0;
                 margin: 0;
                 transition: margin 0.3s;
@@ -245,11 +246,11 @@
                 align-items: center;
             }
 
-                .listMenu .collapse_menus > ul > li:hover {
+                .listMenu .collapse_menus > .container > ul > li:hover {
                     margin-left: 0.5rem;
                 }
 
-                    .listMenu .collapse_menus > ul > li:hover:before {
+                    .listMenu .collapse_menus > .container > ul > li:hover:before {
                         content: "➤"
                     }
 /*RWD*/
@@ -391,12 +392,12 @@
         text-align: center;
     }
 
-    .metaMenu .collapse_menus > ul {
+    .metaMenu .collapse_menus > .container > ul {
         width: 100%;
         flex-direction: column;
     }
 
-        .metaMenu .collapse_menus > ul ul {
+        .metaMenu .collapse_menus > .container > ul ul {
             height: auto;
             flex-wrap: nowrap;
         }
