@@ -82,7 +82,7 @@ const display_configurations = {
         ".title": "type2-title pr3 h-100",
         "figure": "flex-column",
     }],
-    [list_type.product_grid]: ["type4 row row-cols-lg-4 row-cols-md-2  bg-light px-2", {
+    [list_type.product_grid]: ["type4 row row-cols-lg-4 row-cols-md-2 row-cols-2  bg-light px-2", {
         ".card-border": "card-border-rd type2",
         ".catalog-number": "d-none",
         ".check_btn": "w-100",
