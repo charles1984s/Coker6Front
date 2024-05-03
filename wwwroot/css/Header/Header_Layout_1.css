@@ -145,6 +145,7 @@
 
 #Offcanvas_Mega_Menu > ul > .title {
     cursor: pointer;
+    width:150px;
 }
 
     #Offcanvas_Mega_Menu > ul > .title > a {
@@ -201,7 +202,8 @@
 .metaMenu .collapse_menus > ul {
     display: flex;
     flex-wrap: wrap;
-    width: 1100px;
+    width: 1200px;
+    max-width:100%;
     margin: auto;
 }
 
@@ -219,6 +221,7 @@
 
         .metaMenu .collapse_menus > ul ul > li {
             width: 175px;
+            font-size:0.9rem;
         }
 
 .listMenu {
@@ -258,9 +261,16 @@
         text-align: center;
     }
 }
+@media only screen and (max-width: 1200px) {
+    #Offcanvas_Mega_Menu > ul > .title {
+        width: 120px;
+    }
+}
 
 @media only screen and (max-width: 992px) {
-
+    #Offcanvas_Mega_Menu > ul > .title {
+        width: 100%;
+    }
 
     #Header_Top {
         height: 3rem;

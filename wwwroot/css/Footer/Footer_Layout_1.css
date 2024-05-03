@@ -58,7 +58,8 @@ footer {
 }
 
 .paging_frame {
-    margin: 2rem 1rem 1rem;
+    margin: 2rem 0.5rem 1rem;
+    width:auto;
 }
 
     .paging_frame > div {
@@ -94,12 +95,15 @@ footer {
     height: 0.5px;
     background: white;
 }
+#Logo_Bottom img {
+    width: 110px;
+}
 
 #Logo_Bottom > div {
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    margin-top: -45px;
+    margin-top: -50px;
     width: 90%;
     height: 1px;
     background: white;
@@ -162,7 +166,6 @@ footer {
         border-radius: 50%;
         margin-bottom: 20px;
     }
-
 /* Animations */
 @keyframes Bounce_up {
     0%, 40%, 80% {
@@ -181,6 +184,11 @@ footer {
 
     20%, 60% {
         margin-top: 5px;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .paging_frame {
+        margin: 2rem 1rem 1rem;
     }
 }
 
