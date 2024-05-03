@@ -125,7 +125,7 @@
 /* Mega Menu */
 #Mega_Menu {
     position: relative;
-    padding: 0 5%;
+    padding: 0 3rem;
 }
 
 .mega_menu_canvas .nav-link::after {
@@ -133,6 +133,12 @@
 }
 
 /* Mega Menu Offcanvas */
+#Offcanvas_Mega_Menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
 #Offcanvas_Mega_Menu > ul > li:first-child {
     position: relative;
 }
@@ -350,6 +356,7 @@
 
     #Offcanvas_Mega_Menu {
         background: #ffffffe6;
+        flex-direction:column;
     }
 
     #Offcanvas_Mega_Menu > ul > .title > a > img {
@@ -372,14 +379,16 @@
         width: 100%;
         text-align: center;
     }
-    
+
     .metaMenu .collapse_menus > ul {
         width: 100%;
+        flex-direction: column;
     }
 
-    .metaMenu .collapse_menus > ul ul {
-        height: auto;
-    }
+        .metaMenu .collapse_menus > ul ul {
+            height: auto;
+            flex-wrap: nowrap;
+        }
 
     .smart-search {
         border: #ccc solid 1px;
