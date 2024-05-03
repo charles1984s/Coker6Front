@@ -110,7 +110,7 @@ const display_configurations = {
         ".col": " type5 rounded-lg",
         ".description": "type3-content",
         ".image": "px-0",
-        ".image_frame": "h-100 w-25",
+        ".image_frame": "type5-image-frame",
         ".imgh": "img-h",
         ".item-header": "d-none",
         ".item-title": "d-lg-flex",
