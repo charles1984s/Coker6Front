@@ -292,6 +292,13 @@
     top: 0;
 }
 
+.catalog .title{
+    font-size:1rem;
+}
+.catalog>div:hover .title {
+    font-weight:600;
+}
+
 @media only screen and (max-width: 768px) {
     .type_change_frame > .catalog .title {
         line-height: 1.5rem;

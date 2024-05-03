@@ -158,8 +158,9 @@
         visibility: hidden;
         position: absolute;
         top: 100%;
-        background-color: #e0e0e0;
-        padding: 1% 10%;
+        background-color: #f0f0f0;
+        padding: 1%;
+        display:flex;
     }
 
     #Offcanvas_Mega_Menu > ul > .title > a > img + span{
@@ -171,6 +172,7 @@
     width: fit-content;
     font-weight: bold;
     opacity:0.8;
+    margin-bottom:0.5rem;
 }
     .subtitle > .subtitle_title:hover {
         opacity: 1;
@@ -191,7 +193,7 @@
 }
 
     .navbar-nav ul > li {
-        padding: 0.5rem;
+        padding: 0.2rem 0.5rem;
     }
 
 .collapse_menus {
@@ -202,7 +204,6 @@
 .metaMenu .collapse_menus > ul {
     display: flex;
     flex-wrap: wrap;
-    width: 1200px;
     max-width:100%;
     margin: auto;
 }
@@ -415,7 +416,7 @@
     }
 
     #Offcanvas_Mega_Menu > ul > .title:hover > .text-black {
-        background-color: #e0e0e0;
+        background-color: #f0f0f0;
         color: var(--red-main) !important;
         font-weight: bold;
     }
