@@ -203,8 +203,8 @@ footer {
         margin:0px;
         padding:2rem;
     }
-    .abreast .paging_frame {
-        width: auto ;
+    #Footer_Menu.abreast .paging_frame {
+        width: auto;
     }
         /*
     .paging_frame {
