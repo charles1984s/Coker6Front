@@ -289,6 +289,9 @@ footer {
         font-size: 1.5rem;
         margin: 0 0.5rem 20px;
     }
+    .abreast > ul {
+        height: auto;
+    }
     /*
     .paging_frame {
         width: calc(10% + 200px);
