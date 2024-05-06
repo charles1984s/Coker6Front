@@ -204,7 +204,7 @@ footer {
         padding:2rem;
     }
     #Footer_Menu.abreast .paging_frame {
-        width: auto;
+        width: auto !important;
     }
         /*
     .paging_frame {
