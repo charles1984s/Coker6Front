@@ -273,6 +273,18 @@ table:not(.table) {
     transform: scale(1);
     font-size: 1.5rem;
 }
+.prodItem:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    top: 0;
+    left: 0;
+}
+.prodItem:hover:after {
+    display: none;
+}
 
 @media only screen and (max-width: 1400px) {
     .bottom_3-2 {
@@ -343,6 +355,9 @@ table:not(.table) {
             transform: scale(1);
             font-size: 1.5rem;
         }
+    .prodItem:after {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 576px) {
