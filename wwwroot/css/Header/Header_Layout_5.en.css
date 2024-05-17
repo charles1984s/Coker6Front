@@ -4,7 +4,10 @@
 }
 .subtitle_title {
     max-width: 300px;
-    vertical-align: middle;
+    vertical-align: top;
+}
+.collapse_menus > ul > li:hover::before {
+    margin-top: 5px;
 }
 @media (max-width: 1400px) {
     .metaMenu .collapse_menus > ul {

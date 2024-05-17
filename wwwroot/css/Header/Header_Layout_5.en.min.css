@@ -1,1 +1,1 @@
-.metaMenu .collapse_menus>ul{width:1350px;align-items:center}.subtitle_title{max-width:300px;vertical-align:middle}@media (max-width:1400px){.metaMenu .collapse_menus>ul{width:1300px}}@media (max-width:1200px){.metaMenu .collapse_menus>ul{width:1100px}}
+.metaMenu .collapse_menus>ul{width:1350px;align-items:center}.subtitle_title{max-width:300px;vertical-align:top}.collapse_menus>ul>li:hover::before{margin-top:5px}@media (max-width:1400px){.metaMenu .collapse_menus>ul{width:1300px}}@media (max-width:1200px){.metaMenu .collapse_menus>ul{width:1100px}}
