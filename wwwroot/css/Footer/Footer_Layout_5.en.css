@@ -15,6 +15,9 @@
 .paging_frame {
     margin: 2rem 0rem 1rem;
 }
+.footer-bg h5 {
+    font-size:1rem;
+}
 @media (min-width: 1500px) {
     .abreast > ul > li {
         width: 220px;
