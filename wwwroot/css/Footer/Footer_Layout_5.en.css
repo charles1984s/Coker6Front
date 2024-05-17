@@ -26,6 +26,18 @@
         max-width: 96%;
     }
 }
+@media (max-width: 576px) {
+    .abreast > ul > li {
+        width:100%;
+    }
+
+    .abreast .paging_frame:nth-child(3) {
+        margin-top: 0;
+    }
+    #Footer_Menu .paging_frame:nth-child(3) > .abreast > ul {
+        height: auto;
+    }
+}
 @media (min-width: 576px) {
     #Footer_Menu > * {
         width: auto;
