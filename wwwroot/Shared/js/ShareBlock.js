@@ -9,7 +9,7 @@
             $this.cShare({
                 description: 'jQuery plugin - C Share buttons...',
                 showButtons: ['email', 'plurk', 'twitter', 'fb', 'line'],
-                shareToText: "分享至",
+                shareToText: local.shareTo,
                 href: href
             });
             $this.hover(ProShare);
