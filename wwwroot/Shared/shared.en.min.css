@@ -1,0 +1,1 @@
+.required::after{content:'Required';color:var(--red-text);font-size:.5rem}

@@ -117,10 +117,6 @@
 }
 
 /* Mega Menu Offcanvas */
-#Offcanvas_Mega_Menu > ul > li:first-child {
-    position: relative;
-}
-
 #Offcanvas_Mega_Menu > ul > .title {
     cursor: pointer;
 }
