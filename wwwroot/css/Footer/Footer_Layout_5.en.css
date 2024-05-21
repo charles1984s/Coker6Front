@@ -18,6 +18,10 @@
 .footer-bg h5 {
     font-size:1rem;
 }
+#Footer_Menu > * {
+    width: auto !important;
+}
+
 @media (min-width: 1500px) {
     .abreast > ul > li {
         width: 220px;
@@ -39,10 +43,5 @@
     }
     #Footer_Menu .paging_frame:nth-child(3) > .abreast > ul {
         height: auto;
-    }
-}
-@media (min-width: 576px) {
-    #Footer_Menu > * {
-        width: auto;
     }
 }

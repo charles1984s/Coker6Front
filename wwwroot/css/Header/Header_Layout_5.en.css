@@ -28,6 +28,9 @@
     .metaMenu .collapse_menus > ul {
         width: 1100px;
     }
+        .metaMenu .collapse_menus > ul:not(.justify-content-center) > li {
+            width: 240px;
+        }
 }
 @media (max-width: 992px) {
     .metaMenu .collapse_menus > ul {
