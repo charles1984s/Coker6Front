@@ -3,6 +3,7 @@
 }
 #Footer_Menu .abreast > ul {
     height:220px;
+    width:100%;
 }
 .abreast > ul > li {
     margin: 0rem 1rem 0.5rem 0;
