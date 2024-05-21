@@ -245,6 +245,9 @@ footer {
     text-decoration: none;
     color: #fff;
 }
+#Footer_Menu > .paging_frame {
+    width: max-content;
+}
 @media (min-width: 1500px) {
     #Footer_Menu {
         font-size:0.95rem;
