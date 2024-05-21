@@ -241,9 +241,9 @@ footer {
 .footer_pack_up {
     /* width:70%;*/
 }
-a{
-    text-decoration:none;
-    color:#fff;
+#FootContainer a {
+    text-decoration: none;
+    color: #fff;
 }
 @media (min-width: 1500px) {
     #Footer_Menu {
