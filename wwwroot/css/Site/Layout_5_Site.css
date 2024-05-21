@@ -225,7 +225,7 @@ html {
     margin: 2rem 1rem 1rem;
 }
 
-    .pageTitle > h2 {
+    .pageTitle > .title {
         font-size:2rem;
         font-weight: bold;
         text-align: center;
