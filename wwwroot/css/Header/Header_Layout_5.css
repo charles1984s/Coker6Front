@@ -449,7 +449,7 @@
     }
 
 .logo-img {
-    width: 100% !important;
+    width: auto !important;
     height: 70px !important;
 }
 
