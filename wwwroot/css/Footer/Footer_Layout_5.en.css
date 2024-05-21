@@ -3,7 +3,7 @@
 }
 
 #Footer_Menu .abreast {
-    width: max-content;
+    width: auto;
 }
 
     #Footer_Menu .abreast > ul {
@@ -21,6 +21,10 @@
         content: "。";
     }
 
+#Footer_Menu > .paging_frame:last-child {
+    width:500px;
+    max-width:100%;
+}
 .paging_frame {
     margin: 2rem 0rem 1rem;
 }
@@ -43,6 +47,12 @@
 
 @media (max-width: 576px) {
     .abreast > ul > li {
+        width: 100%;
+    }
+    #Footer_Menu > .paging_frame:not(:last-child) {
+        width:50%;
+    }
+    #Footer_Menu > .paging_frame:last-child {
         width: 100%;
     }
 
