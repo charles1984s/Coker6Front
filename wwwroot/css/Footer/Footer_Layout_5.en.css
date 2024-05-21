@@ -18,8 +18,8 @@
 .footer-bg h5 {
     font-size:1rem;
 }
-#Footer_Menu > * {
-    width: auto !important;
+#Footer_Menu > .paging_frame {
+    width: max-content;
 }
 
 @media (min-width: 1500px) {
