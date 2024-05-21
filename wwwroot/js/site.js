@@ -38,7 +38,7 @@ function ready() {
     $(".menu-item").on("focus", menuMouseover);
     $(".menu-item").on("blur", menuMouseout);
     if ($conten.length > 0) {
-        let s = $conten.text().indexOf("&amp;") >= 0 ? Coker.stringManager.ReplaceAndSinge($conten.text()) : co.stringManager.htmlEncode($conten.html());
+        let s = $conten.text().indexOf("&amp;") >= 0 && $conten.text().indexOf("lt;") >= 0 ? Coker.stringManager.ReplaceAndSinge($conten.text()) : co.stringManager.htmlEncode($conten.html());
         let ele = document.createElement('span');
         ele.innerHTML = s;
         if ($parentConten.length > 0 && $parentConten.text().indexOf("subpage_content") >= 0) {
