@@ -92,6 +92,19 @@ function ready() {
         });
     }
     if (location.hash != "" && $(location.hash).length > 0) $(location.hash).goTo(45);
+    if ($("video").length > 0) {
+        $("video").each(function () {
+            this.video.pause();
+            setTimeout(() => {
+                this.video.play().then((res) => {
+                    console.log("playing start", res);
+                })
+                    .catch((err) => {
+                        console.log("error playing", err);
+                    });
+            }, 0);
+        });
+    }
     _c.Search.Init("#Search");
     $(".nav-link").on("focus", function () {
         $(this).trigger("mouseover");

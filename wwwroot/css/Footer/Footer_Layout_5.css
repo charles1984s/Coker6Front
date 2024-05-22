@@ -245,9 +245,7 @@ footer {
     text-decoration: none;
     color: #fff;
 }
-#Footer_Menu > .paging_frame {
-    width: max-content;
-}
+
 @media (min-width: 1500px) {
     #Footer_Menu {
         font-size:0.95rem;
@@ -279,13 +277,12 @@ footer {
             margin: 0px;
             padding: 2rem;
         }
-        .abreast .paging_frame:nth-child(1) {
+        .abreast .paging_frame:not(:last-child) {
             width: 50%;
         }
 
-        .abreast .paging_frame:nth-child(3) {
+        .abreast .paging_frame:nth-child(:last-child) {
             width: 100%;
-            margin-top:-100px;
         }
     }
 
