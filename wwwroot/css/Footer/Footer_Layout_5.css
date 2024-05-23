@@ -59,6 +59,7 @@ footer {
 
 .paging_frame {
     margin: 2rem 1rem 1rem;
+    width:auto;
 }
 
     .paging_frame > div {
