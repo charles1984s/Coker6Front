@@ -89,6 +89,7 @@ body {
 .search-category button {
     border: none;
     background: none;
+    color:#000;
 }
 
 .search-category .merge {
@@ -513,7 +514,7 @@ h3.title {
     }
 
     .search-category .switch_control {
-        padding-right: 1rem;
+        padding-right: 0;
     }
 
     .search-category .container {
@@ -530,5 +531,8 @@ h3.title {
 
     .type_change_frame .type1-title {
         height: calc(1rem * 3.6);
+    }
+    .catalog_frame button {
+        width: 100%;
     }
 }
