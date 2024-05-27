@@ -8,11 +8,13 @@ function PageReady() {
 
     ElementInit();
     window.CI360.init();
-    Pid = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+    if (ProdId != null && !isNaN(ProdId)) Pid = ProdId;
+    else Pid = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     if (isNaN(Pid) && /\/[\d]+\//.test(location.pathname)) {
-        const para = location.pathname.match(/\/[\d]+\//g); 
-        if (para.length>0)
-            Pid = para[para.length-1].replace(/\//g,"");
+        const para = location.pathname.match(/\/[\d]+\//g);
+        if (para.length > 0) {
+            Pid = para[para.length - 1].replace(/\//g, "");
+        }
     }
     Product.GetOne.ProdMainDisplay(Pid).done(function (result) {
         if (result != null) {
@@ -305,7 +307,7 @@ function PageDefaultSet(result) {
         $(".pro_tag").addClass("d-none");
     }
 
-    if (result.files !=null && result.files.length > 0) {
+    if (result.files != null && result.files.length > 0) {
         result.files.forEach(function (file) {
             var link = IsFaPage == true ? file.link : file.link.replace("upload", `upload/${OrgName}`);
             $("#FileDownload>.File_list").append(`
