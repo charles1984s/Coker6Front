@@ -119,12 +119,16 @@ function PageDefaultSet(result) {
             $(".pro_tc").addClass("d-none");
         }
     });
+    console.log(result,result.status);
+    if (result.status != 0) {
+        $("#Product>.image").append(`<span class="status status${result.status}">${result.statusName}</span>`);
+    }
 
     if (!$(".pro_tc").hasClass("d-none")) {
         $(".btn_tc").on("click", function () {
-            $("#ProductDescription").removeClass("active show")
+            $("#TabContent .tab-pane").removeClass("active show")
             $("#TechnicalDocuments").addClass("active show")
-            $("#pills-description-tab").removeClass("active")
+            $("#btn_tab .nav-link").removeClass("active")
             $("#pills-documents-tab").addClass("active")
             var $self_btn = $(this);
             $('html, body').animate({ scrollTop: $(`.badge_${$self_btn.data("tcid")}`).offset().top - $("header > nav").height() * 2 }, 0);

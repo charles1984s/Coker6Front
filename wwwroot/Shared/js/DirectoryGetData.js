@@ -380,7 +380,7 @@ function DirectoryDataInsert($item, result) {
         content.find(".shareBlock > a").remove();
         content.find(".shareBlock").data("href", path);
         content.find("img").on("load.heigh", function () {
-            content.find(".shareBlock").css({ top: content.find(".image_frame").height() + 30 });
+            content.find(".shareBlock").css({ top: content.find(".image_frame").height() + content.find(".itemNo").height() + 30 });
         });
         $item.find(".catalog").append(content);
     });

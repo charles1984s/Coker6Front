@@ -5,7 +5,7 @@
             var href = "";
             if (typeof ($this.data("href")) == "string") {
                 href = $this.data("href");
-            }
+            } else href = location.pathname;
             $this.cShare({
                 description: 'jQuery plugin - C Share buttons...',
                 showButtons: ['email', 'plurk', 'twitter', 'fb', 'line'],
