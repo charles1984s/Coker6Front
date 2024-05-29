@@ -594,17 +594,17 @@
         justify-content: space-between;
         flex-direction: column;
     }
-}
-
-@media (max-width: 440px) {
-    .subtitle > .subtitle_title {
-        font-weight: 400;
-    }
 
     #Offcanvas_Mega_Menu > ul > .title > .content li > a {
         margin-left: 1rem;
         padding: 0.25rem 0;
         margin: 0;
+    }
+}
+
+@media (max-width: 440px) {
+    .subtitle > .subtitle_title {
+        font-weight: 400;
     }
 
     .font {
