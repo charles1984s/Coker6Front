@@ -79,8 +79,8 @@ function ready() {
     if ($(".FlipBookModal").length > 0) FlipBookModalInit();
     if ($(".MapMessage").length > 0) MapMessage();
     if ($("body").width() < 992) $("#lanBar").before($("#layout4 #NavbarContent"));
-    if ($(".container .qa").length > 0) {
-        $(".container").each((i, e) => {
+    if ($(".container .qa,.container-fluid .qa").length > 0) {
+        $(".container,.container-fluid").each((i, e) => {
             var $c = $(e);
             if (typeof ($c.attr("id")) == "undefined" && $c.find("qa").length>0) {
                 $c.setRandenId();
