@@ -50,7 +50,8 @@ function ready() {
             $pe.find(".subpage_content").replaceWith(ele.textContent || ele.innerText);
             ele.textContent = $pe.html();
         }
-        $conten.html(ele.textContent || ele.innerText);
+        if (location.pathname.toLowerCase().indexOf("/article/") >= 0) $conten.html($(`<div class="container">`).html(ele.textContent || ele.innerText));
+        else $conten.html(ele.textContent || ele.innerText);
         $conten.find("[draggable]").removeAttr("draggable");
         $conten.removeClass("d-none");
     }
