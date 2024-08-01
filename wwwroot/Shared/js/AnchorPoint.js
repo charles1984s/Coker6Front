@@ -1,4 +1,5 @@
 ﻿function AnchorPointInit() {
+    console.log($(".anchor_directory:not(.selectList)"));
     $(".anchor_directory:not(.selectList)").addClass("selectList").each(function () {
         var $directory = $(this);
         $directory.children("ul").empty();
