@@ -1277,9 +1277,15 @@ html[dir='ltr'] .toolbarButton#secondaryToolbarToggle::before {
 html[dir='rtl'] .toolbarButton#secondaryToolbarToggle::before {
   content: url(images/toolbarButton-secondaryToolbarToggle-rtl.png);
 }
+.toolbarButton#closeBottom::before {
+    content: "\f00d";
+    font-weight: 900;
+    font-family: 'Font Awesome 6 Free';
+    font-size:1.2rem;
+}
 
 html[dir='ltr'] .toolbarButton.findPrevious::before {
-  content: url(images/findbarButton-previous.png);
+    content: url(images/findbarButton-previous.png);
 }
 html[dir='rtl'] .toolbarButton.findPrevious::before {
   content: url(images/findbarButton-previous-rtl.png);
@@ -1325,6 +1331,10 @@ html[dir='rtl'] .toolbarButton.pageUp::before {
     opacity: 0.7;
     font-size: 2rem;
     color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 html[dir='ltr'] .toolbarButton.pageDown::before {

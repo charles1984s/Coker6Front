@@ -152,7 +152,8 @@ function getViewerConfiguration() {
       print: document.getElementById('print'),
       presentationModeButton: document.getElementById('presentationMode'),
       download: document.getElementById('download'),
-      viewBookmark: document.getElementById('viewBookmark')
+      viewBookmark: document.getElementById('viewBookmark'),
+      close: document.getElementById('closeBottom'),
     },
     secondaryToolbar: {
       toolbar: document.getElementById('secondaryToolbar'),
@@ -13279,6 +13280,9 @@ function () {
       items.scaleSelect.oncontextmenu = _ui_utils.noContextMenuHandler;
       eventBus.on('localized', function () {
         _this._localized();
+      });
+      items.close.addEventListener('click', function () {
+          if (typeof (PDFViewerApplication.closeModal) == "function") PDFViewerApplication.closeModal();
       });
     }
   }, {
