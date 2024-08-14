@@ -25,7 +25,8 @@ function initElemntAndLoadDir($dir,page) {
     $self.data("prevdirid", dirid);
     const shownum = typeof ($self.data("shownum")) != "undefined" ? $self.data("shownum") : 12;
     const maxlen = typeof ($self.data("maxlen")) != "undefined" ? $self.data("maxlen") : 0;
-    const hashPage = !!page? page.toString() : location.hash.replace("#", "");
+    const hashPage = !!page ? page.toString() : location.hash.replace("#", "");
+    console.log($self.data("target"));
     if (typeof ($self.data("page")) == "undefined" || $self.data("page") != hashPage) {
         if (isNaN(hashPage) || hashPage=="") page = "1";
         else page = hashPage;
@@ -36,7 +37,8 @@ function initElemntAndLoadDir($dir,page) {
             ShowNum: shownum,
             MaxLen: typeof (maxlen) == "undefined" ? 0 : maxlen,
             Filters: $self.data("filtered"),
-            directoryType: $self.data("directoryTypeChecked")
+            directoryType: $self.data("directoryTypeChecked"),
+            target: typeof ($self.data("target")) == "undefined" ? null : $self.data("target")
         }
         $self.find(".catalog>.template").remove();
         DirectoryDataGet($self, option);
