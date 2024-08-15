@@ -1,19 +1,7 @@
 ﻿var time = 0;
 function HeaderInit() {
-
-    var backgroundimgurl = "";
-
-    if ($('body').hasClass('home')) {
-        $(".titleimage").removeClass("d-none");
-        $(".headernews").removeClass("d-none");
-        $("link").each(function (index) {
-            if (typeof ($(this).attr("data-orgname")) == "string") {
-                backgroundimgurl = `url("/upload/${$(this).attr("data-orgname")}/backgroundtop.jpg")`;
-                $("body").css("background-image", backgroundimgurl);
-            }
-        });
-    }
-
+    $("#breadcrumb").prependTo("body:not(.home) #main > .container");
+    
     var marqueeSwiper = new Swiper(".marqueeSwiper", {
         direction: "vertical",
         allowTouchMove: false,

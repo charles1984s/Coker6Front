@@ -2,9 +2,35 @@
 :root {
     --blue-cyan: #0D7F87;
     --blue-dark: #172844;
+    --gray-path: #bababa;
 }
 
 /* Default */
 html {
     font-size: 100%;
 }
+
+body {
+    background: var(--homeBackground);
+    background-size: cover;
+}
+
+    body:not(.home) #main > .container {
+        background-color: #FFF;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+    }
+
+.top_title_1 {
+    padding: 1rem 0 !important;
+}
+
+    .top_title_1 li a {
+        color: var(--gray-path);
+    }
+
+    .top_title_1 li:not(:first-child)::before {
+        content: '/';
+        padding-right: .25rem;
+        color: var(--gray-path);
+    }
