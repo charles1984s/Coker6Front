@@ -1,12 +1,4 @@
-﻿
-body.home {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center top;
-    background-color: #005491;
-}
-
-.logoimg {
+﻿.logoimg {
     max-height: 3rem;
 }
 

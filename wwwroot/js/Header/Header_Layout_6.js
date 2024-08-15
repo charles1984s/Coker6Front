@@ -1,7 +1,8 @@
 ﻿var time = 0;
 function HeaderInit() {
-    $("#breadcrumb").prependTo("body:not(.home) #main > .container");
-    
+    const $main = $("body:not(.home) #main > .container").first();
+    $("#breadcrumb").prependTo($main);
+    $(".container.editTime").appendTo($main);
     var marqueeSwiper = new Swiper(".marqueeSwiper", {
         direction: "vertical",
         allowTouchMove: false,
