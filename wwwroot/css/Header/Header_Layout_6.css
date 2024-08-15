@@ -50,6 +50,8 @@ header .menu {
         .marqueeSwiper .swiper-slide .text {
             white-space: nowrap;
             text-overflow: ellipsis;
+            color: #fff;
+            text-decoration: none;
         }
 
         .headernews .content .title, .marqueeSwiper .swiper-slide div.text {

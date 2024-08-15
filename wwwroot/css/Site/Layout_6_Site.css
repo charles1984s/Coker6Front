@@ -15,7 +15,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top;
-    background-color: #005491;
+    background-color: #004f8a;
 }
 
     body:not(.home) #main > .container {
@@ -38,3 +38,8 @@ body {
         padding-right: .25rem;
         color: var(--gray-path);
     }
+#ContainerBody > content > .container > .container {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
