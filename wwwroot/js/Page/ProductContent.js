@@ -358,6 +358,7 @@ function SpecRadio() {
             if ($self_s.find("input[value='" + parseInt(s2) + "']").attr("disabled") == "disabled") {
                 s2 = null;
             }
+            $self_s.find(`input`).prop("checked", false)
             if ($self_s.find(`input:not([disabled])`).length > 0 && $self_s.find(`input:not([disabled]):checked`).length == 0) {
                 $self_s.find(`input:not([disabled])`).first().prop("checked", true).trigger("change");
             }
