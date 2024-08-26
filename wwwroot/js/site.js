@@ -80,6 +80,7 @@ function ready() {
     if ($(".FlipBook").length > 0) FlipBookInit();
     if ($(".FlipBookModal").length > 0) FlipBookModalInit();
     if ($(".MapMessage").length > 0) MapMessage();
+    if ($(".getlatlng").length > 0) GetLatLng();
     if ($("body").width() < 992) $("#lanBar").before($("#layout4 #NavbarContent"));
     if ($(".container .qa,.container-fluid .qa").length > 0) {
         $(".container,.container-fluid").each((i, e) => {
