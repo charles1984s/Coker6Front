@@ -27,7 +27,8 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="google" content="notranslate">
     <title>PDF.js viewer</title>
     <script src="../build/pdf.mjs" type="module"></script>
-
+    <!-- This snippet is used in production (included from viewer.html) -->
+    <link rel="resource" type="application/l10n" href="/lib/pdf-viewer/external/pdfjs-4.5.136-dist/web/locale/locale.json">
     <link rel="stylesheet" href="/lib/pdf-viewer/external/pdfjs-4.5.136-dist/web/viewer.css">
 
     <script src="viewer.mjs" type="module"></script>
@@ -241,6 +242,12 @@ See https://github.com/adobe-type-tools/cmap-resources
                         <button id="scrollWrapped" class="secondaryToolbarButton" title="Use Wrapped Scrolling" tabindex="65" data-l10n-id="pdfjs-scroll-wrapped-button" role="radio" aria-checked="false">
                             <span data-l10n-id="pdfjs-scroll-wrapped-button-label">Wrapped Scrolling</span>
                         </button>
+                        <button id="bookFlip" class="secondaryToolbarButton" title="Use Book Flip" tabindex="65" data-l10n-id="pdfjs-scroll-flip-button" role="radio" aria-checked="false">
+                            <span data-l10n-id="pdfjs-scroll-flip-button-label">Book Flip</span>
+                        </button>
+                        <!--<button id="bookFlip" class="secondaryToolbarButton scrollModeButtons bookFlip" title="Use Book Flip" tabindex="65" data-l10n-id="book_flip">
+                            <span data-l10n-id="book_flip_label">Book Flip</span>
+                        </button>-->
                     </div>
 
                     <div class="horizontalToolbarSeparator"></div>
@@ -318,8 +325,8 @@ See https://github.com/adobe-type-tools/cmap-resources
 
                             <div class="verticalToolbarSeparator hiddenMediumView"></div>
 
-                            <button id="closeBottom" class="toolbarButton" title="Close" tabindex="36" data-l10n-id="close">
-                                <span data-l10n-id="tools_close">關閉</span>
+                            <button id="closeBottom" class="toolbarButton" title="Close" tabindex="36" data-l10n-id="pdfjs-close-button">
+                                <span data-l10n-id="pdfjs-close-button-label">關閉</span>
                             </button>
 
                             <button id="secondaryToolbarToggle" class="toolbarButton" title="Tools" tabindex="43" data-l10n-id="pdfjs-tools-button" aria-expanded="false" aria-controls="secondaryToolbar">
@@ -489,7 +496,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                     </div>
                 </div>
             </dialog>
-            <dialog id="printServiceDialog" style="min-width: 200px;">
+            <dialog id="printServiceDialog">
                 <div class="row">
                     <span data-l10n-id="pdfjs-print-progress-message">Preparing document for printing…</span>
                 </div>

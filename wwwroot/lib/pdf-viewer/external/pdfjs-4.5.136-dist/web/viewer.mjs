@@ -96,7 +96,9 @@ const ScrollMode = {
     VERTICAL: 0,
     HORIZONTAL: 1,
     WRAPPED: 2,
-    PAGE: 3
+    PAGE: 3,
+    //$FB: add flipbook scroll mode
+    FLIP: 4
 };
 const SpreadMode = {
     UNKNOWN: -1,
@@ -833,7 +835,7 @@ const defaultOptions = {
         kind: OptionKind.WORKER
     },
     workerSrc: {
-        value: "../build/pdf.worker.mjs",
+        value: "/lib/pdf-viewer/external/pdfjs-4.5.136-dist/build/pdf.worker.mjs",
         kind: OptionKind.WORKER
     }
 };
@@ -843,7 +845,7 @@ const defaultOptions = {
         kind: OptionKind.VIEWER
     };
     defaultOptions.sandboxBundleSrc = {
-        value: "../build/pdf.sandbox.mjs",
+        value: "/lib/pdf-viewer/external/pdfjs-4.5.136-dist/build/pdf.sandbox.mjs",
         kind: OptionKind.VIEWER
     };
     defaultOptions.viewerCssTheme = {
@@ -11639,7 +11641,16 @@ class SecondaryToolbar {
                 mode: ScrollMode.WRAPPED
             },
             close: true
-        }, {
+            },
+            //$FB: add flipbook button
+            {
+                element: options.bookFlipButton,
+                eventName: "switchscrollmode",
+                eventDetails: {
+                    mode: ScrollMode.FLIP
+                },
+                close: true
+            }, {
             element: options.spreadNoneButton,
             eventName: "switchspreadmode",
             eventDetails: {
@@ -14494,6 +14505,8 @@ function getViewerConfiguration() {
             scrollVerticalButton: document.getElementById("scrollVertical"),
             scrollHorizontalButton: document.getElementById("scrollHorizontal"),
             scrollWrappedButton: document.getElementById("scrollWrapped"),
+            //$FB: add flipbook button
+            bookFlipButton: document.getElementById('bookFlip'),
             spreadNoneButton: document.getElementById("spreadNone"),
             spreadOddButton: document.getElementById("spreadOdd"),
             spreadEvenButton: document.getElementById("spreadEven"),
