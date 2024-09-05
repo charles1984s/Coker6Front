@@ -16,53 +16,65 @@ var bookFlip = {
 	_intoView: null,//link handler default function
 	_visPages: null,//visible pages function
 	_ready: false,	//ready to start flipbook
+	scrollMode: 4,
+	lName: "_listeners",
 
 	// event listeners when bookFlip need different handling 
-	init: function () {
-		$(document).on('rotationchanging', () => { this.rotate() });
-		$(document).on('scalechanging', () => { this.resize() });
-		$(document).on('pagechanging', () => { this.flip() });
+	init: function (parm) {
+		this.scrollMode = parm.mode;
+		this.lName = parm.lName;
+		console.log(this.scrollMode);
+		const eventBus = PDFViewerApplication.eventBus;
+		eventBus.on('rotationchanging', () => { console.log("rotationchanging"); this.rotate() });
+		eventBus.on('scalechanging', () => { console.log("scalechanging"); this.resize() });
+		eventBus.on('pagechanging', () => { console.log("pagechanging"); this.flip() });
 
-		$(document).on('documentinit', () => {
+		eventBus.on('documentinit', () => {
+			console.log("documentinit");
 			this.stop();
 			this._ready = false;
 		});
 
-		$(document).on('scrollmodechanged', () => {
+		eventBus.on('scrollmodechanged', () => {
+			console.log("scrollmodechanged");
 			var scroll = PDFViewerApplication.pdfViewer.scrollMode;
-			if (scroll === 3) this.start();
+			if (scroll === this.scrollMode) this.start();
 			else this.stop();
 			var button = PDFViewerApplication.appConfig.secondaryToolbar.bookFlipButton;
-			button.classList.toggle('toggled', scroll === 3);
+			button.classList.toggle('toggled', scroll === this.scrollMode);
 		});
 
-		$(document).on('switchspreadmode', (evt) => {
-			this.spread(evt.originalEvent.detail.mode);
+		eventBus.on('switchspreadmode', (evt) => {
+			console.log("switchspreadmode");
+			this.spread(evt.mode);
 			PDFViewerApplication.eventBus.dispatch('spreadmodechanged', {
 				source: PDFViewerApplication,
-				mode: evt.originalEvent.detail.mode
+				mode: evt.mode
 			});
 		});
 
-		$(document).on('pagesloaded', () => {
+		eventBus.on('pagesloaded', () => {
+			console.log("pagesloaded");
 			this._ready = true;
 			if (this.toStart) {
 				this.toStart = false;
 				console.log("switch mode");
-				PDFViewerApplication.pdfViewer.scrollMode = 3;
+				PDFViewerApplication.pdfViewer.scrollMode = this.scrollMode;
 				PDFViewerApplication.pdfViewer.currentScaleValue = "page-fit";
 			}
 		});
-
-		$(document).on('baseviewerinit', () => {
-			PDFViewerApplicationOptions.set('scrollModeOnLoad', 3);
-
+		console.log(PDFViewerApplication.eventBus);
+		eventBus.on(this.scrollMode == 4 ? 'pagerendered' : 'baseviewerinit', () => {
+			console.log("baseviewerinit");
+			PDFViewerApplicationOptions.set('scrollModeOnLoad', this.scrollMode);
+			console.log(PDFViewerApplication.pdfViewer._getVisiblePages);
 			this._intoView = PDFViewerApplication.pdfViewer.scrollPageIntoView;
 			this._visPages = PDFViewerApplication.pdfViewer._getVisiblePages;
 		});
 	},
 	// startup flipbook
 	start: function () {
+		console.log("start");
 		if (this.active || !this._ready) return;
 		this.active = true;
 
@@ -77,8 +89,8 @@ var bookFlip = {
 		viewer._spreadMode = -1;
 		$('.spreadModeButtons').removeClass('toggled');
 		$('#' + selected).addClass('toggled');
-
-		this._evSpread = PDFViewerApplication.eventBus._listeners.switchspreadmode;
+		if (!/^#/.test(this.lName))
+			this._evSpread = PDFViewerApplication.eventBus[this.lName].switchspreadmode;
 		// PDFViewerApplication.eventBus._listeners.switchspreadmode = null;
 
 		viewer.scrollPageIntoView = (data) => { return this.link(data) };
@@ -87,7 +99,7 @@ var bookFlip = {
 		var scale = viewer.currentScale;
 		var parent = this;
 
-		$('#viewer').removeClass('pdfViewer').addClass('bookViewer').css({ opacity: 1 });;
+		$('#viewer').removeClass('pdfViewer').addClass('bookViewer').css({ opacity: 1 });
 		$('#viewer .page').each(function () {
 			parent._width[$(this).attr('data-page-number')] = $(this).width() / scale;
 			parent._height[$(this).attr('data-page-number')] = $(this).height() / scale;
@@ -101,7 +113,6 @@ var bookFlip = {
 				this._spread = 0;
 			}
 		}
-
 		$('#viewer').turn({
 			elevation: 50,
 			width: this._size(PDFViewerApplication.page, 'width') * this._spreadMult(),
@@ -110,6 +121,7 @@ var bookFlip = {
 			when: {
 				turned: function (event, page) {
 					PDFViewerApplication.page = page;
+					console.log("update");
 					viewer.update();
 				}
 			},
@@ -118,6 +130,7 @@ var bookFlip = {
 	},
 	// shutdown flipbook
 	stop: function () {
+		console.log("stop");
 		if (!this.active) return;
 		this.active = false;
 
@@ -126,9 +139,9 @@ var bookFlip = {
 		$('#viewer').turn('destroy');
 
 		viewer.scrollPageIntoView = this._intoView;
-		viewer._getVisiblePages = this._visPages;
-
-		PDFViewerApplication.eventBus._listeners.switchspreadmode = this._evSpread;
+		if (this._visPages!=null) viewer._getVisiblePages = this._visPages;
+		if (!/^#/.test(this.lName))
+			PDFViewerApplication.eventBus[this.lName].switchspreadmode = this._evSpread;
 		viewer.spreadMode = this._spreadBk;
 
 		$('#viewer .page').removeAttr('style');
@@ -143,6 +156,7 @@ var bookFlip = {
 	},
 	// resize flipbook pages
 	resize: function () {
+		console.log("resize");
 		if (!this.active) return;
 		if (this._spread !== 0 && document.getElementById("viewerContainer").getBoundingClientRect().width < 720) {
 			this.spread(0);
@@ -155,12 +169,14 @@ var bookFlip = {
 	},
 	// rotate flipbook pages
 	rotate: function () {
+		console.log("rotate");
 		if (!this.active) return;
 		[this._height, this._width] = [this._width, this._height];
 		this.resize();
 	},
 	// change flipbook spread mode
 	spread: function (spreadMode) {
+		console.log("spread");
 		if (!this.active) return;
 		this._spread = spreadMode;
 		$('#viewer').turn('display', this._spreadType());
@@ -168,23 +184,26 @@ var bookFlip = {
 	},
 	// turn page
 	flip: function () {
+		console.log("flip");
 		if (!this.active) return;
 		$('#viewer').turn('page', PDFViewerApplication.page);
 		// force load next page
 		// TODO: Find proper way to force this loading
 		// this line seems to not do anything but successfully caused the website to update
 		// it throws a lot of error in the console though. 
-		PDFViewerApplication.update();
+		//PDFViewerApplication.update();
 		// end TODO
 		if (!PDFViewerApplication.pdfViewer.hasEqualPageSizes) this.resize();
 	},
 	// follow internal links
 	link: function (data) {
+		console.log("link");
 		if (!this.active) return;
 		PDFViewerApplication.page = data.pageNumber;
 	},
 	// load pages near shown page
 	load: function () {
+		console.log("load");
 		if (!this.active) return;
 		var views = PDFViewerApplication.pdfViewer._pages;
 		var arr = [];
@@ -216,4 +235,4 @@ var bookFlip = {
 	}
 };
 
-bookFlip.init();
+//bookFlip.init();
