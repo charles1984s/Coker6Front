@@ -45,9 +45,7 @@ pdfjs-print-button-label = Print
 pdfjs-save-button =
     .title = Save
 pdfjs-save-button-label = Save
-pdfjs-close-button =
-    .title = Close
-pdfjs-close-button-label = Close
+
 # Used in Firefox for Android as a tooltip for the download button (“download” is a verb).
 pdfjs-download-button =
     .title = Download
@@ -96,9 +94,6 @@ pdfjs-scroll-horizontal-button-label = Horizontal Scrolling
 pdfjs-scroll-wrapped-button =
     .title = Use Wrapped Scrolling
 pdfjs-scroll-wrapped-button-label = Wrapped Scrolling
-pdfjs-scroll-flip-button =
-    .title = Use Book Flip
-pdfjs-scroll-flip-button-label = Flip Book
 pdfjs-spread-none-button =
     .title = Do not join page spreads
 pdfjs-spread-none-button-label = No Spreads

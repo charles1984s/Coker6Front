@@ -38,8 +38,7 @@
             $this.removeClass("d-none");
             if ($(".FlipBookModal").length > 0) {
                 $.when.apply(null, loadJs).done(function () {
-                    if (/^pdfjs-4/.test(usePdf.version)) FlipBookModalInit({ mode: 4, lName: "#listeners" });
-                    else FlipBookModalInit({ mode: 3, lName:"_listeners"});
+                    FlipBookModalInit();
                 });
             }
         }
@@ -48,21 +47,19 @@
     xhttp.send();
 }
 
-function FlipBookModalInit(pare) {
+function FlipBookModalInit() {
     var $this = $(".FlipBookModal");
     const modal = bootstrap.Modal.getOrCreateInstance($this[0]);
     let timer = null;
     const init = function () {
-        if (typeof bookFlip !== 'undefined' &&
-            typeof (PDFViewerApplication) !== "undefined" && typeof (PDFViewerApplication.eventBus) !== "undefined" && PDFViewerApplication.eventBus != null
-        ) {
+        if (typeof (PDFViewerApplication) != "undefined") {
             if (typeof ($(this).data("init")) == "undefined" && !$(this).data("init")) {
                 console.log("bookFlip.init");
                 $(this).data("init", true);
                 PDFViewerApplication.closeModal = function () {
                     modal.hide();
                 };
-                bookFlip.init(pare);
+                bookFlip.init();
             }
         } else timer = setTimeout(init, 100);
     }

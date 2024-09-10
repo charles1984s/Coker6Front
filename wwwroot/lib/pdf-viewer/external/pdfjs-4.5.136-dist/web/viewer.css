@@ -56,12 +56,10 @@
   color:var(--text-primary-color);
   box-shadow:var(--dialog-shadow);
 }
-#printServiceDialog {
-    min-width: 200px;
-}
 
-@media (prefers-color-scheme: dark) {
-    : where(html:not(.is-light)) .dialog{
+@media (prefers-color-scheme: dark){
+
+:where(html:not(.is-light)) .dialog{
     --dialog-bg-color:#1c1b22;
     --dialog-border-color:#1c1b22;
     --dialog-shadow:0 2px 14px 0 #15141a;
