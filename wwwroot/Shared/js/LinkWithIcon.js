@@ -42,7 +42,6 @@
         if (typeof ($self.attr("download")) == "undefined") {
             $self.attr("download", local.UnnamedFile);
         }
-        console.log(local);
         $self.attr("title", local.LinkToAndBlank.format($self.attr("download")));
         $self.find(".name").text($self.attr("download").replace(`.${type}`,""));
         if (type == "pdf")
