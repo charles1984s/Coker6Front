@@ -8,7 +8,6 @@
     var rorganizer = $self.attr('data-r-organizer'); 
     var link = $self.attr('data-link'); 
     var tel = $self.attr('data-tel');
-    console.log("in");
     var parenttime = $self.find(".activity_start_time").parents("div").eq(1);
     if (dateRange == "") {
         $(parenttime).addClass("d-none");
