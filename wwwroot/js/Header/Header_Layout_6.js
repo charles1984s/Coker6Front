@@ -68,8 +68,7 @@ window.addEventListener("load", function () {
         breakpoints: {
             768: {
                 direction: "vertical",
-                watchSlidesProgress: true,
-                allowTouchMove: false,
+                watchSlidesProgress: true
             },
         },
         keyboard: {
