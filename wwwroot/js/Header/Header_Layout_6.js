@@ -122,8 +122,7 @@ window.addEventListener("load", function () {
         breakpoints: {
             768: {
                 slidesPerView: 3,
-                spaceBetween: 50,
-                allowTouchMove: false,
+                spaceBetween: 50
             },
         },
     });
