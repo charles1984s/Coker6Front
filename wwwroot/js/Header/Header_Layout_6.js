@@ -120,6 +120,7 @@ window.addEventListener("load", function () {
         },
         breakpoints: {
             768: {
+                loop:false,
                 slidesPerView: 3,
                 spaceBetween: 50
             },
