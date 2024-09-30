@@ -6,25 +6,35 @@ function HeaderInit() {
     $contain.appendTo($main);
     $("#main").append($main);
     $(".marqueeSwiper").each(function () {
-        const $marquee = $(this).find(".swiper-wrapper"); 
-        console.log("網站的開設讓大眾能方便的瞭解與本公司相關的資訊，歡迎有需要買賣剪床、折床的客戶，".length);
+        const $marquee = $(this).find(".swiper-wrapper");
         $marquee.find(".swiper-slide").each(function () {
-            let maxLen = 100;
+            let maxLen = 50;
             let $slide = $(this);
             let txt = $slide.text().replace("(current)", "");
             if ($(window).width() < 576) { 
                 maxLen = 15;
             } else if ($(window).width() < 768) {
-                maxLen = 21;
+                maxLen = 9;
+            } else if ($(window).width() < 835) {
+                maxLen = 30;
             } else if ($(window).width() < 992) {
                 maxLen = 38;
+            } else if ($(window).width() < 1100) {
+                maxLen = 40;
             }
             const count = Math.floor(txt.length / maxLen) - (txt.length % maxLen > 0 ? 0 : 1);
             if (count > 0) $slide.find(".text").text(txt.substring(0, maxLen));
-            for (let i = 1; i < count; i++) {
+            const getPhone = txt.indexOf("電洽07-3737909");
+            var inSlide = true;
+            for (let i = count; i > 0; i--) {
                 let $newSlide = $slide.clone();
-                $newSlide.find(".text").text(txt.substring((i * maxLen), ((i+1)* maxLen)));
-                console.log($newSlide.find(".text").text(), i , maxLen);
+                if (inSlide && ((i * maxLen > getPhone && i * maxLen < getPhone + 10) || ((i + 1) * maxLen > getPhone && (i + 1) * maxLen < getPhone + 10))) {
+                    $newSlide.find(".text").text(txt.substring((getPhone), (getPhone+10)));
+                    $slide.after($newSlide);
+                    inSlide = false;
+                    continue;
+                }
+                $newSlide.find(".text").text(txt.substring((i * maxLen), ((i + 1) * maxLen)));
                 $slide.after($newSlide);
             }
         });
@@ -47,18 +57,22 @@ function HeaderInit() {
     }
     checkFunction();
 
-    const clickBtnMenu = function () {
+    var Mega_Menu = document.getElementById("Offcanvas_Mega_Menu");
+    var observer = new MutationObserver(function (mutations) {
         var icon = document.getElementById("menuIcon");
-        if (icon.classList.contains("fa-bars")) {
-            icon.classList.remove("fa-bars");
-            icon.classList.add("fa-times-square"); // 切換成叉叉
-        } else {
-            icon.classList.remove("fa-times-square");
-            icon.classList.add("fa-bars"); // 切換回漢堡
-        }
-    }
-
-    document.getElementById("btnMenu").addEventListener("click", clickBtnMenu);
+        mutations.forEach(function (mutation) {
+            if (mutation.attributeName === 'class') {
+                if (Mega_Menu.classList.contains('show')) {
+                    icon.classList.remove("fa-bars");
+                    icon.classList.add("fa-times-square"); // 切換成叉叉
+                } else {
+                    icon.classList.remove("fa-times-square");
+                    icon.classList.add("fa-bars"); // 切換回漢堡
+                }
+            }
+        });
+    });
+     observer.observe(Mega_Menu, { attributes: true }); 
 
     /* ThreeSwiper */
     var threeSwiper = new Swiper(".threeSwiper", {
