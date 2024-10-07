@@ -1,10 +1,12 @@
-﻿var OrgName = "Page", LayoutType = 0, SiteId = 0, IsFaPage = true;
+﻿var OrgName = "Page", LayoutType = 0, SiteId = 0, IsFaPage = true, loginModal, registerModal;
 
 function ready() {
 
     const $conten = $("#main");
     const $parentConten = $("#ParentNode");
     const $PostCSS = $("#PostCSS");
+    loginModal = new bootstrap.Modal($("#LoginModal"))
+    registerModal = new bootstrap.Modal($("#RegisterModal"))
     jqueryExtend();
     $("link").each(function () {
         var $self = $(this);
@@ -75,7 +77,7 @@ function ready() {
     if ($(".sitemap_hierarchical_frame").length > 0) SitemapInit();
     if ($(".link_with_icon").length > 0) LinkWithIconInit();
     if ($(".anchor_directory").length > 0 || $(".anchor_title").length > 0) AnchorPointInit();
-    if ($(".shareBlock").length > 0) ShareBlockInit();  
+    if ($(".shareBlock").length > 0) ShareBlockInit();
     if ($(".ContactForm").length > 0) {
         setContact();//From表單驗證碼
     }
@@ -87,7 +89,7 @@ function ready() {
     if ($(".container .qa,.container-fluid .qa").length > 0) {
         $(".container,.container-fluid").each((i, e) => {
             var $c = $(e);
-            if (typeof ($c.attr("id")) == "undefined" && $c.find("qa").length>0) {
+            if (typeof ($c.attr("id")) == "undefined" && $c.find("qa").length > 0) {
                 $c.setRandenId();
             }
             $c.find(".qa .collapse").each((j, c) => {
@@ -101,7 +103,7 @@ function ready() {
     if (location.hash != "" && $(location.hash).length > 0) $(location.hash).goTo(45);
     if ($("video").length > 0) {
         $("video").each(function () {
-            if (typeof (this.video) != "undefined") { 
+            if (typeof (this.video) != "undefined") {
                 this.video.pause();
                 setTimeout(() => {
                     this.video.play().then((res) => {
@@ -173,9 +175,8 @@ function ready() {
     typeof (HeaderInit) === "function" && HeaderInit();
     typeof (FooterInit) === "function" && FooterInit();
     SideFloatingInit();
-
+    CheckToken();
     if ($.cookie('cookie') == null || $.cookie('cookie') == 'reject') $("#Cookie").toggleClass("show");
-    else CheckToken();
 
     const enterAdModalEl = $('#EnterAdModal')
     var enteradid = enterAdModalEl.data("enteradid")
@@ -187,6 +188,23 @@ function ready() {
             temp_idlist.push(enteradid);
             $.cookie('EnterAd_Show', temp_idlist, { path: '/' });
         })
+        var adid = $("#EnterAdModal .modal-content").data("aid");
+        if (adid != "undefined") {
+            Advertise.ActivityExposure({
+                FK_Aid: adid,
+                FK_Tid: $.cookie("Token"),
+            }).done(function (result) {
+                console.log(result)
+            })
+            $("#EnterAdModal img").on("click", function () {
+                Advertise.ActivityClick({
+                    FK_Aid: adid,
+                    FK_Tid: $.cookie("Token"),
+                }).done(function (result) {
+                    console.log(result)
+                })
+            });
+        }
     }
 
     SiteElementInit();
@@ -220,6 +238,10 @@ function ready() {
         if (SiteFormCheck(LoginForms, $InputLoginVCode)) {
             CaptchaVerify($LoginImgCaptcha, $InputLoginVCode, LoginAction)
         } else {
+            $InputLoginVCode.addClass('is-invalid');
+            $InputLoginVCode.siblings("div").addClass("me-4 pe-2");
+            NewCaptcha($LoginImgCaptcha, $InputLoginVCode)
+            $InputLoginVCode.val("");
             Coker.sweet.error("錯誤", "請確實填寫登入資料", null, true);
         }
     })
@@ -230,8 +252,14 @@ function ready() {
         $NewPass.keyup(PassCheck);
         $CheckPass.keyup(PassCheck);
         if (passcheck && formcheck) {
-            CaptchaVerify($RegisterImgCaptcha, $InputRegisterVCode, RegisterAction)
+            if (!$RegisterAccept.prop("checked")) {
+                NewCaptcha($RegisterImgCaptcha, $InputRegisterVCode);
+                Coker.sweet.error("錯誤", "請詳閱並同意會員條款", null, true);
+            } else {
+                CaptchaVerify($RegisterImgCaptcha, $InputRegisterVCode, RegisterAction)
+            }
         } else {
+            NewCaptcha($RegisterImgCaptcha, $InputRegisterVCode);
             Coker.sweet.error("錯誤", "請確實填寫註冊資料", null, true);
         }
     })
@@ -292,16 +320,18 @@ function cookie_reject() {
 
 function CreateToken() {
     Coker.Token.GetToken().done(function (result) {
+        console.log("set token");
         $.cookie("Token", result.token, { expires: 30, path: "/" })
     })
 }
 
 function CheckToken() {
     Coker.Token.CheckToken($.cookie("Token")).done(function (result) {
+        console.log(result);
         if (!result.success) {
             $.cookie("Token", null, { path: '/' });
             CreateToken();
-        }
+        } else $.cookie("Token", result.token, { expires: 30, path: "/" })
     })
 }
 
@@ -364,18 +394,24 @@ function CaptchaVerify($self, $input, SuccessAction) {
 }
 
 function LoginAction() {
-    var loginModal = new bootstrap.Modal($("#LoginModal"))
+    Coker.sweet.success("歡迎回來！", null, true);
     loginModal.hide();
 }
 
 function RegisterAction() {
-    var registerModal = new bootstrap.Modal($("#RegisterModal"))
+    var data = co.Form.getJson($("#RegisterForm").attr("id"));
+    data.FK_WebsiteId = SiteId
+    data.FK_RoleId = 2;
+    co.User.AddUser(data).done((result) => {
+        console.log(result)
+    });
+    console.log(data);
+    Coker.sweet.success("註冊成功，已發送確認信至您的信箱！", null, true);
     registerModal.hide();
 }
 
 function NewCaptcha($self, $input, name = "") {
     if (!!!$self.data("id")) {
-        
         $self.data("id", Math.floor(Math.random() * 10000));
         const $form = $self.parents("form")
         let captchaId = $form.find("[name='captchaId']");
@@ -410,7 +446,7 @@ function PassCheck() {
     var hasNum = /\d+/, hasLetter = /[a-zA-Z]+/, hasSpesym = /[^\a-\z\A-\Z0-9]/g;
     $NewPass.addClass("is-invalid");
     $CheckPass.addClass("is-invalid");
-    if ($NewPass.val().length >= 6) {
+    if ($NewPass.val().length >= 8) {
         if (hasNum.test($NewPass.val()) && hasLetter.test($NewPass.val()) && !(hasSpesym.test($NewPass.val()))) {
             $NewPass.removeClass("is-invalid");
             $NewPass.addClass("is-valid");
@@ -428,7 +464,7 @@ function PassCheck() {
             $CheckPassFeedBack.text("密碼格式有誤");
         }
     } else {
-        $NewPassFeedBack.text("請輸入6個以上的字元");
+        $NewPassFeedBack.text("請輸入8個以上的字元");
         $CheckPassFeedBack.text("密碼格式有誤");
     }
     return false;
@@ -450,6 +486,33 @@ function ClickLog(Pid) {
 var Coker = {
     timeout: {
         time: 1500
+    },
+    User: {
+        AddUser: function (data) {
+            return $.ajax({
+                url: "/api/User/AddUser",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data),
+                dataType: "json"
+            });
+        },
+    },
+    Form: {
+        getJson: function (id, isArrayType) {
+            console.log(id)
+            let form = document.getElementById(id);
+            console.log(form)
+            let formFields = new FormData(form);
+            let isArray = typeof (isArrayType) == "undefined" ? false : isArrayType;
+            let formDataObject = Object.fromEntries(Array.from(formFields.keys(), key => {
+                const val = formFields.getAll(key)
+                console.log(val)
+                console.log(key)
+                return [key, (isArray || val.length > 1) ? val : val.pop()]
+            }));
+            return formDataObject;
+        },
     },
     sweet: {
         success: function (text, action, autoclose) {
@@ -563,19 +626,19 @@ $.fn.extend({
     goTo: function (offset) {
         $('html, body').animate({ scrollTop: $(this).offset().top + (!!offset ? offset : 0) }, 0);
     },
-    setRandenId: function(i) {
+    setRandenId: function (i) {
         const $self = $(this);
-        let className = typeof ($self.attr('class')) != "undefined" && $self.attr('class') != "" ? $self.attr('class').split(/\s+/)[0]+"Id" : "";
+        let className = typeof ($self.attr('class')) != "undefined" && $self.attr('class') != "" ? $self.attr('class').split(/\s+/)[0] + "Id" : "";
         let order = !!i ? i : 0;
         if (className == "") className = "RandenId";
         let id = className + (order == 0 ? "" : order);
         if ($(`#${id}`).length == 0) $self.attr("id", id);
-        else $self.setRandenId(order+1);
+        else $self.setRandenId(order + 1);
     },
     getFormJson: function () {
         const form = $(this);
         const formDataObject = $(form).serializeArray();
-        $(formDataObject).each(function(){
+        $(formDataObject).each(function () {
             const obj = this;
             const field = $(form).find(`[name="${obj.name}"]`);
             switch (field.attr("name")) {
@@ -595,9 +658,9 @@ $.fn.extend({
                                     obj.title = field.parents(".d-flex").prevAll(".title").text().trim();
                                     obj.value = "";
                                     $(form).find(`[name="${obj.name}"]:checked`).each(function () {
-                                        obj.value += $(this).nextAll("label").text().trim()+" ,";
+                                        obj.value += $(this).nextAll("label").text().trim() + " ,";
                                     });
-                                    obj.value = obj.value.substring(0, obj.value.length-2);
+                                    obj.value = obj.value.substring(0, obj.value.length - 2);
                                     break;
                                 default:
                                     obj.title = field.nextAll("label").text().trim();
