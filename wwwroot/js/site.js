@@ -1,4 +1,4 @@
-﻿var OrgName = "Page", LayoutType = 0, SiteId = 0, IsFaPage = true, loginModal, registerModal;
+﻿var OrgName = "Page", LayoutType = 0, SiteId = 0, IsFaPage = true, loginModal, otherLoginModal, registerModal, forgetModal, resetodal;
 
 function ready() {
 
@@ -6,7 +6,10 @@ function ready() {
     const $parentConten = $("#ParentNode");
     const $PostCSS = $("#PostCSS");
     loginModal = $("#LoginModal").length > 0 ? new bootstrap.Modal($("#LoginModal")) : null;
+    otherLoginModal = $("#OtherLoginModal").length > 0 ? new bootstrap.Modal($("#OtherLoginModal")) : null;
     registerModal = $("#RegisterModal").length > 0 ? new bootstrap.Modal($("#RegisterModal")) : null;
+    forgetModal = $("#ForgetModal").length > 0 ? new bootstrap.Modal($("#ForgetModal")) : null;
+    resetodal = $("#ResetModal").length > 0 ? new bootstrap.Modal($("#ResetModal")) : null;
     jqueryExtend();
     $("link").each(function () {
         var $self = $(this);
@@ -161,11 +164,13 @@ function ready() {
                 type: "POST",
             });
         },
-        CheckToken: function (id) {
+        CheckToken: function () {
             return $.ajax({
                 url: "/api/Token/CheckToken/",
-                type: "GET",
-                data: { id: id }
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("token")
+                },
+                type: "GET"
             });
         }
     };
@@ -175,7 +180,7 @@ function ready() {
     typeof (HeaderInit) === "function" && HeaderInit();
     typeof (FooterInit) === "function" && FooterInit();
     SideFloatingInit();
-    CheckToken();
+    CreateToken();
     if ($.cookie('cookie') == null || $.cookie('cookie') == 'reject') $("#Cookie").toggleClass("show");
 
     const enterAdModalEl = $('#EnterAdModal')
@@ -225,13 +230,45 @@ function ready() {
         })
     }
 
+    var OtherLoginModal = document.getElementById('OtherLoginModal')
+    if (OtherLoginModal != null) {
+        OtherLoginModal.addEventListener('show.bs.modal', function (event) {
+            loginModal.hide();
+        })
+        OtherLoginModal.addEventListener('hidden.bs.modal', function (event) {
+        })
+    }
+
+    var ResetModal = document.getElementById('ResetModal')
+    if (ResetModal != null) {
+        ResetModal.addEventListener('show.bs.modal', function (event) {
+            loginModal.hide();
+            NewCaptcha($ResetImgCaptcha, $InputResetVCode);
+        })
+        ResetModal.addEventListener('hidden.bs.modal', function (event) {
+            FormClear(ResetForms, $InputResetVCode)
+        })
+    }
+
     var RegisterModal = document.getElementById('RegisterModal')
     if (RegisterModal != null) {
         RegisterModal.addEventListener('show.bs.modal', function (event) {
+            loginModal.hide();
             NewCaptcha($RegisterImgCaptcha, $InputRegisterVCode);
         })
         RegisterModal.addEventListener('hidden.bs.modal', function (event) {
             FormClear(RegisterForms, $InputRegisterVCode)
+        })
+    }
+
+    var ForgetModal = document.getElementById('ForgetModal')
+    if (ForgetModal != null) {
+        ForgetModal.addEventListener('show.bs.modal', function (event) {
+            loginModal.hide();
+            NewCaptcha($ForgetImgCaptcha, $InputForgetVCode);
+        })
+        ForgetModal.addEventListener('hidden.bs.modal', function (event) {
+            FormClear(ForgetForms, $InputForgetVCode)
         })
     }
     $(".btn_login").on("click", function () {
@@ -293,6 +330,14 @@ function SiteElementInit() {
     $RegisterName = $("#InputRegisterName")
     $RegisterAccept = $("#CheckAccept")
 
+    $InputForgetVCode = $("#InputForgetVCode");
+    $ForgetImgCaptcha = $('#ForgetImgCaptcha');
+    ForgetForms = $('#ForgetForm');
+
+    $InputResetVCode = $("#InputResetVCode");
+    $ResetImgCaptcha = $('#ResetImgCaptcha');
+    ResetForms = $('#ResetForm');
+
     $NewPass = $("#InputRegisterNewPass");
     $NewPassFeedBack = $("#NewPassFeedBack");
     $CheckPass = $("#InputRegisterCheckPass");
@@ -310,7 +355,6 @@ function scrollFunction() {
 function cookie_accept() {
     $.cookie('cookie', 'accept', { expires: 7, path: '/' });
     $("#Cookie").toggleClass("show");
-    CreateToken();
 }
 
 function cookie_reject() {
@@ -320,18 +364,16 @@ function cookie_reject() {
 
 function CreateToken() {
     Coker.Token.GetToken().done(function (result) {
-        console.log("set token");
-        $.cookie("Token", result.token, { expires: 30, path: "/" })
+        localStorage.setItem("token", result.token);
+        CheckToken();
     })
 }
 
 function CheckToken() {
-    Coker.Token.CheckToken($.cookie("Token")).done(function (result) {
-        console.log(result);
+    Coker.Token.CheckToken().done(function (result) {
         if (!result.success) {
-            $.cookie("Token", null, { path: '/' });
-            CreateToken();
-        } else $.cookie("Token", result.token, { expires: 30, path: "/" })
+            console.log("userData:", result);
+        }
     })
 }
 
@@ -411,6 +453,16 @@ function RegisterAction() {
             NewCaptcha($RegisterImgCaptcha, $InputRegisterVCode);
         }
     })
+}
+function ForgetAction() {
+    var data = co.Form.getJson($("#ForgetForm").attr("id"));
+    data.FK_WebsiteId = SiteId
+    data.FK_RoleId = 2;
+}
+function ResetAction() {
+    var data = co.Form.getJson($("#ResetForm").attr("id"));
+    data.FK_WebsiteId = SiteId
+    data.FK_RoleId = 2;
 }
 
 function NewCaptcha($self, $input, name = "") {
@@ -503,15 +555,11 @@ var Coker = {
     },
     Form: {
         getJson: function (id, isArrayType) {
-            console.log(id)
             let form = document.getElementById(id);
-            console.log(form)
             let formFields = new FormData(form);
             let isArray = typeof (isArrayType) == "undefined" ? false : isArrayType;
             let formDataObject = Object.fromEntries(Array.from(formFields.keys(), key => {
                 const val = formFields.getAll(key)
-                console.log(val)
-                console.log(key)
                 return [key, (isArray || val.length > 1) ? val : val.pop()]
             }));
             return formDataObject;
