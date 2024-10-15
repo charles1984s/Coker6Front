@@ -85,7 +85,7 @@ function ready() {
         setContact();//From表單驗證碼
     }
     if ($(".BGCanvas").length > 0) setBGCanvas();
-    if ($(".FlipBook").length > 0) FlipBookInit();
+    if ($(".FlipBookItem").length > 0) FlipBookInit();
     if ($(".MapMessage").length > 0) MapMessage();
     if ($(".getlatlng").length > 0) GetLatLng();
     if ($("body").width() < 992) $("#lanBar").before($("#layout4 #NavbarContent"));
@@ -97,9 +97,9 @@ function ready() {
             }
             $c.find(".qa .collapse").each((j, c) => {
                 $(c).attr("data-bs-parent", `#${$c.attr("id")}`);
-                if (j != 0 || $c.find(".qa .collapse").length == 1) {
+                //if (j != 0 || $c.find(".qa .collapse").length == 1) { //不隱藏第一個QA元素
                     $(c).collapse("hide");
-                }
+                //}
             });
         });
     }
