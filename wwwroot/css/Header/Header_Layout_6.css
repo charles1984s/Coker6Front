@@ -5,6 +5,9 @@
 header .menu {
     background: linear-gradient(90deg, #0BB0DD 0%, #0069A3 70%, #006AA1 100%);
 }
+.menu .navbar-nav > .nav-item > .nav-link {
+    font-size:1.05rem;
+}
 
 #headermenu li a {
     color: white;

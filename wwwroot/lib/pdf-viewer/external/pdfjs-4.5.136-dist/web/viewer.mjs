@@ -12718,12 +12718,13 @@ const PDFViewerApplication = {
         //this.setTitle(title || url);
     },
     setTitle(title = this._title) {
+        console.log("setTitle");
         this._title = title;
         if (this.isViewerEmbedded) {
             return;
         }
         const editorIndicator = this._hasAnnotationEditors && !this.pdfRenderingQueue.printing;
-        document.title = `${editorIndicator ? "* " : ""}${title}`;
+        //document.title = `${editorIndicator ? "* " : ""}${title}`;
     },
     get _docFilename() {
         return this._contentDispositionFilename || pdfjs_getPdfFilenameFromUrl(this.url);
