@@ -12715,7 +12715,7 @@ const PDFViewerApplication = {
                 title = decodeURIComponent(getFilenameFromUrl(url));
             } catch { }
         }
-        this.setTitle(title || url);
+        //this.setTitle(title || url);
     },
     setTitle(title = this._title) {
         this._title = title;

@@ -32,6 +32,7 @@ var bookFlip = {
 		eventBus.on('documentinit', () => {
 			console.log("documentinit");
 			this.stop();
+			PDFViewerApplication.pdfViewer.currentPageScaleValue = 'page-fit'; // 設定縮放為頁面大小
 			this._ready = false;
 		});
 
