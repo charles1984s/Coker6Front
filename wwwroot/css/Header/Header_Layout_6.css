@@ -15,12 +15,12 @@ header .menu {
 
 .titleimage {
     padding-top: 2.5rem;
-    width: 15rem;
+    width: 18rem;
     max-width: 60vw;
 }
 
 .headernews {
-    width: 40rem;
+    width: 46rem;
     max-width: 90vw;
 }
 
@@ -56,6 +56,8 @@ header .menu {
             text-overflow: ellipsis;
             color: #fff;
             text-decoration: none;
+            font-size:1.1rem;
+            font-weight:600;
         }
 
         .headernews .content .title, .marqueeSwiper .swiper-slide div.text {
