@@ -32,7 +32,10 @@ header .menu {
 
         .headernews .content .title {
             color: #09D1F2;
-            line-height:1.2rem;
+            line-height: 1.2rem;
+            width: 2.4rem;
+            margin-left: 1rem;
+            font-size: 1.2rem;
         }
 
         .headernews .content .text {
@@ -57,7 +60,6 @@ header .menu {
             color: #fff;
             text-decoration: none;
             font-size:1.1rem;
-            font-weight:600;
         }
 
         .headernews .content .title, .marqueeSwiper .swiper-slide div.text {
