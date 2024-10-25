@@ -196,16 +196,16 @@ function ready() {
         if (adid != "undefined") {
             Advertise.ActivityExposure({
                 FK_Aid: adid,
-                FK_Tid: $.cookie("Token"),
+                WebsiteId: SiteId,
             }).done(function (result) {
-                console.log(result)
+                //console.log(result)
             })
             $("#EnterAdModal img").on("click", function () {
                 Advertise.ActivityClick({
                     FK_Aid: adid,
-                    FK_Tid: $.cookie("Token"),
+                    WebsiteId: SiteId,
                 }).done(function (result) {
-                    console.log(result)
+                    //console.log(result)
                 })
             });
         }
@@ -341,6 +341,25 @@ function ready() {
             NewCaptcha($ResetImgCaptcha, $InputResetVCode);
             Coker.sweet.error("錯誤", "驗證碼輸入錯誤", null, true);
         }
+    })
+
+    $("#ResetModal .btn_resetforget").on("click", function () {
+        Coker.sweet.confirm(`寄送『密碼重設通知』至您的信箱："${$("#ResetForm").data("Email")}"?`, "", "是", "否", function () {
+            Coker.sweet.loading();
+            var data = {};
+            data.Email = $("#ResetForm").data("Email");
+            data.WebsiteId = SiteId;
+            data.WebsiteLink = $(location).attr('origin');
+            data.WebsiteName = $("meta[property='og:site_name'").attr("content");
+            co.User.PasswordForget(data).done((result) => {
+                if (result.success) {
+                    Coker.sweet.success("系統將立即發送『密碼重設通知』信函至您所登錄之E-Mail中，此信函中包含您所設定之登入帳號(即E-mail)、密碼。請靜候密碼重設通知信。", null, false);
+                    registerModal.hide();
+                } else {
+                    Coker.sweet.error(result.error, null, true);
+                }
+            })
+        })
     })
 
     $(".btn_cookie_accept").on("click", cookie_accept);
@@ -540,11 +559,12 @@ function LoginAction() {
     co.User.Login(data).done((result) => {
         if (result.success) {
             console.log(result)
-            Coker.sweet.success("歡迎回來！", null, true);
-            window.location.href = $(location).attr('origin');
+            Coker.sweet.success("歡迎回來！", function () {
+                window.location.href = $(location).attr('origin');
+            }, false);
         } else {
-            switch (result.error) {
-                case "未開通":
+            switch (result.message) {
+                case "重新寄送通知信":
                     Coker.sweet.confirm(result.error, "", result.message, "關閉視窗", function () {
                         Coker.sweet.loading();
                         data.WebsiteLink = $(location).attr('origin');
@@ -553,19 +573,6 @@ function LoginAction() {
                         co.User.AccountReSendOpening(data).done(result => {
                             if (result.success) {
                                 Coker.sweet.success("系統將重新發送『加入會員通知』信函至您所登錄之E-Mail中。請靜候開通帳號通知信。", null, false);
-                            } else {
-                                console.log(result.error);
-                                console.log(result.message);
-                            }
-                        });
-                    });
-                    break;
-                case "已存在其他站":
-                    Coker.sweet.confirm(result.error, "", "是", "否", function () {
-                        Coker.sweet.loading();
-                        co.User.AccountReSendOpening(data).done(result => {
-                            if (result.success) {
-                                Coker.sweet.success("系統將立即發送『加入會員通知』信函至您所登錄之E-Mail中。請靜候開通帳號通知信。", null, false);
                             } else {
                                 console.log(result.error);
                                 console.log(result.message);
@@ -595,6 +602,8 @@ function RegisterAction() {
             Coker.sweet.success("註冊成功，系統將立即發送『加入會員通知』信函至您所登錄之E-Mail中，您必須完成帳號開通程序後，才能登入網站與使用會員功能，此信函中包含您所設定之登入帳號(即E-mail)、密碼。請靜候開通帳號通知信。", null, false);
             registerModal.hide();
         } else {
+            console.log(result)
+            console.log(result.message)
             switch (result.message) {
                 case "重新寄送通知信":
                     Coker.sweet.confirm(result.error, "", result.message, "關閉視窗", function () {
@@ -604,19 +613,6 @@ function RegisterAction() {
                                 Coker.sweet.success("系統將重新發送『加入會員通知』信函至您所登錄之E-Mail中。請靜候開通帳號通知信。", null, false);
                             } else {
                                 Coker.sweet.error("發生未知錯誤", "", null, false);
-                                console.log(result.error);
-                                console.log(result.message);
-                            }
-                        });
-                    });
-                    break;
-                case "已存在其他站":
-                    Coker.sweet.confirm(result.error, "", "是", "否", function () {
-                        Coker.sweet.loading();
-                        co.User.AccountReSendOpening(data).done(result => {
-                            if (result.success) {
-                                Coker.sweet.success("系統將立即發送『加入會員通知』信函至您所登錄之E-Mail中。請靜候開通帳號通知信。", null, false);
-                            } else {
                                 console.log(result.error);
                                 console.log(result.message);
                             }
@@ -663,8 +659,18 @@ function ResetAction(forgetid) {
             }, false);
             registerModal.hide();
         } else {
-            Coker.sweet.error(result.error, null, true);
-            NewCaptcha($ResetImgCaptcha, $InputResetVCode);
+            switch (result.message) {
+                case "密碼錯誤":
+                    Coker.sweet.confirm(result.error, "", "忘記密碼?", "確定", function () {
+                        $("#ResetModal .btn_resetforget").click();
+                    })
+                    NewCaptcha($ResetImgCaptcha, $InputResetVCode);
+                    break;
+                default:
+                    Coker.sweet.error(result.error, null, true);
+                    NewCaptcha($ResetImgCaptcha, $InputResetVCode);
+                    break;
+            }
         }
     })
 }
@@ -830,7 +836,28 @@ var Coker = {
                 data: JSON.stringify(data),
                 dataType: "json"
             });
-        }, Logout: function () {
+        },
+        GetUser: function (refreshToken) {
+            return $.ajax({
+                url: "/api/User/GetUserData/",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                data: { refreshToken: refreshToken },
+            });
+        },
+        UserEdit: function (data) {
+            return $.ajax({
+                url: "/api/User/FrontUserEdit",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("token")
+                },
+                data: JSON.stringify(data),
+                dataType: "json"
+            });
+        },
+        Logout: function () {
             return $.ajax({
                 url: "/api/User/Logout",
                 type: "GET",
@@ -852,6 +879,97 @@ var Coker = {
                 return [key, (isArray || val.length > 1) ? val : val.pop()]
             }));
             return formDataObject;
+        },
+        insertData: function (obj, $self) {
+            if (typeof ($self) == "undefined" || $self == null) $self = $("form").first();
+            else if (typeof ($self) == "string") $self = $($self);
+            const formTypeSet = (type, $e, value) => {
+                switch (type) {
+                    case "zipcode":
+                        co.Zipcode.setData({
+                            el: $e,
+                            addr: value
+                        });
+                        break;
+                    case "date_range":
+                        if (!!!$e.data('daterangepicker')) _c.Picker.Init($e);
+                        if (!!obj[$e.data("start")] || !!obj[$e.data("end")]) {
+                            $e.data('daterangepicker').setStartDate(obj[$e.data("start")]);
+                            $e.data('daterangepicker').setEndDate(obj[$e.data("end")]);
+                        } else $e.val("");
+                        break;
+                    case "date":
+                        if (!!!$e.data('daterangepicker'))
+                            _c.Picker.Init($e, { singleDatePicker: true, timePicker: false, locale: { format: 'YYYY/MM/DD' } });
+                        $e.data('daterangepicker').setStartDate(value || Date.now());
+                        break;
+                    case "disabled":
+                        $e.on("change", function () {
+                            const checked = $(this).data("direct") == "reverse" ? !$(this).prop("checked") : $(this).prop("checked");
+                            if (checked) $(`#${$(this).data("target")}`).attr("disabled", "disabled").val("");
+                            else $(`#${$(this).data("target")}`).removeAttr("disabled")
+                        });
+
+                        if (!!$e.data("value")) {
+                            let _v = $(`#${$e.data("target")}`).val();
+                            if (typeof ($e.data("value")) == "number") _v = parseInt(_v);
+                            else if (typeof ($e.data("value")) == "string") _v = _v.toString();
+                            value = $e.data("direct") == "reverse" ? !($e.data("value") == _v) : $e.data("value") == _v;
+                        }
+                        $e.prop("checked", value);
+                        $e.trigger("change");
+                        break;
+                    case "images":
+                        if (!!!$e.data("init")) {
+                            $e.ImageUploadModalClear();
+                            $e.data("init", true)
+                        }
+                        co.File.getImgFile({ Sid: obj[$e.data("target")], Type: $e.data("image-type"), Size: $e.data("image-size") }).done(function (file) {
+                            if (file.length > 0)
+                                ImageUploadModalDataInsert($e, file[0].id, file[0].link, file[0].name)
+                        });
+                        break;
+                    case "html":
+                        $e.empty().html($("<div>").html(value).html());
+                        break;
+                    default:
+                        $e.val(value);
+                        break;
+                }
+            }
+            for (const key in obj) {
+                const $e = $self.find(`[name="${key}"]`);
+                if ($e.length > 0) {
+                    if (!!$e.data("form-type")) formTypeSet($e.data("form-type"), $e, obj[key])
+                    else {
+                        switch ($e[0].tagName) {
+                            case "INPUT":
+                                switch ($e.attr("type").toLowerCase()) {
+                                    case "radio":
+                                        $self.find(`[name="${key}"][value="${obj[key]}"]`).prop("checked", true);
+                                        break;
+                                    case "checkbox":
+                                        if (Array.isArray(obj[key])) {
+                                            $(obj[key]).each(function (index, element) {
+                                                $self.find(`[name="${key}"][value="${element}"]`).prop("checked", true);
+                                            });
+                                        } else $self.find(`[name="${key}"][value="${obj[key]}"]`).prop("checked", true);
+                                        break;
+                                    case "datetime-local":
+                                        $e.val(co.Date.GetDateTimeStr(obj[key]));
+                                        break;
+                                    default:
+                                        $e.val(obj[key]);
+                                        break;
+                                }
+                                break;
+                            default:
+                                $e.val(obj[key]);
+                                break;
+                        }
+                    }
+                }// else console.log(key);
+            }
         },
     },
     sweet: {
@@ -995,6 +1113,87 @@ var Coker = {
                     }
                 });
             }
+        }
+    },
+    String: {
+        generateRandomString: function (num) {
+            const characters =
+                'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result1 = ' ';
+            const charactersLength = characters.length;
+            for (let i = 0; i < num; i++) {
+                result1 +=
+                    characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+
+            return result1;
+        },
+        isNullOrEmpty: function (str) {
+            if (typeof (str) == "undefined" || str == null || str.trim() == "") return true;
+            else return false;
+        },
+        getWeekNumber: function (i) {
+            const characters = "一二三四五六日";
+            return characters.charAt(i - 1);
+        },
+        thousandSign: function (str) {
+            let comma = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
+            let num = str.toString();
+            if (!isNaN(num)) {
+                num = num.replace(comma, ',')
+            } else num = "0";
+            return num;
+        }
+    },
+    Zipcode: {
+        init: function (id) {
+            const reandomStr = co.String.generateRandomString(5);
+            $TWzipcode = $(id);
+
+            $TWzipcode.twzipcode({
+                'zipcodeIntoDistrict': true,
+            });
+
+            var $county, $district;
+
+            $address = $TWzipcode.find('.address');
+            $county = $TWzipcode.children('.county');
+            $district = $TWzipcode.children('.district');
+
+            $county.children('select').attr({
+                id: `SelectCity_${reandomStr}`,
+                class: "city form-select"
+            }).prop("required", $address.prop("required"));
+            $county.append(`<label class='px-4 required' for='SelectCity_${reandomStr}'>縣市</label>`);
+            var $county_first_option = $county.children('select').children('option').first();
+            $county_first_option.text("請選擇縣市");
+            $county_first_option.attr('disabled', 'disabled');
+
+            $district.children('select').attr({
+                id: `SelectTown_${reandomStr}`,
+                class: "town form-select"
+            }).prop("required", $address.prop("required"));
+            $district.append(`<label class='required' for='SelectTown_${reandomStr}'>鄉鎮</label>`);
+            var $district_first_option = $district.children('select').children('option').first();
+            $district_first_option.text("請選擇鄉鎮");
+            $district_first_option.attr('disabled', 'disabled');
+        },
+        setData: function (obj) {
+            const $addr = obj.el.find(".address");
+            if (co.String.isNullOrEmpty(obj.addr)) {
+                obj.el.twzipcode('reset');
+                obj.el.find(".address").val("");
+            } else {
+                var address_split = obj.addr.split(" ");
+                obj.el.twzipcode('set', {
+                    'county': address_split[0],
+                    'district': address_split[1],
+                });
+                $addr.val(address_split[2]);
+            }
+        },
+        getData: function ($e) {
+            return $e.find(".county>select").val() + " " + $e.find(".district>select").val() + " " + $e.find(".address").val()
         }
     },
     isMobileDevice: function () {
