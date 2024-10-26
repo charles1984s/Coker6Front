@@ -9,7 +9,6 @@ function ready() {
     registerModal = $("#RegisterModal").length > 0 ? new bootstrap.Modal($("#RegisterModal")) : null;
     forgetModal = $("#ForgetModal").length > 0 ? new bootstrap.Modal($("#ForgetModal")) : null;
     resetModal = $("#ResetModal").length > 0 ? new bootstrap.Modal($("#ResetModal")) : null;
-    console.log("jsloading");
     jqueryExtend();
     $("link").each(function () {
         var $self = $(this);
@@ -33,7 +32,6 @@ function ready() {
         if (!!$(item).data("mouseover"))
             $(item).attr("src", $(item).data("mouseover"));
     }
-    console.log("0");
     const menuMouseout = function () {
         const item = $(this).find("img");
         if (!!$(item).data("mouseout"))
@@ -44,11 +42,9 @@ function ready() {
     $(".menu-item").on("focus", menuMouseover);
     $(".menu-item").on("blur", menuMouseout);
     if ($conten.length > 0) {
-        console.log("0.0.1");
         let s = $conten.text().indexOf("&amp;") >= 0 && $conten.text().indexOf("lt;") >= 0 ? Coker.stringManager.ReplaceAndSinge($conten.text()) : co.stringManager.htmlEncode($conten.html());
         let ele = document.createElement('span');
         ele.innerHTML = s;
-        console.log("0.0.2");
         if ($parentConten.length > 0 && $parentConten.text().indexOf("subpage_content") >= 0) {
             let p = Coker.stringManager.ReplaceAndSinge($parentConten.text());
             let $pe = $('<div>');
@@ -58,26 +54,22 @@ function ready() {
             $pe.find(".subpage_content").replaceWith(ele.textContent || ele.innerText);
             ele.textContent = $pe.html();
         }
-        console.log("0.0.3");
         if (location.pathname.toLowerCase().indexOf("/article/") >= 0) $conten.html($(`<div class="container">`).html(ele.textContent || ele.innerText));
         else if (location.pathname.toLowerCase().indexOf("/product/") >= 0) $conten.find("#ProductDescription > Content").html(ele.textContent || ele.innerText);
         else $conten.html(ele.textContent || ele.innerText);
         $conten.find("[draggable]").removeAttr("draggable");
         $conten.removeClass("d-none");
     }
-    console.log("0.1.1");
     if ($PostCSS.length > 0) {
         const $mainCss = $("#frameCss")
         let s = Coker.stringManager.ReplaceAndSinge($PostCSS.text());
         let ele = document.createElement('span');
-        console.log("0.1.2");
         ele.innerHTML = s;
         $mainCss.text(ele.textContent || ele.innerText);
         $PostCSS.remove();
     }
     $(".editTime,.popular").appendTo($conten);
     $(".backstageType").remove();
-    console.log("1");
     //swiper內的元素有一個以上就開啟自動輪播(autoplay:true)
     if ($(".one_swiper,.one_swiper_thumbs,.two_swiper,.three_swiper,.four_swiper,.five_swiper,.six_swiper,.picture-category").length > 0) SwiperInit({ autoplay: true });
     if ($(".marqueeSwiper").length > 0) MarqueeSwiper();
@@ -111,7 +103,6 @@ function ready() {
             });
         });
     }
-    console.log("2");
     if (location.hash != "" && $(location.hash).length > 0) $(location.hash).goTo(45);
     if ($("video").length > 0) {
         $("video").each(function () {
@@ -128,7 +119,6 @@ function ready() {
             }
         });
     }
-    console.log("3");
     _c.Search.Init("#Search");
     $(".nav-link").on("focus", function () {
         $(this).trigger("mouseover");
@@ -1146,7 +1136,7 @@ var Coker = {
             return characters.charAt(i - 1);
         },
         thousandSign: function (str) {
-            let comma = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
+            let comma = /(?=(\d{3})+(?!\d))/g;
             let num = str.toString();
             if (!isNaN(num)) {
                 num = num.replace(comma, ',')
