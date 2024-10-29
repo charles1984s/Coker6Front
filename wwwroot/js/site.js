@@ -146,7 +146,7 @@ function ready() {
         if (r != null && r.length > 0) key = r[1];
         if (key != "") {
             if ($body.find("iframe").length == 0) {
-                const iframe = $(`<iframe allowfullscreen="allowfullscreen" rel="0" src="https://www.youtube.com/embed/${key}?autohide=1" class="h-100"></iframe>`);
+                const iframe = $(`<iframe allowfullscreen="allowfullscreen" rel="0" src="https://www.youtube-nocookie.com/embed/${key}?autohide=1" class="h-100"></iframe>`);
                 iframe.appendTo($body);
             }
             $body.find(".fa-duotone").addClass("d-none");
@@ -193,17 +193,11 @@ function ready() {
         })
         var adid = $("#EnterAdModal .modal-content").data("aid");
         if (adid != "undefined") {
-            Advertise.ActivityExposure({
-                FK_Aid: adid,
-                WebsiteId: SiteId,
-            }).done(function (result) {
+            Advertise.ActivityExposure(adid).done(function (result) {
                 //console.log(result)
             })
             $("#EnterAdModal img").on("click", function () {
-                Advertise.ActivityClick({
-                    FK_Aid: adid,
-                    WebsiteId: SiteId,
-                }).done(function (result) {
+                Advertise.ActivityClick(adid).done(function (result) {
                     //console.log(result)
                 })
             });
@@ -757,19 +751,6 @@ function PassCheck($NewPass, $CheckPass, $NewPassFeedBack, $CheckPassFeedBack) {
     return false;
 }
 
-function ClickLog(Pid) {
-    if ($.cookie("Token") != null) {
-        Product.Log.Click({
-            FK_Pid: Pid,
-            FK_Tid: $.cookie("Token"),
-            Action: 2,
-        }).done(function () {
-            ProdHistorySet();
-        });
-
-    }
-}
-
 var Coker = {
     timeout: {
         time: 1500
@@ -841,7 +822,6 @@ var Coker = {
                 url: "/api/User/GetUserData/",
                 type: "GET",
                 contentType: 'application/json; charset=utf-8',
-                data: { refreshToken: refreshToken },
             });
         },
         UserEdit: function (data) {
@@ -1136,12 +1116,8 @@ var Coker = {
             return characters.charAt(i - 1);
         },
         thousandSign: function (str) {
-            let comma = /(?=(\d{3})+(?!\d))/g;
-            let num = str.toString();
-            if (!isNaN(num)) {
-                num = num.replace(comma, ',')
-            } else num = "0";
-            return num;
+            let num = parseFloat(str);
+            return isNaN(num) ? "0" : num.toLocaleString();
         }
     },
     Zipcode: {

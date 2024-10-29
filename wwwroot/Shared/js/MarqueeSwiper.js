@@ -26,6 +26,7 @@
                 $slide.before($newSlide);
             }
             $slide.remove();
+            $tempDiv.remove();
         });
     });
     var marqueeSwiper = new Swiper(".marqueeSwiper", {
