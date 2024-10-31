@@ -13,23 +13,13 @@ var $recipient_name, $recipient_sex, $recipient_email, $recipient_cellphone, $re
 var $invoice_recipient, $invoice_title, $invoice_uniformid, $invoice_address_city, $invoice_address_town, $invoice_address;
 var $ship_method, $pay_method;
 
+var user_data = {}, order_data = {}, recipient_data = {}, invoice_data = {};
+
 function PageReady() {
     Coker.Order = {
         AddHeader: function (data) {
             return $.ajax({
                 url: "/api/Order/AddHeader",
-                type: "POST",
-                contentType: 'application/json; charset=utf-8',
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem("token")
-                },
-                data: JSON.stringify(data),
-                dataType: "json"
-            });
-        },
-        AddDetails: function (data) {
-            return $.ajax({
-                url: "/api/Order/AddDetails",
                 type: "POST",
                 contentType: 'application/json; charset=utf-8',
                 headers: {
@@ -68,12 +58,45 @@ function PageReady() {
             });
         },
     };
+
     ElementInit();
     CartInit();
+
+
+    Coker.Token.CheckToken().done(function (resule) {
+        if (resule.isLogin) {
+            Coker.User.GetUser().done(function (result) {
+                if (result.success) {
+                    user_data['orderer'] = result.data.name;
+                    user_data['ordererSex'] = result.data.sex;
+                    user_data['ordererEmail'] = result.data.email;
+                    user_data['ordererCellphone'] = result.data.cellPhone;
+                    user_data['zone'] = (result.data.telPhone).split('-')[0];
+                    user_data['ordererTelephone'] = (result.data.telPhone).split('-')[1];
+                    user_data['ext'] = (result.data.telPhone).split('-')[2];
+                    user_data['address'] = result.data.address;
+                    user_data['ordererAddress'] = (result.data.address).split(' ')[2];
+
+                    order_data = user_data;
+                    DataInsert(order_data, $("#OrdererForm .default_data"));
+                    co.Form.insertData(order_data, "#Form_Orderer");
+
+                    co.Zipcode.setData({
+                        el: $("#Orderer_TWzipcode"),
+                        addr: order_data.address
+                    });
+                }
+            });
+        }
+    });
 
     Coker.Order.GetPaymentTypeEnum().done(function (result) {
         paymentArr = result;
     });
+
+    $(".btn_call_login").on("click", function (event) {
+        loginModal.show();
+    })
 
     /* Buy Swiper */
     buy_step_swiper = new Swiper("#BuyStepSwiper > .swiper", {
@@ -196,7 +219,7 @@ function PageReady() {
     $(".btn_delete_recipient").on("click", DeleteRecipient);
 
     /* Radio Button */
-    $('input[type=radio][name=RadioShipping]').on("change",RadioShipping);
+    $('input[type=radio][name=RadioShipping]').on("change", RadioShipping);
     $('input[type=radio][name=RadioPayment]').on("change", RadioPayment);
     $('input[type=radio][name=RecipientRadio]').on("change", RecipientRadio);
     $('input[type=radio][name=InvoiceRadio]').on("change", InvoiceRadio);
@@ -207,7 +230,6 @@ function PageReady() {
     });
 
 }
-
 /* 元素初始化 */
 function ElementInit() {
     /* TWzipcode 初始化 */
@@ -265,7 +287,6 @@ function ElementInit() {
     })
     $pay_method = $("input[name=RadioPayment]");
 }
-
 function CartInit() {
     Product.GetAll.Cart().done(function (result) {
         if (result.length > 0) {
@@ -286,7 +307,6 @@ function CartInit() {
         }
     })
 }
-
 function CartAdd(result) {
     var item = $($("#Template_Cart_Details").html()).clone();
     var item_link = item.find(".pro_link"),
@@ -348,7 +368,6 @@ function CartAdd(result) {
 
     item_list_ul.append(item);
 }
-
 function CartQuantityUpdate(self, price, scid, quantity) {
     Product.Update.Cart({
         Id: scid,
@@ -365,7 +384,6 @@ function CartQuantityUpdate(self, price, scid, quantity) {
         Coker.sweet.error("錯誤", "商品數量修改發生錯誤", null, true);
     });
 }
-
 function TotalCount() {
     subtotal = 0;
     $('.purchase_list').children("li").each(function () {
@@ -387,7 +405,6 @@ function TotalCount() {
         $(this).text(total.toLocaleString('en-us'))
     })
 }
-
 function CartDelete(self, id, success, error) {
     self.remove();
     Product.Delete.Cart(id).done(function () {
@@ -401,7 +418,6 @@ function CartDelete(self, id, success, error) {
         Coker.sweet.error("錯誤", error, null, true);
     })
 }
-
 function Step2Monitor() {
     shipMethodsChosen = FormCheck(ShippingForms);
     payMethodsChosen = FormCheck(PaymentForms);
@@ -414,7 +430,6 @@ function Step2Monitor() {
 
     buy_step_swiper.update();
 }
-
 function RadioShipping() {
     ori_freight = $(this).data("freight");
     low_con = $(this).data("lowcon");
@@ -422,7 +437,6 @@ function RadioShipping() {
     freight = ori_freight
     TotalCount();
 }
-
 function RadioPayment() {
     var $pay_text = $(".payment_method");
     $pay_text.addClass("fs-2 fw-bold px-3");
@@ -444,25 +458,49 @@ function RadioPayment() {
     })
     buy_step_swiper.update();
 }
-
 function Step3Monitor() {
-    if (OrdererOpen) { OrdererFilled = FormCheck(OrdererForms) };
-    if (RecipientOpen) {
-        if ($(`[name="RecipientRadio"]:checked`).val() == "order") RecipientSameOrderer();
-        RecipientFilled = FormCheck(RecipientForms);
-    }
-    if (InvoiceOpen) { InvoiceFilled = FormCheck(InvoiceForms) };
+    if (OrdererOpen) {
+        OrdererFilled = FormCheck(OrdererForms)
+    };
 
-    if (!(OrdererFilled && RecipientFilled && InvoiceFilled)) {
-        Coker.sweet.error("請確實填寫資料！", null, true);
+    if (RecipientOpen) {
+        RecipientFilled = FormCheck(RecipientForms);
+    } else {
+        switch ($(`[name="RecipientRadio"]:checked`).val()) {
+            case "order":
+                RecipientSameOrderer();
+                RecipientFilled = true;
+                break;
+        }
+    }
+    if (InvoiceOpen) {
+        InvoiceFilled = FormCheck(InvoiceForms)
+    } else {
+        switch ($(`[name="InvoiceRadio"]:checked`).val()) {
+            case "order":
+                InvoiceFilled = true;
+                break;
+        }
+    }
+
+    console.log(`OrdererFilled = ${OrdererFilled}`)
+    console.log(`$recipient_email = ${$recipient_email.val()}`)
+    console.log(`RecipientFilled = ${RecipientFilled}`)
+    console.log(`InvoiceFilled = ${InvoiceFilled}`)
+    if (!OrdererFilled) {
+        Coker.sweet.error("請確實填寫訂購人資料！", null, true);
+    } else if (!RecipientFilled) {
+        Coker.sweet.error("請確實填寫收件人資料！", null, true);
+    } else if (!InvoiceFilled) {
+        Coker.sweet.error("請確實填寫發票寄送資料！", null, true);
     } else {
         Coker.sweet.confirm("是否確定結帳？", "點選確認進入付款流程", "是，開始付款", "否", function () {
             OrderHeaderAdd();
         });
     }
+
     buy_step_swiper.update();
 }
-
 function OrdererEdit() {
     $("#OrdererForm > .default_data").toggleClass("d-none");
     $("#OrdererForm > form").toggleClass("d-none");
@@ -470,7 +508,6 @@ function OrdererEdit() {
     OrdererFilled = !OrdererOpen;
     buy_step_swiper.update();
 }
-
 function RecipientRadio() {
     var $self = $(this)
     if ($self.val() == "edit") {
@@ -479,22 +516,21 @@ function RecipientRadio() {
         RecipientOpen = true;
         RecipientFilled = false;
         RecipientFormClear();
-    } else if ($self.val() == "order"){
+    } else if ($self.val() == "order") {
         $("#RecipientForm > .default_data").addClass("d-none");
         $("#RecipientForm > form").addClass("d-none");
         RecipientOpen = false;
-        RecipientFilled = false;
+        RecipientFilled = true;
         RecipientSameOrderer();
     }
     else {
-        $("#RecipientForm > .default_data").removeClass("d-none");
+        $("#RecipientForm > .default_data").addClass("d-none");
         $("#RecipientForm > form").addClass("d-none");
         RecipientOpen = false;
         RecipientFilled = true;
     }
     buy_step_swiper.update();
 }
-
 function RecipientFormClear() {
     $recipient_name.val("");
     $recipient_sex.val("");
@@ -515,9 +551,9 @@ function RecipientSameOrderer() {
     RecipientFormSet(
         $orderer_name.val(),
         $orderer_sex.val(),
+        $orderer_email.val(),
         $orderer_cellphone.val(),
-        $orderer_telphone_area.val(),
-        $orderer_telphone.val(),
+        $orderer_telphone_area.val() + $orderer_telphone.val(),
         $orderer_telphone_ext.val(),
         $orderer_address_city.val(),
         $orderer_address_town.val(),
@@ -525,7 +561,6 @@ function RecipientSameOrderer() {
         $remark.val()
     );
 }
-
 function RecipientFormSet(name, sex, email, cellphone, telphone_area, telphone, telphone_ext, address_city, address_town, address, remark) {
     $recipient_name.val(name);
     $recipient_sex.each(function () {
@@ -545,26 +580,30 @@ function RecipientFormSet(name, sex, email, cellphone, telphone_area, telphone, 
     $recipient_address.val(address);
     $remark.val(remark);
 }
-
 function InvoiceRadio() {
     switch (this.value) {
-        case 3:
+        case "order":
+            $("#InvoiceForm > .default_data").addClass("d-none");
+            $("#InvoiceForm > form").addClass("d-none");
+            InvoiceOpen = false;
+            InvoiceFilled = true;
+            break;
+        case "recipient":
+            $("#InvoiceForm > .default_data").addClass("d-none");
+            $("#InvoiceForm > form").addClass("d-none");
+            InvoiceOpen = false;
+            InvoiceFilled = true;
+            break;
+        case "company":
             $("#InvoiceForm > .default_data").addClass("d-none");
             $("#InvoiceForm > form").removeClass("d-none");
             InvoiceOpen = true;
             InvoiceFilled = false;
             InvoiceFormClear();
             break;
-        default:
-            $("#InvoiceForm > .default_data").addClass("d-none");
-            $("#InvoiceForm > form").addClass("d-none");
-            InvoiceOpen = false;
-            InvoiceFilled = false;
-            break;
     }
     buy_step_swiper.update();
 }
-
 function InvoiceFormClear() {
     $invoice_title.val("");
     $invoice_uniformid.val("");
@@ -572,7 +611,6 @@ function InvoiceFormClear() {
     $invoice_address_town.val("");
     $invoice_address.val("");
 }
-
 function InvoiceFormSet(title, uniformid, address_city, address_town, address) {
     $invoice_title.val(title);
     $invoice_uniformid.val(uniformid);
@@ -582,7 +620,6 @@ function InvoiceFormSet(title, uniformid, address_city, address_town, address) {
     });
     $invoice_address.val(address);
 }
-
 /* 表單驗證 */
 function FormCheck(Forms) {
     var Check = false;
@@ -594,93 +631,81 @@ function FormCheck(Forms) {
     })
     return Check;
 }
-
 function DetailsClear() {
     $("#Step1 > .card-body").addClass("d-none");
     $("#Purchase_Null").removeClass("d-none");
     buy_step_swiper.disable();
 }
-
 function DeleteRecipient() {
     var $this_parent = $(this).parents("tr");
     $this_parent.remove();
 }
-
 function OrderHeaderAdd() {
-    var orderer_sex, orderer_telephone;
-    $orderer_sex.each(function () {
-        if ($(this).is(":checked")) { orderer_sex = $(this).val(); }
-    })
-    orderer_telephone = $orderer_telphone.val() != null ? ($orderer_telphone_area.val() + "-" + $orderer_telphone.val() + ($orderer_telphone_ext.val() != null ? "-" + $orderer_telphone_ext.val() : "")) : "";
+    var order_header_data = {};
 
-    var recipient_radio, recipient_sex, recipient_telephone;
-    $recipient_radio.each(function () {
-        if ($(this).is(":checked")) { recipient_radio = $(this).val(); }
-    })
-    switch (recipient_radio) {
+    if (OrdererOpen) {
+        order_data = co.Form.getJson($("#Form_Orderer").attr("id"));
+        order_data.ordererTelephone = `${order_data.zone}-${order_data.ordererTelephone}` + (order_data.ext == "" ? "" : `-${order_data.ext}`);
+        order_data.ordererAddress = `${order_data.county} ${order_data.district} ${order_data.ordererAddress}`;
+    } else {
+        order_data = user_data;
+    }
+
+    for (var key in order_data) {
+        if (key.startsWith("orderer") > 0) order_header_data[key] = order_data[key]
+    }
+
+    switch ($(`[name="RecipientRadio"]:checked`).val()) {
         case "order":
-            RecipientFormSet($orderer_name.val(), orderer_sex, $orderer_email.val(), $orderer_cellphone.val(), $orderer_telphone_area.val(), $orderer_telphone.val(), $orderer_telphone_ext.val(), $orderer_address_city.val(), $orderer_address_town.val(), $orderer_address.val(), "")
+            for (var key in order_data) {
+                if (key.startsWith("orderer") > 0) recipient_data[key.replace("orderer", "recipient")] = order_data[key]
+            }
             break;
-        case "choose":
-            RecipientFormSet($orderer_name.val(), orderer_sex, $orderer_email.val(), $orderer_cellphone.val(), $orderer_telphone_area.val(), $orderer_telphone.val(), $orderer_telphone_ext.val(), $orderer_address_city.val(), $orderer_address_town.val(), $orderer_address.val(), "")
-            break;
-    }
-    $recipient_sex.each(function () {
-        if ($(this).is(":checked")) { recipient_sex = $(this).val(); }
-    })
-    recipient_telephone = $recipient_telphone.val() != null ? ($recipient_telphone_area.val() + "-" + $recipient_telphone.val() + ($recipient_telphone_ext.val() != null ? "-" + $recipient_telphone_ext.val() : "")) : "";
-
-    var invoice_recipient;
-    $invoice_recipient.each(function () {
-        if ($(this).is(":checked")) { invoice_recipient = $(this).val(); }
-    })
-    switch (invoice_recipient) {
-        case "1":
-            InvoiceFormSet("", "", $orderer_address_city.val(), $orderer_address_town.val(), $orderer_address.val())
-            break;
-        case "2":
-            InvoiceFormSet("", "", $recipient_address_city.val(), $recipient_address_town.val(), $recipient_address.val())
+        case "edit":
+            recipient_data = co.Form.getJson($("#Form_Recipient").attr("id"));
+            recipient_data.recipientTelephone = `${recipient_data.zone}-${recipient_data.recipientTelephone}` + (recipient_data.ext == "" ? "" : `-${recipient_data.ext}`);
+            recipient_data.recipientAddress = `${recipient_data.county} ${recipient_data.district} ${recipient_data.recipientAddress}`;
             break;
     }
 
-    $ship_method.each(function () {
-        if ($(this).is(":checked")) { shipping = $(this).val(); }
-    })
-    $pay_method.each(function () {
-        if ($(this).is(":checked")) { payment = $(this).val(); }
-    })
+    for (var key in recipient_data) {
+        if (key.startsWith("recipient") > 0) order_header_data[key] = recipient_data[key]
+    }
 
-    Coker.Order.AddHeader({
-        Orderer: $orderer_name.val(),
-        OrdererSex: orderer_sex,
-        OrdererEmail: $orderer_email.val(),
-        OrdererTelephone: orderer_telephone,
-        OrdererCellPhone: $orderer_cellphone.val(),
-        OrdererAddress: $orderer_address_city.val() + $orderer_address_town.val() + " " + $orderer_address.val(),
-        Recipient: $recipient_name.val(),
-        RecipientSex: recipient_sex,
-        RecipientEmail: $recipient_email.val(),
-        RecipientTelephone: recipient_telephone,
-        RecipientCellPhone: $recipient_cellphone.val(),
-        RecipientAddress: $recipient_address_city.val() + $recipient_address_town.val() + " " + $recipient_address.val(),
-        Remark: $remark.val(),
-        InvoiceRecipient: invoice_recipient,
-        InvoiceTitle: $invoice_title.val(),
-        UniformId: $invoice_uniformid.val(),
-        InvoiceAddress: $invoice_address_city.val() + $invoice_address_town.val() + " " + $invoice_address.val(),
-        Shipping: shipping,
-        Payment: payment,
-        State: 1,
-        Subtotal: subtotal,
-        Discount: 0,
-        Bonus: 0,
-        CouponId: 0,
-        Freight: freight,
-        Service_Charge: 0
-    }).done(function (result) {
-        Coker.Order.GetHeader(result.message).done(function (result) {
-            OrderDetailsAdd(result.id, result)
+    switch ($(`[name="InvoiceRadio"]:checked`).val()) {
+        case "order":
+            invoice_data['invoiceRecipient'] = 1;
+            invoice_data['invoiceAddress'] = order_data['ordererAddress'];
+            break;
+        case "recipient":
+            invoice_data['invoiceRecipient'] = 2;
+            invoice_data['invoiceAddress'] = order_data['recipientAddress'];
+            break;
+        case "company":
+            invoice_data = co.Form.getJson($("#Form_Invoice").attr("id"));
+            invoice_data.invoiceAddress = `${invoice_data.county} ${invoice_data.district} ${invoice_data.invoiceAddress}`;
+            invoice_data['invoiceRecipient'] = 3;
+            order_header_data.uniformId = invoice_data.uniformId;
+            break;
+    }
+    for (var key in invoice_data) {
+        if (key.startsWith("invoice") > 0) order_header_data[key] = invoice_data[key]
+    }
+
+    order_header_data.shipping = $(`[name="RadioShipping"]:checked`).val();
+    order_header_data.payment = $(`[name="RadioPayment"]:checked`).val();
+    order_header_data.state = 1;
+    order_header_data.subtotal = subtotal;
+    order_header_data.discount = 0;
+    order_header_data.bonus = 0;
+    order_header_data.couponId = 0;
+    order_header_data.freight = 0;
+    order_header_data.Service_Charge = 0;
+
+    Coker.Order.AddHeader(order_header_data).done(function (result) {
+        if (result.success) {
             Coker.sweet.success("謝謝您的訂購！<br />訂單處理中，若有錯誤請修正後重送訂單。請勿按[回上頁]按鈕，以免重複下單，或發生其他不可預期的錯誤！", function () {
+                OrderSuccess(result.message);
                 setTimeout(function () {
                     isCheckout = true;
                     setTimeout(function () {
@@ -689,99 +714,84 @@ function OrderHeaderAdd() {
                     }, 300);
                 }, 300);
             })
-        })
-    }).fail(function () {
+        } else {
+            console.log(result);
+            Coker.sweet.error("錯誤", "訂購商品發生未知錯誤", null, true);
+        }
+    }).fail(function (result) {
+        console.log(result);
         Coker.sweet.error("錯誤", "訂購商品發生未知錯誤", null, true);
     });
 }
-
-function OrderDetailsAdd(ohid, oh_result) {
-    var scarr = new Array();
-    var first_scid
-    $("#Step1").find(".purchase_item").each(function () {
-        first_scid = first_scid == null ? $(this).data("scid") : first_scid;
-        scarr.push($(this).data("scid"));
-    })
-
-    Coker.Order.AddDetails({
-        FK_OHId: ohid,
-        FK_SCId_Arr: scarr,
-    }).done(function (result) {
-        if (result.success) {
-            OrderSuccess(oh_result);
-        }
-    });
-}
-
-function OrderSuccess(oh_result) {
+function OrderSuccess(order_header_id) {
     CartClear();
 
-    $("#Step4 > .card-header > .order_number").text(("000000000" + oh_result.id).substr(oh_result.id.length));
+    Coker.Order.GetHeader(order_header_id).done(function (oh_result) {
+        $("#Step4 > .card-header > .order_number").text(("000000000" + oh_result.id).substr(oh_result.id.length));
 
-    $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立，謝謝您的訂購！");
+        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立，謝謝您的訂購！");
 
-    Coker.Order.GetDetails(oh_result.id).done(function (result) {
-        if (result.length > 0) {
-            if (result.length > 1) {
-                $(".btn_view_list").removeClass("d-none")
-            }
-            for (var i = 0; i < result.length; i++) {
-                if (i == 0) {
-                    PurchaseAdd(result[i], $("#Step4 > .card-body > .pruchase_content > .purchase_list").first())
-                } else {
-                    PurchaseAdd(result[i], $("#Step4 > .card-body > .pruchase_content > .purchase_list.collapse"))
+        Coker.Order.GetDetails(oh_result.id).done(function (result) {
+            if (result.length > 0) {
+                if (result.length > 1) {
+                    $(".btn_view_list").removeClass("d-none")
+                }
+                for (var i = 0; i < result.length; i++) {
+                    if (i == 0) {
+                        PurchaseAdd(result[i], $("#Step4 > .card-body > .pruchase_content > .purchase_list").first())
+                    } else {
+                        PurchaseAdd(result[i], $("#Step4 > .card-body > .pruchase_content > .purchase_list.collapse"))
+                    }
                 }
             }
+        })
+
+        var order_item = $("#Step4 > .card-body > .orderer_data");
+        order_item.find(".name").text(HiddenCode(1, oh_result.orderer));
+        order_item.find(".cellphone").text(HiddenCode(2, oh_result.ordererCellPhone));
+        if (oh_result.ordererTelephone != null) {
+            order_item.find(".telphone").parents("div").first().removeClass("d-none");
+            order_item.find(".telphone").text(HiddenCode(3, oh_result.ordererTelephone));
         }
-    })
 
-    var order_item = $("#Step4 > .card-body > .orderer_data");
-    order_item.find(".name").text(HiddenCode(1, oh_result.orderer));
-    order_item.find(".cellphone").text(HiddenCode(2, oh_result.ordererCellPhone));
-    if (oh_result.ordererTelephone != null) {
-        order_item.find(".telphone").parents("div").first().removeClass("d-none");
-        order_item.find(".telphone").text(HiddenCode(3, oh_result.ordererTelephone));
-    }
+        var recipient_item = $("#Step4 >.card-body >  .recipient_data");
+        recipient_item.find(".name").text(HiddenCode(1, oh_result.recipient));
+        recipient_item.find(".cellphone").text(HiddenCode(2, oh_result.recipientCellPhone));
+        if (oh_result.recipientTelephone != null) {
+            recipient_item.find(".telphone").parents("div").first().removeClass("d-none");
+            recipient_item.find(".telphone").text(HiddenCode(3, oh_result.recipientTelephone));
+        }
+        recipient_item.find(".address").text(HiddenCode(4, oh_result.recipientAddress));
 
-    var recipient_item = $("#Step4 >.card-body >  .recipient_data");
-    recipient_item.find(".name").text(HiddenCode(1, oh_result.recipient));
-    recipient_item.find(".cellphone").text(HiddenCode(2, oh_result.recipientCellPhone));
-    if (oh_result.recipientTelephone != null) {
-        recipient_item.find(".telphone").parents("div").first().removeClass("d-none");
-        recipient_item.find(".telphone").text(HiddenCode(3, oh_result.recipientTelephone));
-    }
-    recipient_item.find(".address").text(HiddenCode(4, oh_result.recipientAddress));
-
-    var invoice_item = $("#Step4 >.card-body >  .invoice_data");
-    switch (oh_result.invoiceRecipient) {
-        case 1:
-            invoice_item.find(".person").removeClass("d-none");
-            invoice_item.find(".name").text(order_item.find(".name").text());
-            invoice_item.find(".cellphone").text(order_item.find(".cellphone").text());
-            if (order_item.find(".telphone").text() != null) {
-                invoice_item.find(".telphone").parents("div").first().removeClass("d-none");
-                invoice_item.find(".telphone").text(order_item.find(".telphone").text());
-            }
-            break;
-        case 2:
-            invoice_item.find(".person").removeClass("d-none");
-            invoice_item.find(".name").text(recipient_item.find(".name").text());
-            invoice_item.find(".cellphone").text(recipient_item.find(".cellphone").text());
-            if (recipient_item.find(".telphone").text() != null) {
-                invoice_item.find(".telphone").parents("div").first().removeClass("d-none");
-                invoice_item.find(".telphone").text(recipient_item.find(".telphone").text());
-            }
-            break;
-        case 3:
-            invoice_item.find(".company").removeClass("d-none");
-            invoice_item.find(".invoice").text(oh_result.invoiceTitle);
-            invoice_item.find(".unid").text(oh_result.uniformId);
-            break;
-    }
-    invoice_item.find(".address").text(HiddenCode(4, oh_result.invoiceAddress));
-
+        var invoice_item = $("#Step4 >.card-body >  .invoice_data");
+        switch (oh_result.invoiceRecipient) {
+            case 1:
+                invoice_item.find(".person").removeClass("d-none");
+                invoice_item.find(".name").text(order_item.find(".name").text());
+                invoice_item.find(".cellphone").text(order_item.find(".cellphone").text());
+                if (order_item.find(".telphone").text() != null) {
+                    invoice_item.find(".telphone").parents("div").first().removeClass("d-none");
+                    invoice_item.find(".telphone").text(order_item.find(".telphone").text());
+                }
+                break;
+            case 2:
+                invoice_item.find(".person").removeClass("d-none");
+                invoice_item.find(".name").text(recipient_item.find(".name").text());
+                invoice_item.find(".cellphone").text(recipient_item.find(".cellphone").text());
+                if (recipient_item.find(".telphone").text() != null) {
+                    invoice_item.find(".telphone").parents("div").first().removeClass("d-none");
+                    invoice_item.find(".telphone").text(recipient_item.find(".telphone").text());
+                }
+                break;
+            case 3:
+                invoice_item.find(".company").removeClass("d-none");
+                invoice_item.find(".invoice").text(oh_result.invoiceTitle);
+                invoice_item.find(".unid").text(oh_result.uniformId);
+                break;
+        }
+        invoice_item.find(".address").text(HiddenCode(4, oh_result.invoiceAddress));
+    });
 }
-
 function PurchaseAdd(result, item_list_ul) {
     var item = $($("#Template_Purchase_Details").html()).clone();
     var item_link = item.find(".pro_link"),
@@ -805,7 +815,6 @@ function PurchaseAdd(result, item_list_ul) {
 
     item_list_ul.append(item);
 }
-
 function HiddenCode(type, data) {
     switch (type) {
         case 1:
@@ -830,7 +839,15 @@ function HiddenCode(type, data) {
             break;
     }
 }
-
+function DataInsert(data, $self) {
+    $self.find("*").each(function () {
+        var $this = $(this);
+        var key = $this.data("key");
+        if (typeof ($this.data("key")) != "undefined") {
+            $this.text(data[key]);
+        }
+    });
+}
 /* Input輸入自動切換 */
 function AutoSwapInput() {
     var target = event.target
@@ -849,7 +866,6 @@ function AutoSwapInput() {
         }
     }
 }
-
 /* 地址選單初始化 */
 function TWZipCodeInit() {
     $Orderer_TWzipcode.twzipcode({
