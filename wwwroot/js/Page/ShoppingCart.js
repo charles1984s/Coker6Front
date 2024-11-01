@@ -74,16 +74,20 @@ function PageReady() {
                     user_data['zone'] = (result.data.telPhone).split('-')[0];
                     user_data['ordererTelephone'] = (result.data.telPhone).split('-')[1];
                     user_data['ext'] = (result.data.telPhone).split('-')[2];
-                    user_data['address'] = result.data.address;
+                    user_data['county'] = (result.data.address).split(' ')[0];
+                    user_data['district'] = (result.data.address).split(' ')[1];
                     user_data['ordererAddress'] = (result.data.address).split(' ')[2];
+                    user_data['address'] = result.data.address;
+
+                    co.Form.insertData(user_data, "#Form_Orderer");
 
                     order_data = user_data;
+                    order_data.ordererAddress = user_data['address'];
                     DataInsert(order_data, $("#OrdererForm .default_data"));
-                    co.Form.insertData(order_data, "#Form_Orderer");
 
                     co.Zipcode.setData({
                         el: $("#Orderer_TWzipcode"),
-                        addr: order_data.address
+                        addr: order_data.ordererAddress
                     });
                 }
             });
@@ -308,6 +312,7 @@ function CartInit() {
     })
 }
 function CartAdd(result) {
+    console.log(result)
     var item = $($("#Template_Cart_Details").html()).clone();
     var item_link = item.find(".pro_link"),
         item_image = item.find(".pro_image"),
@@ -319,8 +324,7 @@ function CartAdd(result) {
         item_total = item.find(".pro_subtotal"),
         item_btn_count_plus = item.find(".btn_count_plus"),
         item_btn_count_minus = item.find(".btn_count_minus"),
-        item_btn_remove_pro = item.find(".btn_remove_pro"),
-        item_btn_move_to_favorites = item.find(".btn_move_to_favorites");
+        item_btn_remove_pro = item.find(".btn_remove_pro");
 
     item.data("scid", result.scId);
     item_link.attr("href", `${OrgName}/Toilet/` + result.pId);
@@ -337,12 +341,6 @@ function CartAdd(result) {
     item_btn_remove_pro.on("click", function () {
         var $self = $(this).parents("li").first();
         Coker.sweet.confirm("確定將商品從購物車移除？", "該商品將會從購物車中移除，且不可復原。", "確認移除", "取消", function () {
-            CartDelete($self, $self.data("scid"), "成功移除商品", "移除商品發生未知錯誤")
-        });
-    });
-    item_btn_move_to_favorites.on("click", function () {
-        var $self = $(this).parents("li").first();
-        Coker.sweet.confirm("確定將商品加入收藏？", "該商品將會加入收藏並從購物車中移除", "加入收藏", "取消", function () {
             CartDelete($self, $self.data("scid"), "成功移除商品", "移除商品發生未知錯誤")
         });
     });
@@ -365,6 +363,52 @@ function CartAdd(result) {
     });
 
     var item_list_ul = $("#Step1 > .card-body > .purchase_list");
+
+    if (item.find(".btn_move_to_favorites").length > 0) {
+        Coker.Token.CheckToken().done(function (token) {
+            if (token.isLogin) {
+                var $btn_favorites = item.find(".btn_move_to_favorites");
+                $btn_favorites.parent("span").removeClass("d-none");
+
+                Coker.Favorites.Check(result.pId).done(function (check) {
+                    if (check.success) {
+                        $btn_favorites.data("Fid", check.message);
+                        $btn_favorites.find("i").addClass("fa-solid")
+                        $btn_favorites.find("i").removeClass("fa-regular")
+                    }
+                });
+
+                $btn_favorites.on("click", function () {
+                    var $self = $(this).find("i");
+                    if ($self.hasClass("fa-regular")) {
+                        Coker.Favorites.Add(result.pId).done(function (favorites) {
+                            if (favorites.success) {
+                                $btn_favorites.data("Fid", favorites.message);
+                                $self.addClass("fa-solid")
+                                $self.removeClass("fa-regular")
+                                Coker.sweet.success("成功將商品加入收藏", null, true);
+                            } else {
+                                console.log(favorites.message)
+                            }
+                        });
+                    } else {
+                        if (typeof ($btn_favorites.data("Fid")) != "undefined" && typeof ($btn_favorites.data("Fid")) != "") {
+                            Coker.Favorites.Delete($btn_favorites.data("Fid")).done(function (favorites) {
+                                if (favorites.success) {
+                                    $btn_favorites.data("Fid", "");
+                                    $self.addClass("fa-regular")
+                                    $self.removeClass("fa-solid")
+                                    Coker.sweet.success("已將商品從收藏中移除", null, true);
+                                } else {
+                                    console.log(favorites.message)
+                                }
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    }
 
     item_list_ul.append(item);
 }
@@ -395,14 +439,14 @@ function TotalCount() {
         }
     })
     $(".subtotal").each(function () {
-        $(this).text(subtotal.toLocaleString('en-US'))
+        $(this).text(subtotal.toLocaleString())
     })
     $(".shipping_fee").each(function () {
-        $(this).text(freight == null ? 0 : freight.toLocaleString('en-US'))
+        $(this).text(freight == null ? 0 : freight.toLocaleString())
     })
     $(".total_amount").each(function () {
         total = freight == null ? subtotal : subtotal + freight;
-        $(this).text(total.toLocaleString('en-us'))
+        $(this).text(total.toLocaleString())
     })
 }
 function CartDelete(self, id, success, error) {
@@ -645,11 +689,13 @@ function OrderHeaderAdd() {
 
     if (OrdererOpen) {
         order_data = co.Form.getJson($("#Form_Orderer").attr("id"));
-        order_data.ordererTelephone = `${order_data.zone}-${order_data.ordererTelephone}` + (order_data.ext == "" ? "" : `-${order_data.ext}`);
         order_data.ordererAddress = `${order_data.county} ${order_data.district} ${order_data.ordererAddress}`;
-    } else {
-        order_data = user_data;
     }
+    else {
+        order_data = user_data;
+        order_data.ordererAddress = user_data['address'];
+    }
+    order_data.ordererTelephone = `${order_data.zone}-${order_data.ordererTelephone}` + (order_data.ext == "" ? "" : `-${order_data.ext}`);
 
     for (var key in order_data) {
         if (key.startsWith("orderer") > 0) order_header_data[key] = order_data[key]
@@ -726,71 +772,46 @@ function OrderHeaderAdd() {
 function OrderSuccess(order_header_id) {
     CartClear();
 
-    Coker.Order.GetHeader(order_header_id).done(function (oh_result) {
-        $("#Step4 > .card-header > .order_number").text(("000000000" + oh_result.id).substr(oh_result.id.length));
+    $("#Step4 > .card-header > .order_number").text(("000000000" + order_header_id).substr(order_header_id.length));
 
-        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立，謝謝您的訂購！");
+    $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立，謝謝您的訂購！");
 
-        Coker.Order.GetDetails(oh_result.id).done(function (result) {
-            if (result.length > 0) {
-                if (result.length > 1) {
-                    $(".btn_view_list").removeClass("d-none")
-                }
-                for (var i = 0; i < result.length; i++) {
-                    if (i == 0) {
-                        PurchaseAdd(result[i], $("#Step4 > .card-body > .pruchase_content > .purchase_list").first())
-                    } else {
-                        PurchaseAdd(result[i], $("#Step4 > .card-body > .pruchase_content > .purchase_list.collapse"))
-                    }
+    DataInsert(order_data, $("#Step4 .orderer_data"));
+    HiddenCode($("#Step4 .orderer_data"))
+    DataInsert(recipient_data, $("#Step4 .recipient_data"));
+    HiddenCode($("#Step4 .recipient_data"))
+    switch (invoice_data.invoiceRecipient) {
+        case 1:
+            DataInsert(order_data, $("#Step4 .invoice_data .orderer"));
+            HiddenCode($("#Step4 .invoice_data .orderer"))
+            $("#Step4 .invoice_data .orderer").removeClass("d-none");
+            break;
+        case 2:
+            DataInsert(recipient_data, $("#Step4 .invoice_data .recipient"));
+            HiddenCode($("#Step4 .invoice_data .recipient"))
+            $("#Step4 .invoice_data .recipient").removeClass("d-none");
+            break;
+        case 3:
+            DataInsert(invoice_data, $("#Step4 .invoice_data .company"));
+            HiddenCode($("#Step4 .invoice_data .company"))
+            $("#Step4 .invoice_data .company").removeClass("d-none");
+            break;
+    }
+
+    Coker.Order.GetDetails(order_header_id).done(function (result) {
+        if (result.length > 0) {
+            if (result.length > 1) {
+                $(".btn_view_list").removeClass("d-none")
+            }
+            for (var i = 0; i < result.length; i++) {
+                if (i == 0) {
+                    PurchaseAdd(result[i], $("#Step4 > .card-body > .pruchase_content > .purchase_list").first())
+                } else {
+                    PurchaseAdd(result[i], $("#Step4 > .card-body > .pruchase_content > .purchase_list.collapse"))
                 }
             }
-        })
-
-        var order_item = $("#Step4 > .card-body > .orderer_data");
-        order_item.find(".name").text(HiddenCode(1, oh_result.orderer));
-        order_item.find(".cellphone").text(HiddenCode(2, oh_result.ordererCellPhone));
-        if (oh_result.ordererTelephone != null) {
-            order_item.find(".telphone").parents("div").first().removeClass("d-none");
-            order_item.find(".telphone").text(HiddenCode(3, oh_result.ordererTelephone));
         }
-
-        var recipient_item = $("#Step4 >.card-body >  .recipient_data");
-        recipient_item.find(".name").text(HiddenCode(1, oh_result.recipient));
-        recipient_item.find(".cellphone").text(HiddenCode(2, oh_result.recipientCellPhone));
-        if (oh_result.recipientTelephone != null) {
-            recipient_item.find(".telphone").parents("div").first().removeClass("d-none");
-            recipient_item.find(".telphone").text(HiddenCode(3, oh_result.recipientTelephone));
-        }
-        recipient_item.find(".address").text(HiddenCode(4, oh_result.recipientAddress));
-
-        var invoice_item = $("#Step4 >.card-body >  .invoice_data");
-        switch (oh_result.invoiceRecipient) {
-            case 1:
-                invoice_item.find(".person").removeClass("d-none");
-                invoice_item.find(".name").text(order_item.find(".name").text());
-                invoice_item.find(".cellphone").text(order_item.find(".cellphone").text());
-                if (order_item.find(".telphone").text() != null) {
-                    invoice_item.find(".telphone").parents("div").first().removeClass("d-none");
-                    invoice_item.find(".telphone").text(order_item.find(".telphone").text());
-                }
-                break;
-            case 2:
-                invoice_item.find(".person").removeClass("d-none");
-                invoice_item.find(".name").text(recipient_item.find(".name").text());
-                invoice_item.find(".cellphone").text(recipient_item.find(".cellphone").text());
-                if (recipient_item.find(".telphone").text() != null) {
-                    invoice_item.find(".telphone").parents("div").first().removeClass("d-none");
-                    invoice_item.find(".telphone").text(recipient_item.find(".telphone").text());
-                }
-                break;
-            case 3:
-                invoice_item.find(".company").removeClass("d-none");
-                invoice_item.find(".invoice").text(oh_result.invoiceTitle);
-                invoice_item.find(".unid").text(oh_result.uniformId);
-                break;
-        }
-        invoice_item.find(".address").text(HiddenCode(4, oh_result.invoiceAddress));
-    });
+    })
 }
 function PurchaseAdd(result, item_list_ul) {
     var item = $($("#Template_Purchase_Details").html()).clone();
@@ -815,29 +836,36 @@ function PurchaseAdd(result, item_list_ul) {
 
     item_list_ul.append(item);
 }
-function HiddenCode(type, data) {
-    switch (type) {
-        case 1:
-            if (data.length > 2) {
-                return (data.substr(0, 1) + "○" + (data.substr(data.length - 1)));
-            } else {
-                return (data.substr(0, 1) + "○");
+function HiddenCode($self) {
+    $self.find("*").each(function () {
+        var $this = $(this);
+        var key = $this.data("key");
+        if (typeof ($this.data("key")) != "undefined") {
+            switch ($this.data("type")) {
+                case "name":
+                    var name = $this.text();
+                    $this.text(`${name.substr(0, 1)}○${name.substr(name.length - 1)}`)
+                    break;
+                case "email":
+                    var email = $this.text();
+                    $this.text(`${email.substr(0, 3)}**********`)
+                    break;
+                case "phone":
+                    var phone = $this.text();
+                    $this.text(`${phone.substr(0, 3)}****${phone.substr(phone.length - 3)}`)
+                    break;
+                case "address":
+                    var address = $this.text();
+                    address = address.split(' ')[0] + address.split(' ')[1] + address.split(' ')[2];
+                    $this.text(`${address.substr(0, 9)}*****`)
+                    break;
+                case "uniformId":
+                    var uniformId = $this.text();
+                    $this.text(`${uniformId.substr(0, 3)}*****`)
+                    break;
             }
-            break;
-        case 2:
-            return (data.substr(0, 3) + "****" + data.substr(7));
-            break;
-        case 3:
-            var index1 = data.indexOf('-');
-            var index2 = data.indexOf('-', index1);
-            var new_data = (data.substr(index1 + 1, 2) + "***" + data.substr(index1 + 6, 2));
-            var ext = data.length > (index2 + 1) ? "分機" + data.substr(index2 + 1, 1) + "***" : "";
-            return new_data + ext;
-            break;
-        case 4:
-            return (data.substr(0, data.indexOf(" ")) + "***");
-            break;
-    }
+        }
+    });
 }
 function DataInsert(data, $self) {
     $self.find("*").each(function () {

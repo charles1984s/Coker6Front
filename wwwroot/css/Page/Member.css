@@ -48,12 +48,16 @@
     content: '';
 }
 
-#history-tab-pane img {
+#profile-tab-pane img {
+    width: 75px;
+}
+
+#history-tab-pane img, #favorite-tab-pane img {
     width: 180px;
     height: 180px;
 }
 
-#history-tab-pane .description {
+#history-tab-pane .description, #favorite-tab-pane .description {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -62,9 +66,21 @@
     -webkit-line-clamp: 2;
 }
 
-#history-tab-pane .price::before {
+#history-tab-pane .price::before, #favorite-tab-pane .price::before {
     content: '$';
 }
+
+.favbtn {
+    top: 2.5rem;
+}
+
+    .favbtn > button {
+        padding: 0;
+    }
+
+        .favbtn > button > i {
+            font-size: 1.5rem;
+        }
 
 /* Button Share */
 .shareBlock > a {
