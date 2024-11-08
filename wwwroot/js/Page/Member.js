@@ -1,6 +1,7 @@
 ﻿
 var resetEmailModal, ResetEmailModal, $InputResetEmailVCode, $ResetEmailImgCaptcha, ResetEmailForms
 var old_email
+var TabNow = "info", date_now = "";
 
 function PageReady() {
     Coker.Member = {
@@ -14,6 +15,14 @@ function PageReady() {
                 },
             });
         },
+        CanceOrder: function (ohid) {
+            return $.ajax({
+                url: "/api/Order/CanceOrder/",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                data: { ohid: ohid },
+            });
+        }
     }
 
     let addr = $("#TWzipcode .address").val()
@@ -32,6 +41,14 @@ function PageReady() {
     });
 }
 function Member(data) {
+
+    var now = new Date();
+    var month = (now.getMonth() + 1).toString();
+    if (month.length == 1) month = '0' + month;
+    var day = now.getDate().toString();
+    if (day.length == 1) day = '0' + day;
+    date_now = `${now.getFullYear()}-${month}-${day}`
+
     resetEmailModal = $("#ResetEmailModal").length > 0 ? new bootstrap.Modal($("#ResetEmailModal")) : null;
     $InputResetEmailVCode = $("#InputNewMailVCode");
     $ResetEmailImgCaptcha = $('#NewMailImgCaptcha');
@@ -70,11 +87,27 @@ function Member(data) {
             co.sweet.error("輸入資料錯誤", "如要填入地址資訊，請確實填寫縣市、鄉鎮與地址", null, false);
         }
         else {
+            var datacheck = true;
+            if (data.birthday == "") data.birthday = null;
             data.address = `${data.county} ${data.district} ${data.address}`;
-            data.telPhone = `${data.zone}-${data.telPhone}-${data.ext}`;
-            co.User.UserEdit(data).done(function (result) {
-                co.sweet.success("資料修改完成！", null, true);
-            });
+            if (data.cellPhone != "" && (!$.isNumeric(data.cellPhone) || data.cellPhone.length != 10)) {
+                co.sweet.error("輸入資料錯誤", "手機格式不正確，請重新輸入", null, false);
+                datacheck = false;
+            }
+            if (data.telPhone != "") {
+                if ($.isNumeric(data.zone) && $.isNumeric(data.telPhone) && ((data.ext != "" && $.isNumeric(data.ext)) || data.ext == "")) {
+                    data.telPhone = `${data.zone}-${data.telPhone}-${data.ext}`;
+                } else {
+                    co.sweet.error("輸入資料錯誤", "電話格式不正確，請重新輸入", null, false);
+                    datacheck = false;
+                }
+            }
+            //console.log(data)
+            if (datacheck) {
+                co.User.UserEdit(data).done(function (result) {
+                    co.sweet.success("資料修改完成！", null, true);
+                });
+            }
         }
     });
 
@@ -104,7 +137,12 @@ function Member(data) {
             FormClear(ResetEmailForms, $InputResetEmailVCode)
         })
     }
-
+    $("#ResetEmailForm input").on("keypress", function (event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            $("#ResetEmailModal .btn_resetmail").click();
+        }
+    });
     $(".btn_resetmail").on("click", function () {
         console.log("btn_resetmail")
         if (SiteFormCheck(ResetEmailForms, $InputResetEmailVCode)) {
@@ -123,7 +161,7 @@ function Member(data) {
 function SetMemberData() {
     Coker.User.GetUser().done(function (result) {
         if (result.success) {
-            if (result.data.telPhone != null) {
+            if (result.data.telPhone != null && result.data.telPhone != "") {
                 result.data['zone'] = (result.data.telPhone).split('-')[0];
                 result.data['telPhone'] = (result.data.telPhone).split('-')[1];
                 if ((result.data.telPhone).split('-').length == 2) result.data['ext'] = (result.data.telPhone).split('-')[2];
@@ -139,13 +177,6 @@ function SetMemberData() {
             });
 
             $("#ResetForm").data("Email", result.data.email);
-
-            var now = new Date();
-            var month = (now.getMonth() + 1).toString();
-            if (month.length == 1) month = '0' + month;
-            var day = now.getDate().toString();
-            if (day.length == 1) day = '0' + day;
-            var date_now = `${now.getFullYear()}-${month}-${day}`
 
             $("#Birthday").attr("max", date_now);
 
@@ -165,12 +196,34 @@ function SetHistoryOrderData() {
             $.each(result.orderData, function (index, data) {
                 var order_header = data.orderHeader;
                 var order_details = data.orderDetails;
-
                 var frame = $($("#Template_Order_List").html()).clone();
                 frame.find(".number").text(("000000000" + order_header.id).substr(order_header.id.length));
                 frame.find(".date").text(((order_header.creationTime).substr(0, 10).replaceAll("-", "/")));
                 frame.find(".amount").text((order_header.total).toLocaleString());
-                frame.find(".state").text(order_header.stateStr);
+                if ((order_header.creationTime.split(' ')[0] == date_now) && order_header.state == 1) {
+                    frame.find(".state").prepend(`${order_header.stateStr}<button data-ohid="${order_header.id}" class="btn_canceOrder bg-transparent border-0 text-decoration-underline text-primary" title="取消此筆訂單">取消訂單</button>`)
+                    frame.find(".state .btn_canceOrder").on("click", function () {
+                        var $this = $(this);
+                        Coker.sweet.confirm("確定取消訂單？", "", "是", "否", function () {
+                            Coker.sweet.loading();
+                            Coker.Member.CanceOrder($this.data("ohid")).done(function (result) {
+                                if (result.success) {
+                                    $this.parent(".state").addClass("text-danger fw-bold");
+                                    $this.parent(".state").text("已取消");
+                                    Coker.sweet.success("已取消訂單", null, false);
+                                } else {
+                                    console.log(result.message);
+                                }
+                            })
+                        })
+                    });
+                }
+                else {
+                    frame.find(".state").text(order_header.stateStr);
+                    if (order_header.state == 4 || order_header.state == 5) {
+                        frame.find(".state").addClass("text-danger fw-bold");
+                    }
+                }
 
                 $("#profile-tab-pane").append(frame);
 
