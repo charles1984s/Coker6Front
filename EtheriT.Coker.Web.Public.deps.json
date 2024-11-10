@@ -1869,6 +1869,9 @@
         }
       },
       "EtheriT.Coker.Core/1.0.0": {
+        "dependencies": {
+          "EtheriT.Coker.Application.Shared": "1.0.0"
+        },
         "runtime": {
           "EtheriT.Coker.Core.dll": {
             "assemblyVersion": "1.0.0",
