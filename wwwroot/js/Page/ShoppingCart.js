@@ -811,7 +811,7 @@ function OrderSuccess(result) {
             if (result.error != null) {
                 Coker.Token.CheckToken().done(function (token) {
                     if (!token.isLogin) {
-                        Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，請註冊會員以查看訂單詳細，或將訂單完成頁面截圖。")
+                        Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，請註冊會員以查看詳細訂單，或將訂單完成頁面截圖。")
                     } else {
                         Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，訂單詳細可於會員管理歷史訂單中查看。")
                     }
@@ -822,7 +822,7 @@ function OrderSuccess(result) {
         if (result.error != null) {
             Coker.Token.CheckToken().done(function (token) {
                 if (!token.isLogin) {
-                    Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，請註冊會員以查看訂單詳細，或將訂單完成頁面截圖。")
+                    Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，請註冊會員以查看詳細訂單，或將訂單完成頁面截圖。")
                 } else {
                     Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，訂單詳細可於會員管理歷史訂單中查看。")
                 }
@@ -899,7 +899,7 @@ function PurchaseAdd(result, item_list_ul) {
         item_subtotal = item.find(".pro_subtotal");
 
     item_link.attr("href", `/${OrgName}/Home/product/` + result.pId);
-    item_image.attr("src", result.imagePath);
+    item_image.attr("src", result.imagePath.replace(`upload/${OrgName}/`, "upload/"));
     item_name.text(result.title);
     item_specification.append(result.s1Title == "" ? "" : '<span class="border px-1 me-1">' + result.s1Title + '</span>')
     item_specification.append(result.s2Title == "" ? "" : '<span class="border px-1">' + result.s2Title + '</span>')
