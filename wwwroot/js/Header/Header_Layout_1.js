@@ -19,19 +19,24 @@
         MenuLiSize();
     });
 
-    if ($("#Cart_Dropdown_Parent").length > 0) {
-        CartDropInit();
-    }
     MenuLiSize();
 
-    const Cart_Dropdown = document.getElementById('Cart_Dropdown_Parent')
-    if (Cart_Dropdown != null) {
-        Cart_Dropdown.addEventListener('shown.bs.dropdown', event => {
-            $("#btn_car_dropdown > i").addClass("open");
-        })
-        Cart_Dropdown.addEventListener('hidden.bs.dropdown', event => {
-            $("#btn_car_dropdown > i").removeClass("open");
-        })
+    if ($(window).width() > 767) {
+        const Cart_Dropdown = document.getElementById('Cart_Dropdown_Parent')
+        if (Cart_Dropdown != null) {
+            Cart_Dropdown.addEventListener('shown.bs.dropdown', event => {
+                $("#btn_car_dropdown > i").addClass("open");
+            })
+            Cart_Dropdown.addEventListener('hidden.bs.dropdown', event => {
+                $("#btn_car_dropdown > i").removeClass("open");
+            })
+        }
+    } else {
+        $("#btn_car_dropdown").attr("data-bs-toggle", "");
+        $("#btn_car_dropdown").on("click", function (even) {
+            var newUrl = window.location.origin + `/${OrgName}/ShoppingCar`;
+            window.location.href = newUrl;
+        });
     }
 
     var $myOffcanvas = $("#Mega_Menu>.offcanvas");
@@ -77,7 +82,23 @@
     });*/
 }
 
+function moveHiUserToMenu() {
+    const hiUser = document.getElementById('HiUser');
+    const hamburgerMenu = document.querySelector('.offcanvas-header');
+    const iconBlock = document.querySelector('.icon-block');
+    if (window.innerWidth <= 576) {
+        // 如果屏幕宽度 <= 576px, 移动到汉堡菜单中
+        hamburgerMenu.appendChild(hiUser);
+    } else {
+        // 否则, 移回原来的位置
+        iconBlock.appendChild(hiUser);
+    }
+}
+
 function MenuLiSize() {
+
+    moveHiUserToMenu();
+
     if ($(window).width() > 768) {
         $(".subtitle").removeClass("w-100")
         $(".subtitle li").removeClass("w-100")
