@@ -15,6 +15,8 @@ var $ship_method, $pay_method;
 
 var order_header_data = {}, user_data = {}, order_data = {}, recipient_data = {}, invoice_data = {}, prod_data = {};
 
+var islogin = false;
+
 function PageReady() {
     Coker.Order = {
         AddHeader: function (data) {
@@ -49,6 +51,17 @@ function PageReady() {
                     Authorization: 'Bearer ' + localStorage.getItem("token")
                 },
                 data: { id: id },
+            });
+        },
+        GetAllData: function (ohid, check) {
+            return $.ajax({
+                url: "/api/Order/GetOrderDisplay",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem("token")
+                },
+                data: { ohid: ohid, check: check },
             });
         },
         GetPaymentTypeEnum: function () {
@@ -153,48 +166,48 @@ function PageReady() {
     }
     GetOrderPage();
 
+
     Coker.Token.CheckToken().done(function (checkresult) {
-        if (checkresult.isLogin) {
-            Coker.User.GetUser().done(function (result) {
-                //console.log(result.data);
-                if (result.success) {
-                    var data_insert = true;
-                    user_data['orderer'] = result.data.name;
-                    user_data['ordererSex'] = result.data.sex;
-                    user_data['ordererEmail'] = result.data.email;
+        islogin = checkresult.isLogin;
+        Coker.User.GetUser().done(function (result) {
+            //console.log(result.data);
+            if (result.success) {
+                var data_insert = true;
+                user_data['orderer'] = result.data.name;
+                user_data['ordererSex'] = result.data.sex;
+                user_data['ordererEmail'] = result.data.email;
 
-                    if (result.data.cellPhone == null) data_insert = false;
-                    else user_data['ordererCellphone'] = result.data.cellPhone;
+                if (result.data.cellPhone == null) data_insert = false;
+                else user_data['ordererCellphone'] = result.data.cellPhone;
 
-                    if (result.data.telPhone != null) {
-                        user_data['zone'] = (result.data.telPhone).split('-')[0];
-                        user_data['ordererTelephone'] = (result.data.telPhone).split('-')[1];
-                        user_data['ext'] = (result.data.telPhone).split('-')[2];
-                    }
-
-                    if (result.data.address != null) {
-                        user_data['county'] = (result.data.address).split(' ')[0];
-                        user_data['district'] = (result.data.address).split(' ')[1];
-                        user_data['ordererAddress'] = (result.data.address).split(' ')[2];
-                        user_data['address'] = result.data.address;
-                    } else data_insert = false;
-
-                    if (!data_insert) $(".btn_edit_data").on("click");
-
-                    co.Form.insertData(user_data, "#Form_Orderer");
-
-                    order_data = user_data;
-                    order_data.ordererAddress = user_data['address'];
-                    DataInsert(order_data, $("#OrdererForm .default_data"));
-                    RecipientSameOrderer();
-
-                    co.Zipcode.setData({
-                        el: $("#Orderer_TWzipcode"),
-                        addr: order_data.ordererAddress
-                    });
+                if (result.data.telPhone != null) {
+                    user_data['zone'] = (result.data.telPhone).split('-')[0];
+                    user_data['ordererTelephone'] = (result.data.telPhone).split('-')[1];
+                    user_data['ext'] = (result.data.telPhone).split('-')[2];
                 }
-            });
-        }
+
+                if (result.data.address != null) {
+                    user_data['county'] = (result.data.address).split(' ')[0];
+                    user_data['district'] = (result.data.address).split(' ')[1];
+                    user_data['ordererAddress'] = (result.data.address).split(' ')[2];
+                    user_data['address'] = result.data.address;
+                } else data_insert = false;
+
+                if (!data_insert) $(".btn_edit_data").on("click");
+
+                co.Form.insertData(user_data, "#Form_Orderer");
+
+                order_data = user_data;
+                order_data.ordererAddress = user_data['address'];
+                DataInsert(order_data, $("#OrdererForm .default_data"));
+                RecipientSameOrderer();
+
+                co.Zipcode.setData({
+                    el: $("#Orderer_TWzipcode"),
+                    addr: order_data.ordererAddress
+                });
+            }
+        });
     });
 
     ElementInit();
@@ -275,17 +288,47 @@ function GetOrderPage() {
     if ($.isNumeric(window.location.search.substring(1))) {
         isCheckout = true;
         var ohid = parseInt(window.location.search.substring(1));
-        console.log(`查詢編號${ohid}的訂單資料`)
-        $("#Step4 > .card-header > .order_number").text(window.location.search.substring(1));
-        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立，謝謝您的訂購！");
-        buy_step_swiper.enable();
-        buy_step_swiper.slideTo(4);
-        buy_step_swiper.disable();
-    } else {
-        console.log(`免`)
+        Coker.Order.GetAllData(ohid, true).done(function (results) {
+            if (results.length > 0) {
+                var result = results[0];
+                $("#Step4 > .card-header > .order_number").text(window.location.search.substring(1));
+                switch (result.orderHeader.state) {
+                    case "待確認":
+                        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立，謝謝您的訂購！");
+                        break;
+                    case "已付款":
+                        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立並完成付款，謝謝您的訂購！");
+                        break;
+                    case "已取消":
+                        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已取消。");
+                        break;
+                    case "付款失敗":
+                        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單付款失敗！");
+                        break;
+                    case "待付款":
+                        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立，待商家確認付款資訊，謝謝您的訂購！");
+                        break;
+                }
+                SuccessPageDataInsert(result);
+            } else {
+                if (islogin) {
+                    $("#Step4 > .card-body > .pruchase_content > .status_alert").text("查無訂單資訊或期限已過，請至會員管理歷史訂單中確認");
+                } else {
+                    $("#Step4 > .card-body > .pruchase_content > .status_alert").text("查無訂單資訊");
+                }
+            }
+            buy_step_swiper.enable();
+            buy_step_swiper.slideTo(4);
+            buy_step_swiper.disable();
+        });
     }
 }
-
+function SuccessPageDataInsert(data) {
+    var header = data.orderHeader;
+    var details = data.orderDetails;
+    DataInsert(header, $("#Step4 .card-body"))
+    TemplateDataInsert($("#Purchase"), $("#CollapsePurchase"), $("#Template_Purchase_Details"), details)
+}
 /* 元素初始化 */
 function ElementInit() {
     /* TWzipcode 初始化 */
@@ -418,49 +461,47 @@ function CartAdd(result) {
     var item_list_ul = $("#Step1 > .card-body > .purchase_list");
 
     if (item.find(".btn_move_to_favorites").length > 0) {
-        Coker.Token.CheckToken().done(function (token) {
-            if (token.isLogin) {
-                var $btn_favorites = item.find(".btn_move_to_favorites");
-                $btn_favorites.parent("span").removeClass("d-none");
+        if (islogin) {
+            var $btn_favorites = item.find(".btn_move_to_favorites");
+            $btn_favorites.parent("span").removeClass("d-none");
 
-                Coker.Favorites.Check(result.pId).done(function (check) {
-                    if (check.success) {
-                        $btn_favorites.data("Fid", check.message);
-                        $btn_favorites.find("i").addClass("fa-solid")
-                        $btn_favorites.find("i").removeClass("fa-regular")
-                    }
-                });
+            Coker.Favorites.Check(result.pId).done(function (check) {
+                if (check.success) {
+                    $btn_favorites.data("Fid", check.message);
+                    $btn_favorites.find("i").addClass("fa-solid")
+                    $btn_favorites.find("i").removeClass("fa-regular")
+                }
+            });
 
-                $btn_favorites.on("click", function () {
-                    var $self = $(this).find("i");
-                    if ($self.hasClass("fa-regular")) {
-                        Coker.Favorites.Add(result.pId).done(function (favorites) {
+            $btn_favorites.on("click", function () {
+                var $self = $(this).find("i");
+                if ($self.hasClass("fa-regular")) {
+                    Coker.Favorites.Add(result.pId).done(function (favorites) {
+                        if (favorites.success) {
+                            $btn_favorites.data("Fid", favorites.message);
+                            $self.addClass("fa-solid")
+                            $self.removeClass("fa-regular")
+                            Coker.sweet.success("成功將商品加入收藏", null, true);
+                        } else {
+                            console.log(favorites.message)
+                        }
+                    });
+                } else {
+                    if (typeof ($btn_favorites.data("Fid")) != "undefined" && typeof ($btn_favorites.data("Fid")) != "") {
+                        Coker.Favorites.Delete($btn_favorites.data("Fid")).done(function (favorites) {
                             if (favorites.success) {
-                                $btn_favorites.data("Fid", favorites.message);
-                                $self.addClass("fa-solid")
-                                $self.removeClass("fa-regular")
-                                Coker.sweet.success("成功將商品加入收藏", null, true);
+                                $btn_favorites.data("Fid", "");
+                                $self.addClass("fa-regular")
+                                $self.removeClass("fa-solid")
+                                Coker.sweet.success("已將商品從收藏中移除", null, true);
                             } else {
                                 console.log(favorites.message)
                             }
                         });
-                    } else {
-                        if (typeof ($btn_favorites.data("Fid")) != "undefined" && typeof ($btn_favorites.data("Fid")) != "") {
-                            Coker.Favorites.Delete($btn_favorites.data("Fid")).done(function (favorites) {
-                                if (favorites.success) {
-                                    $btn_favorites.data("Fid", "");
-                                    $self.addClass("fa-regular")
-                                    $self.removeClass("fa-solid")
-                                    Coker.sweet.success("已將商品從收藏中移除", null, true);
-                                } else {
-                                    console.log(favorites.message)
-                                }
-                            });
-                        }
                     }
-                })
-            }
-        });
+                }
+            })
+        }
     }
 
     item_list_ul.append(item);
@@ -852,24 +893,20 @@ function OrderSuccess(result) {
             confirmButtonText: "確認",
         }).then((confirm) => {
             if (result.error != null) {
-                Coker.Token.CheckToken().done(function (token) {
-                    if (!token.isLogin) {
-                        Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，請註冊會員以查看詳細訂單，或將訂單完成頁面截圖。")
-                    } else {
-                        Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，訂單詳細可於會員管理歷史訂單中查看。")
-                    }
-                });
-            }
-        });
-    } else {
-        if (result.error != null) {
-            Coker.Token.CheckToken().done(function (token) {
-                if (!token.isLogin) {
+                if (!islogin) {
                     Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，請註冊會員以查看詳細訂單，或將訂單完成頁面截圖。")
                 } else {
                     Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，訂單詳細可於會員管理歷史訂單中查看。")
                 }
-            });
+            }
+        });
+    } else {
+        if (result.error != null) {
+            if (!islogin) {
+                Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，請註冊會員以查看詳細訂單，或將訂單完成頁面截圖。")
+            } else {
+                Coker.sweet.error("信件發送失敗", "訂購信件發送失敗，訂單詳細可於會員管理歷史訂單中查看。")
+            }
         }
     }
 
@@ -986,11 +1023,68 @@ function HiddenCode($self) {
     });
 }
 function DataInsert(data, $self) {
+    if (typeof (data.invoiceRecipient) != "undefined") {
+        switch (parseInt(data.invoiceRecipient)) {
+            case 1:
+                $(".invoice_data .orderer").removeClass("d-none");
+                break;
+            case 2:
+                $(".invoice_data .recipient").removeClass("d-none");
+                break;
+            case 3:
+                $(".invoice_data .company").removeClass("d-none");
+                break;
+        }
+    }
     $self.find("*").each(function () {
         var $this = $(this);
         var key = $this.data("key");
         if (typeof ($this.data("key")) != "undefined") {
-            $this.text(data[key]);
+            if ($this.hasClass("price")) {
+                $this.text(data[key].replace('$', ''));
+            }
+            else $this.text(data[key]);
+        }
+    });
+}
+function TemplateDataInsert($Frame, $CollapseFrame, $Template, datas) {
+    $.each(datas, function (index, data) {
+        var $html = $($Template.html()).clone();
+        $html.find("*").each(function () {
+            var $this = $(this);
+            var key = $this.data("key");
+            if (typeof ($this.data("key")) != "undefined") {
+                switch (key) {
+                    case "link":
+                        $this.attr({
+                            href: `/${OrgName}/Home/product/${data['prodId']}`,
+                            title: `連結至：${data['title']}`
+                        });
+                        break;
+                    case "imagePath":
+                        $this.attr({
+                            src: data[key],
+                            alt: data['title']
+                        });
+                        break;
+                    case "spec":
+                        $this.append(data['s1Title'] == "" ? "" : `<span class="border px-1 me-1">${data['s1Title']}</span>`)
+                        $this.append(data['s2Title'] == "" ? "" : `<span class="border px-1 me-1">${data['s2Title']}</span>`)
+                        break;
+                    default:
+                        if ($this.hasClass("price") && !$this.hasClass("pro_unit")) {
+                            $this.text(data[key].replace('$', ''));
+                        }
+                        else $this.text(data[key]);
+                        break;
+                }
+            }
+        });
+        if (index == 0) {
+            $Frame.append($html);
+        } else {
+            $(".btn_view_list").removeClass("d-none")
+            $CollapseFrame.append($html);
         }
     });
 }
