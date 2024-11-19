@@ -8,12 +8,33 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.container-fluid > .btn_swiper_next_product {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    opacity: 0.5;
+}
+
+i.fa-chevron-right {
+    line-height: 1;
+}
+
 .describe > ul {
-    padding-left:0rem;
+    padding-left: 0rem;
 }
 
 .specification > ul {
-    padding-left:0rem;
+    padding-left: 0rem;
 }
 
 /* Product Display Modal */
@@ -26,12 +47,27 @@ input[type="number"] {
     min-height: 90vmin;
 }
 
+    #ProDisplayModal > .modal-dialog.ytshow {
+        width: 1320px;
+        max-width: 95vw;
+    }
+
     #ProDisplayModal > .modal-dialog > .modal-content {
         min-height: 50vmin;
     }
 
+        #ProDisplayModal > .modal-dialog > .modal-content > button {
+            z-index: 1;
+            background-color: white;
+            opacity: 0.75;
+        }
+
 #Pro_Image {
     cursor: zoom-in !important;
+}
+
+#Pro_Youtube {
+    height: 75vh;
 }
 
 /* ProductSwiper */
@@ -66,7 +102,7 @@ input[type="number"] {
 
     .ProductSwiper > .swiper-wrapper > .swiper-slide > .schematic_youtube {
         font-size: 4.5rem;
-        color: #a39292;
+        color: #FF0000;
         Opacity: 0.8;
         pointer-events: none
     }
@@ -410,8 +446,20 @@ input:disabled + .btn_radio {
         width: 35px !important;
     }
 
+    #btn_car_dropdown .material-symbols-outlined {
+        font-size: 24px;
+        color: #000;
+        line-height: 1;
+    }
+
+    #btn_car_dropdown > #Car_Badge {
+        left: unset !important;
+        top: -50% !important;
+        right: -10% !important;
+    }
+
     .describe > .track {
-        top:-6rem !important;
+        top: -6rem !important;
     }
 
     .btn_favorites .icon_love::before {
@@ -455,14 +503,14 @@ input:disabled + .btn_radio {
 
 @media (max-width:410px) {
     #btn_tab > .nav-item > button.nav-link {
-        padding:.5rem 1rem;
+        padding: .5rem 1rem;
     }
 
     .pro_tc {
-        padding:0 !important;
+        padding: 0 !important;
     }
 
-    .pro_tc .image {
-        padding:0;
-    }
+        .pro_tc .image {
+            padding: 0;
+        }
 }
