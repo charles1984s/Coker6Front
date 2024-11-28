@@ -196,6 +196,26 @@ function ready() {
     typeof (FooterInit) === "function" && FooterInit();
     SideFloatingInit();
     CreateToken();
+    //監測使用者是否離開畫面
+    window.addEventListener("beforeunload", function () {
+        let leaveTime = new Date(); // 離開頁面的時間
+        let timeSpent = leaveTime - entryTime; // 計算停留時間，單位是毫秒
+
+        // 將停留時間發送到伺服器
+        //navigator.sendBeacon("/api/trackTime");
+    });
+
+    // 當用戶切換標籤或最小化時，使用 visibilitychange 事件來處理
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            let leaveTime = new Date();
+            let timeSpent = leaveTime - entryTime;
+
+            // 將停留時間發送到伺服器
+            //navigator.sendBeacon("/api/trackTime");
+        }
+    });
+
 
     const enterAdModalEl = $('#EnterAdModal')
     var enteradid = enterAdModalEl.data("enteradid")
