@@ -12,8 +12,21 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-/* Required Sign */
-.required_front::before {
+#Step1 > .card-body > .purchase_list > .purchase_item > .content > .counter_input > btn_count_minus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#Step1 > .card-body > .purchase_list > .purchase_item > .content > .counter_input > btn_count_plus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#Step1 > .card-body > .purchase_list > .purchase_item > .content > .counter_input > #quantityInput1 {
+    border-radius: 0;
+}
+    /* Required Sign */
+    .required_front::before {
     color: var(--red-text);
     content: '*';
 }
@@ -27,6 +40,10 @@ input[type="number"] {
     color: var(--red-text);
     content: '\5fc5\586b';
     font-size: 0.5rem;
+}
+
+.red_text {
+    color: var(--red-number);
 }
 
 /* Generic Button Style */
@@ -271,6 +288,10 @@ input[type="number"] {
         color: var(--black-text);
         padding-right: 1rem;
     }
+
+#Step4 > .card-body > .pruchase_content > .buyagain_text span {
+    cursor: pointer;
+}
 
 #Step4 > .card-body > .pruchase_content > .purchase_list > .purchase_item > .image > a {
     color: var(--black-text);
