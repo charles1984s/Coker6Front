@@ -979,7 +979,12 @@ function OrderHeaderAdd() {
                                     if (result.success) {
                                         localStorage.setItem("lastSaveTime", new Date().toISOString())
                                         localStorage.setItem("lastSaveToken", localStorage.getItem("token"));
-                                        window.location.replace(result.message);
+                                        $("#Step4 > .card-body > .pruchase_content > .status_alert").text("訂單已成立，即將進入付款流程。");
+                                        setTimeout(function () {
+                                            buy_step_swiper.slideNext();
+                                            buy_step_swiper.disable();
+                                        }, 300);
+                                        window.open(result.message, "_blank");
                                     } else {
                                         $("#Step4 > .card-body > .pruchase_content > .status_alert").text("付款流程發生未知錯誤，請稍後重新嘗試，或直接聯繫客服人員。");
                                         setTimeout(function () {
@@ -1113,7 +1118,6 @@ function PurchaseAdd(result, item_list_ul) {
 
     item_link.attr("href", `/${OrgName}/Home/product/` + result.pId);
     item_link.attr("title", `連結至：${result.title}(另開新視窗)`);
-    console.log("result", result)
     console.log("result.imagePath", result.imagePath)
     console.log("result.imagePath", result.imagePath.replace(`upload/${OrgName}/`, "upload/"))
     item_image.attr("src", result.imagePath.replace(`upload/${OrgName}/`, "upload/"));
@@ -1197,7 +1201,9 @@ function TemplateDataInsert($Frame, $CollapseFrame, $Template, datas) {
                         });
                         break;
                     case "imagePath":
-                        data[key].replace(`/${OrgName}/`, '/');
+                        console.log("data[key]", data[key])
+                        data[key] = data[key].replace(`/${OrgName}/`, '/');
+                        console.log("data[key]", data[key])
                         $this.attr({
                             src: data[key],
                             alt: data['title']
