@@ -196,23 +196,31 @@ function ready() {
     typeof (FooterInit) === "function" && FooterInit();
     SideFloatingInit();
     CreateToken();
+    if (!sessionStorage.getItem('pageLoadTime')) {
+        sessionStorage.setItem('pageLoadTime', Date.now());
+    }
     //監測使用者是否離開畫面
     window.addEventListener("beforeunload", function () {
-        let leaveTime = new Date(); // 離開頁面的時間
-        let timeSpent = leaveTime - entryTime; // 計算停留時間，單位是毫秒
-
         // 將停留時間發送到伺服器
-        //navigator.sendBeacon("/api/trackTime");
+        let timeSpent = Date.now() - parseInt(sessionStorage.getItem('pageLoadTime'));
+        const body = {timeSpan: timeSpent};
+        const headers = { type: 'application/json'};
+        const blob = new Blob([JSON.stringify(body)], headers);
+        navigator.sendBeacon("/api/UserStatistic/trackTime",JSON.stringify({ timeSpan: timeSpent }));
     });
 
     // 當用戶切換標籤或最小化時，使用 visibilitychange 事件來處理
     document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-            let leaveTime = new Date();
-            let timeSpent = leaveTime - entryTime;
-
-            // 將停留時間發送到伺服器
-            //navigator.sendBeacon("/api/trackTime");
+         if (document.hidden) {
+            // 計算當前停留時間，將其存儲到本地
+            let timeSpent = Date.now() - parseInt(sessionStorage.getItem('pageLoadTime'));
+            const body = {timeSpan: timeSpent};
+            const headers = { type: 'application/json'};
+            const blob = new Blob([JSON.stringify(body)], headers);
+            navigator.sendBeacon("/api/UserStatistic/trackTime",blob);
+        } else {
+            // 重新加載頁面時，重設加載時間
+            sessionStorage.setItem('pageLoadTime', Date.now());
         }
     });
 
@@ -499,6 +507,12 @@ function ready() {
                 break;
         }
     });
+
+    var string = $("#TermsModal .modal-body .content").text().toString();
+    //console.log(string)
+    string = $.trim(string);
+    //console.log(string)
+    $("#TermsModal .modal-body .content").html(string)
 }
 
 function SiteElementInit() {
