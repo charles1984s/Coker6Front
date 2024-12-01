@@ -294,9 +294,18 @@ function PageReady() {
     $('input[type=radio][name=RecipientRadio]').on("change", RecipientRadio);
     $('input[type=radio][name=InvoiceRadio]').on("change", InvoiceRadio);
 
-    $(".btn_backshop").on("click", function () {
-        history.back();
-        return false;
+    $(".btn_backshop").each(function () {
+        var $this = $(this);
+        console.log($this.attr("href"))
+        if ($this.attr("href") == "") $this.attr("title", "繼續購物：返回上一頁");
+    })
+    $(".btn_backshop").on("click", function (event) {
+        var $this = $(this);
+        console.log($this.attr("href"))
+        if ($this.attr("href") == "") {
+            history.back();
+            return false;
+        }
     });
 }
 function hashChange(e) {
@@ -636,12 +645,22 @@ function CartQuantityUpdate(self, price, scid, quantity) {
         Id: scid,
         Quantity: quantity,
     }).done(function (result) {
-        Product.GetOne.Cart(result.message).done(function (result) {
-            self.data("subtotal", price * quantity)
-            self.text(self.data("subtotal").toLocaleString('en-US'))
-            TotalCount();
-            CartDropReset(scid, quantity)
-        });
+        if (result.success) {
+            Product.GetOne.Cart(result.message).done(function (result) {
+                self.data("subtotal", price * quantity)
+                self.text(self.data("subtotal").toLocaleString('en-US'))
+                TotalCount();
+                CartDropReset(scid, quantity)
+            });
+        } else {
+            if (result.error == "商品庫存不足") {
+                Coker.sweet.error(result.error, result.message, function () {
+                    location.reload(true);
+                }, false);
+            } else {
+                Coker.sweet.error("商品更改數量發生錯誤", result.message, null, true);
+            }
+        }
     }).fail(function () {
         Coker.sweet.error("錯誤", "商品數量修改發生錯誤", null, true);
     });
