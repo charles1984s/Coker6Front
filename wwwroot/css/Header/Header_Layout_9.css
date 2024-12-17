@@ -4,6 +4,10 @@
     background-color: #fffeea;
 }
 
+#Offcanvas_Mega_Menu > .navbar-nav > .metaMenu:hover > .font {
+    background: #529E58;
+}
+
 .icon-search-bg {
     margin-left:1rem;
 }
@@ -445,7 +449,7 @@
     }
 
     #Offcanvas_Mega_Menu {
-        background-color: rgb(101 169 239 / 95%);
+        background-color: #C7CE38;
         width: 85% !important;
     }
 
@@ -690,6 +694,12 @@
 }
 
 @media (max-width: 1000px) {
+    #Offcanvas_Mega_Menu > ul > .title > .content {
+        background-color: #C7CE38 !important;
+    }
+        #Offcanvas_Mega_Menu > ul > .title > .content span {
+            color: #ffffff !important;
+        }
     #Mega_Menu .w50 {
         display: none !important;
     }
@@ -809,6 +819,7 @@
 
     .offcanvas-header {
         padding: 1.6rem !important;
+        padding-left:3rem !important;
     }
 
     .home, .page {

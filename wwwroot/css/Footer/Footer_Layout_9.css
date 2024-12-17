@@ -357,7 +357,7 @@ footer {
     }
     .paging_frame {
         width: 30%;
-        height: 25%;
+        height: 45%;
     }
 }
 
@@ -441,8 +441,30 @@ footer {
         }
     }
 
+    @media (max-width:520px) {
+        .abreast .paging_frame:not(:last-child) {
+            width: 30%;
+            height: 45%;
+        }
+        #FootContainer > #Footer_Menu > .paging_frame:nth-child(5) {
+            position:absolute;
+            top:35%;
+        }
+        #Footer_Menu {
+            height: 400px !important;
+        }
+    }
+
     @media (max-width:480px) {
         .paging_frame {
             width:50%;
+        }
+        .abreast .paging_frame:not(:last-child) {
+            width: 50%;
+            height: 27%;
+        }
+        #FootContainer > #Footer_Menu > .paging_frame:nth-child(5) {
+            position: relative;
+            transform: translate(100%, 10%);
         }
     }
