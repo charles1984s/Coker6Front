@@ -73,7 +73,7 @@
                         });
                     }
                 });
-                $self.append($select);
+                $self.append($label).append($select);
             }
             if ($(window).width() > 576) {
                 $self.children().first().removeClass("d-none");
