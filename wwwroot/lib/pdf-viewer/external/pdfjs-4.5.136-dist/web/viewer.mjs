@@ -12573,11 +12573,12 @@ const PDFViewerApplication = {
         fileInput.hidden = true;
         fileInput.type = "file";
         fileInput.value = null;
+        fileInput.setAttribute("title", "檔案");
         filelabel.innerText = "file";
         filelabel.className = "d-none";
-        filelabel.setAttribute("for","fileInput");
-        document.body.append(fileInput);
+        filelabel.setAttribute("for", "fileInput");
         document.body.append(filelabel);
+        document.body.append(fileInput);
         fileInput.addEventListener("change", function (evt) {
             const {
                 files
