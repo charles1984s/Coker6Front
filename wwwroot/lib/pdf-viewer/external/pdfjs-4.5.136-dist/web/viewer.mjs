@@ -7805,9 +7805,10 @@ class PDFThumbnailView {
         const text = document.createElement("div");
         img.className = "thumbnailImage";
         text.className = "d-none";
-        text.text = `連結至${id}`;
+        text.innerText = `連結至第${id}頁`;
         this._placeholderImg = img;
         div.append(img);
+        div.append(text);
         anchor.append(div);
         container.append(anchor);
     }
@@ -12567,13 +12568,14 @@ const PDFViewerApplication = {
         file = params.get("file") ?? AppOptions.get("defaultUrl");
         validateFileURL(file);
         const fileInput = this._openFileInput = document.createElement("input");
-        const filelable = document.createElement("filelable");
+        const filelable = document.createElement("lable");
         fileInput.id = "fileInput";
         fileInput.hidden = true;
         fileInput.type = "file";
         fileInput.value = null;
-        filelable.text = "檔案";
+        filelable.innerText = "file";
         filelable.className = "d-none";
+        filelable.setAttribute("for","fileInput");
         document.body.append(fileInput);
         document.body.append(filelable);
         fileInput.addEventListener("change", function (evt) {
