@@ -12568,16 +12568,16 @@ const PDFViewerApplication = {
         file = params.get("file") ?? AppOptions.get("defaultUrl");
         validateFileURL(file);
         const fileInput = this._openFileInput = document.createElement("input");
-        const filelable = document.createElement("lable");
+        const filelabel = document.createElement("label");
         fileInput.id = "fileInput";
         fileInput.hidden = true;
         fileInput.type = "file";
         fileInput.value = null;
-        filelable.innerText = "file";
-        filelable.className = "d-none";
-        filelable.setAttribute("for","fileInput");
+        filelabel.innerText = "file";
+        filelabel.className = "d-none";
+        filelabel.setAttribute("for","fileInput");
         document.body.append(fileInput);
-        document.body.append(filelable);
+        document.body.append(filelabel);
         fileInput.addEventListener("change", function (evt) {
             const {
                 files
