@@ -5,7 +5,6 @@
  ***************/
 function SwiperInit(obj) {
     var config = {
-        a11y: true,
         slidesPerView: 1,
         spaceBetween: 15,
         keyboard: {
