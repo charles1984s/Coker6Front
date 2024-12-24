@@ -23,12 +23,12 @@ function SwiperInit(obj) {
                 const hideShow = function (event) {
                     $(this).parents(".swiper-slide").find(".outside-item").removeClass("show");
                 }
-                $(this.el).find(".hover-outside").on("click", setShow);
-                $(this.el).find(".hover-outside").on("mouseover", setShow);
-                $(this.el).find(".outside-item").on("mouseover", setShow);
-                $(this.el).find(".hover-outside").on("mouseout", hideShow);
-                $(this.el).find(".outside-item").on("mouseout", hideShow);
-                $("body").off("click.disableoutsideItem").on("click.disableoutsideItem", hideShow)
+                $(this.el).find(".hover-outside").off("click").on("click", setShow);
+                $(this.el).find(".hover-outside").off("mouseover").on("mouseover", setShow);
+                $(this.el).find(".outside-item").off("mouseover").on("mouseover", setShow);
+                $(this.el).find(".hover-outside").off("mouseout").on("mouseout", hideShow);
+                $(this.el).find(".outside-item").off("mouseout").on("mouseout", hideShow);
+                $("body").off("click.disableoutsideItem").off("click.disableoutsideItem").on("click.disableoutsideItem", hideShow)
                 this.isLoopActive = this.params.loop;
             },
             slideChange: function () {
@@ -97,7 +97,7 @@ function SwiperInit(obj) {
             }
             thisSwiper = $(this);
             $(this).off("mouseover").on("mouseover", stop);
-            $(this).find(".swiper-slide a").on("focus", function () {
+            $(this).find(".swiper-slide a").off("focus").on("focus", function () {
                 const activeIndex = $(swiper.el).find(":focus").parents(".swiper-slide").attr("aria-label").split(" / ")[0];
                 swiper.slideTo(activeIndex - 1, 300);
                 stop();
@@ -374,6 +374,7 @@ function SwiperInit(obj) {
     $(".four_swiper").prop("draggable", true).each(function () {
         var $self = $(this);
         if (!!!$self.data("isInit")) {
+            console.log($self,"four_swiper");
             if (typeof ($self.attr("id")) == "undefined") $self.attr("id", `id-${Math.random().toString(36).substring(2, 9)}-${Date.now()}`)
             var Id = "#" + $self.attr("id") + " > .swiper";
             var selfConfig = Object.assign({}, config, {
