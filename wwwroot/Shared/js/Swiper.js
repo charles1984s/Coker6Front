@@ -17,14 +17,20 @@ function SwiperInit(obj) {
             init: function () {
                 const swiper = this;
                 const setShow = function (event) {
-                    event.preventDefault()
-                    $(this).parents(".swiper-slide").find(".outside-item").addClass("show");
+                    event.preventDefault();
+                    $(event.currentTarget).parents(".swiper").find(".outside-item").removeClass("show");
+                    $(event.currentTarget).parents(".swiper-slide").find(".outside-item").addClass("show");
                 }
                 const hideShow = function (event) {
-                    $(this).parents(".swiper-slide").find(".outside-item").removeClass("show");
+                    $(".swiper-slide .outside-item").removeClass("show");
                 }
                 $(this.el).find(".hover-outside").off("click").on("click", setShow);
                 $(this.el).find(".hover-outside").off("mouseover").on("mouseover", setShow);
+                $(this.el).find(".hover-outside").off("keydown").on("keydown", function (event) {
+                    if (event.key === 'Enter' || event.key === ' ') { // 檢查 Enter 或空白鍵
+                        setShow(event);
+                    }
+                });
                 $(this.el).find(".outside-item").off("mouseover").on("mouseover", setShow);
                 $(this.el).find(".hover-outside").off("mouseout").on("mouseout", hideShow);
                 $(this.el).find(".outside-item").off("mouseout").on("mouseout", hideShow);
@@ -374,7 +380,6 @@ function SwiperInit(obj) {
     $(".four_swiper").prop("draggable", true).each(function () {
         var $self = $(this);
         if (!!!$self.data("isInit")) {
-            console.log($self,"four_swiper");
             if (typeof ($self.attr("id")) == "undefined") $self.attr("id", `id-${Math.random().toString(36).substring(2, 9)}-${Date.now()}`)
             var Id = "#" + $self.attr("id") + " > .swiper";
             var selfConfig = Object.assign({}, config, {
