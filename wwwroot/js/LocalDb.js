@@ -23,8 +23,12 @@
     async #initializeDatabase() {
         try {
             const dbExists = await this.#checkDatabaseExists();
+            const isKeyPathValid = await this.#checkKeyPath();
             if (!dbExists) {
                 console.warn("資料庫不存在，刪除舊版本並重新建立...");
+                await this.#deleteDatabase(); // 使用私有方法刪除舊資料庫
+            } else if (!isKeyPathValid) {
+                console.warn("資料庫 keyPath 不正確，刪除並重新建立資料庫。");
                 await this.#deleteDatabase(); // 使用私有方法刪除舊資料庫
             }
             await this.checkAndFetchData();
@@ -50,6 +54,23 @@
                 // 如果 onupgradeneeded 被觸發，代表資料庫不存在或需要升級
                 resolve(false);
             };
+        });
+    }
+
+    async #checkKeyPath() {
+        return new Promise((resolve) => {
+            const request = indexedDB.open(this.#dbName);
+
+            request.onsuccess = (event) => {
+                const db = event.target.result;
+                const store = db.transaction(this.#storeName, "readonly").objectStore(this.#storeName);
+
+                // 檢查 keyPath
+                resolve(store.keyPath === "compositeKey");
+                db.close();
+            };
+
+            request.onerror = () => resolve(false);
         });
     }
 
