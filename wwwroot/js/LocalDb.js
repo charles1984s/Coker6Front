@@ -23,14 +23,18 @@
     async #initializeDatabase() {
         try {
             const dbExists = await this.#checkDatabaseExists();
-            const isKeyPathValid = await this.#checkKeyPath();
             if (!dbExists) {
                 console.warn("資料庫不存在，刪除舊版本並重新建立...");
                 await this.#deleteDatabase(); // 使用私有方法刪除舊資料庫
-            } else if (!isKeyPathValid) {
-                console.warn("資料庫 keyPath 不正確，刪除並重新建立資料庫。");
-                await this.#deleteDatabase(); // 使用私有方法刪除舊資料庫
+            } else {
+                const isKeyPathValid = await this.#checkKeyPath();
+                if (!isKeyPathValid) {
+                    console.warn("資料庫 keyPath 不正確，刪除並重新建立資料庫。");
+                    await this.#deleteDatabase(); // 使用私有方法刪除舊資料庫
+                }
             }
+
+            
             await this.checkAndFetchData();
         } catch (error) {
             console.error("初始化資料庫時發生錯誤:", error);
