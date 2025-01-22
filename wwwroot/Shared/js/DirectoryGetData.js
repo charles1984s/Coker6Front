@@ -302,7 +302,17 @@ function DirectoryDataGet($item, option) {
         }
 
         $item.data("init", "true");
-        DirectoryDataInsert($item, result.releInfos);
+
+        if (result.releInfos.length > 0 && result.releInfos[0].type == 1) {
+            if (typeof (islogin) == "undefined") {
+                Coker.Token.CheckToken().done(function (token_result) {
+                    if (token_result.success) islogin = token_result.isLogin;
+                    DirectoryDataInsert($item, result.releInfos);
+                });
+            } else DirectoryDataInsert($item, result.releInfos);
+        } else {
+            DirectoryDataInsert($item, result.releInfos);
+        }
         $item.data({ filter: result.filter, directoryType: result.directoryType }).trigger("load");
 
         if ($item.hasClass("swiper") || $item.find(".swiper").length > 0 || $item.hasClass("swiper-wrapper")) {
@@ -332,6 +342,9 @@ function DirectoryDataInsert($item, result) {
         var content = $(temp).clone();
         let path, target;
         if (isSearch || window.location.pathname.toLowerCase().indexOf("search") > 0 || window.location.pathname.toLowerCase().indexOf("techcert") > 0) {
+            var links = data.link.split("?filter=");
+            data.link = links[0];
+            var filter = links.length > 1 ? "?filter=" + links[1] : "";
             switch (data.type) {
                 case 3:
                     path = `${data.orgName == null ? "" : `/${data.orgName}`}/${data.link}`;
@@ -341,7 +354,7 @@ function DirectoryDataInsert($item, result) {
                     break;
             }
             if (typeof ($item.data("search-text")) != "undefined" && $item.data("search-text") != "") {
-                path = `${path}/${$item.data("search-text")}`;
+                path = `${path}/${$item.data("search-text")}${filter}`;
             }
 
             target = "_blank";
@@ -494,13 +507,7 @@ function DirectoryDataInsert($item, result) {
         content.find(".shareBlock > a").remove();
         content.find(".shareBlock").data("href", path);
 
-        if (typeof (IsLogin) == "undefined") {
-            Coker.Token.CheckToken().done(function (result) {
-                if (result.success && result.isLogin && result.name != "" && data.type == 1) ProdFavBtnSet(content, data)
-            });
-        } else if (IsLogin) {
-            ProdFavBtnSet(content, data)
-        }
+        if (data.type == 1 && typeof (IsLogin) != "undefined" && IsLogin) ProdFavBtnSet(content, data)
 
         $item.find(".catalog").append(content);
     });
