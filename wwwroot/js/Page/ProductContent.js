@@ -211,6 +211,7 @@ function PageDefaultSet(result) {
                 var prices = [];
                 data.prices.forEach(function (self_data) {
                     var temp_obj = {
+                        fK_RId: self_data.fK_RId,
                         priceid: self_data.id,
                         price: self_data.price,
                         oriprice: self_data.oriPrice,
@@ -299,7 +300,7 @@ function PageDefaultSet(result) {
             var oriprice = item.oriPrice;
             var price_temp = $($("#PriceListTemplate").html()).clone();
 
-            price_temp.data("priceid", item.id)
+            price_temp.find("input").data("priceid", item.id)
             price_temp.find("input").attr("id", `price_${item.id}`);
             price_temp.find("label").attr("for", `price_${item.id}`);
 
@@ -318,6 +319,7 @@ function PageDefaultSet(result) {
                 }
             } else price_text = price.toLocaleString('en-US');
             price_temp.find(".discount").text(price_text);
+            if (item.fK_RId != 1) price_temp.find(".discount").addClass("mprice");
 
             if (oriprice > price) {
                 price_temp.find(".ori_price").text(oriprice.toLocaleString('en-US'));
@@ -554,7 +556,7 @@ function SpecRadio() {
                     var oriprice = self_item.oriprice;
                     var price_temp = $($("#PriceListTemplate").html()).clone();
 
-                    price_temp.data("priceid", self_item.priceid)
+                    price_temp.find("input").data("priceid", self_item.priceid)
                     price_temp.find("input").attr("id", `price_${self_item.priceid}`);
                     price_temp.find("label").attr("for", `price_${self_item.priceid}`);
 
@@ -573,6 +575,7 @@ function SpecRadio() {
                         }
                     } else price_text = price.toLocaleString('en-US');
                     price_temp.find(".discount").text(price_text);
+                    if (self_item.fK_RId != 1) price_temp.find(".discount").addClass("mprice");
 
                     if (oriprice > price) {
                         price_temp.find(".ori_price").text(oriprice.toLocaleString('en-US'));
@@ -582,11 +585,6 @@ function SpecRadio() {
                     if ($(".priceframe").children().length == 0 && !price_temp.find("input").prop("disabled")) price_temp.find("input").prop("checked", true);
                     $(".priceframe").append(price_temp);
                 });
-
-                if (!CanShop || (".priceframe input").length == 1 || $(".btn_addToCar").hasClass("close")) $(".priceframe input").addClass("d-none");
-                else $(".priceframe input").removeClass("d-none");
-                if ($(".priceframe input:checked").length == 0) $(".btn_addToCar").addClass("bonus_lack")
-                else $(".btn_addToCar").removeClass("bonus_lack")
 
                 $input_quantity.attr({
                     min: 0,
@@ -610,6 +608,10 @@ function SpecRadio() {
         $input_quantity.attr("max", this_price_list.stock)
     }
 
+    if (!CanShop || $(".priceframe input").length == 1 || $(".btn_addToCar").hasClass("close")) $(".priceframe input").addClass("d-none");
+    else $(".priceframe input").removeClass("d-none");
+    if ($(".priceframe input:checked").length == 0) $(".btn_addToCar").addClass("bonus_lack")
+    else $(".btn_addToCar").removeClass("bonus_lack")
 }
 function AddToCart() {
     if (localStorage.getItem('AgreePrivacy') == null) {
@@ -618,6 +620,7 @@ function AddToCart() {
         if (s1 != null && s2 != null && $input_quantity.val() != 0) {
             Product.AddUp.Cart({
                 FK_Pid: parseInt(Pid),
+                FK_PriceId: $(".priceframe input[type='radio']:checked").data("priceid"),
                 FK_S1id: s1,
                 FK_S2id: s2,
                 Quantity: $input_quantity.val(),
