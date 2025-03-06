@@ -94,6 +94,14 @@ a[href="https://translate.google.com"] {
     border-radius: 3px;
 }
 
+#TermsModal .modal-body .content {
+    white-space: pre-wrap;
+}
+
+#RegisterForm > #RegisterNewPassFeedBack, #RegisterForm > #RegisterCheckPassFeedBack {
+    font-size: 0.8rem;
+}
+
 @media only screen and (max-width: 768px) {
     #YTPreviewModal .modal-dialog {
         max-width: 95vw !important;
