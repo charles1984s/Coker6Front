@@ -627,6 +627,14 @@ function ready() {
             loginModal.show();
         }
     });
+
+    if ($(".noImageHide").length > 0) {
+        $(".noImageHide").each(function () {
+            var $self = $(this);
+            $self.find("[src='/images/noImg.jpg']").css("visibility", "hidden ");
+            $self.find("[src='/images/UploadImg.png']").css("visibility", "hidden ");
+        });
+    }
 }
 
 function SiteElementInit() {
