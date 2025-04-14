@@ -276,11 +276,11 @@
                 margin-left: 0;
             }
 
-        #Offcanvas_Mega_Menu > ul > .title > a {
+        #Offcanvas_Mega_Menu > ul > .title > div > a {
             color: black;
         }
 
-            #Offcanvas_Mega_Menu > ul > .title > a > img + span {
+            #Offcanvas_Mega_Menu > ul > .title > div > a > img + span {
                 display: none;
             }
         /* Mega Menu Content */
@@ -539,16 +539,6 @@
 
         .subtitle > .subtitle_title.collapsed > .material-symbols-outlined {
             transform: rotate(90deg);
-        }
-
-    #Offcanvas_Mega_Menu > ul > .title > a > img {
-        display: none;
-    }
-
-        #Offcanvas_Mega_Menu > ul > .title > a > img + span {
-            display: unset;
-            height: 2em;
-            font-size: 1.1em;
         }
 
     #Offcanvas_Mega_Menu > ul > .title > .content {
