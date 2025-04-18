@@ -15,7 +15,7 @@
         var navbarHeight = $('.navbar').outerHeight();
         if (!$('#swiper-light').length) {
             if ($('#banner > .one_swiper').length) {
-                $('body').css('padding-top', navbarHeight);
+                $('#banner').css('padding-top', navbarHeight);
             } else {
                 $('#ContainerBody').css('padding-top', navbarHeight);
             }
